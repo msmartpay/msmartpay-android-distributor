@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="msmartds.in">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <!-- TODO: Step 1.0, Review Permissions: Specify permissions you are using. -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:networkSecurityConfig="@xml/network_security_config">
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+        <activity android:name="msmartds.in.DrawerActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity android:name="msmartds.in.AddAgentActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity android:name="msmartds.in.SignUpActivity"
+            android:configChanges="screenSize|orientation" />
+        <activity android:name="msmartds.in.ChangePasswordActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity android:name="msmartds.in.QRActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity android:name="msmartds.in.AgentsStatusWiseListActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity android:name="msmartds.in.PushMoneyActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity android:name="msmartds.in.DetailAgentActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity android:name="msmartds.in.ReportActivity"
+            android:configChanges="screenSize|orientation"/>
+        <activity android:name="msmartds.in.DashBoardActivity"
+            android:configChanges="screenSize|orientation" />
+        <activity android:name="msmartds.in.balRequest.BalanceRequest"
+            android:configChanges="screenSize|orientation"/>
+        <activity android:name="msmartds.in.LoginActivity"
+            android:configChanges="screenSize|orientation">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="msmartds.in.itemManagement.ItemManagement"
+            android:configChanges="screenSize|orientation"/>
+        <activity android:name="msmartds.in.itemDetails.ItemStatus"
+            android:configChanges="screenSize|orientation" />
+        <activity android:name="msmartds.in.AddItem"
+            android:configChanges="screenSize|orientation"/>
+        <activity android:name="msmartds.in.bankDetails.BankDetailsActivity"
+            android:configChanges="screenSize|orientation" />
+        <activity android:name="msmartds.in.businessView.BusinessViewActivity"
+            android:configChanges="screenSize|orientation"/>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <service android:name="msmartds.in.location.GoogleService" />
+        <service android:name="msmartds.in.location.LocationJobIntent"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service android:name="msmartds.in.location.LocationMonitoringService"/>
+    </application>
+
+</manifest>

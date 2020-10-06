@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="#ccc"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dip"
+        android:background="@color/colorLogin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:gravity="center">
+
+        <ImageView
+            android:id="@+id/openbar"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:src="@drawable/icon_navigation"
+            android:layout_weight=".3"/>
+
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="Distributor Pannel"
+            android:textColor="@color/colorWhite"
+            android:textSize="18dip"
+            android:textStyle="bold"
+            android:layout_weight="1.1"/>
+
+        <TextView
+            android:id="@+id/distributor_balance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="\u20B9"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            android:layout_weight=".6"
+            android:layout_marginRight="16dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="2dip">
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:background="#FFFFFF">
+
+            <Button android:id="@+id/home_view_agent"
+                style="@style/HomeButton"
+                android:onClick="onClickFeature"
+                android:text="@string/view_agent1"
+                android:textColor="@color/colorLogin"
+                android:padding="5dp"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/home_view_agent"/>
+
+
+            <Button android:id="@+id/home_add_agent"
+                style="@style/HomeButton"
+                android:layout_weight="1"
+                android:onClick="onClickFeature"
+                android:textColor="@color/colorLogin"
+                android:padding="5dp"
+                android:textAllCaps="false"
+                android:text="@string/add_agent"
+                android:textSize="14sp"
+                android:drawableTop="@drawable/home_add_agent"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:visibility="gone">
+
+            <Button android:id="@+id/home_deactive_agent"
+                style="@style/HomeButton"
+                android:layout_weight="1"
+                android:onClick="onClickFeature"
+                android:text="@string/transaction_status"
+                android:drawableTop="@drawable/home_deactive_agent"/>
+
+            <Button
+                android:id="@+id/home_deposite"
+                style="@style/HomeButton"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/home_deposite_money"
+                android:onClick="onClickFeature"
+                android:text="@string/deposit_request"
+                android:textAllCaps="true" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/home_push_balance"
+                style="@style/HomeButton"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/home_push_balance"
+                android:onClick="onClickFeature"
+                android:textColor="@color/colorLogin"
+                android:padding="5dp"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:text="@string/push_balance"/>
+
+            <Button
+                android:id="@+id/home_report"
+                style="@style/HomeButton"
+                android:layout_weight="1"
+                android:textColor="@color/colorLogin"
+                android:padding="5dp"
+                android:textAllCaps="false"
+                android:drawableTop="@drawable/home_report"
+                android:onClick="onClickFeature"
+                android:text="@string/reports"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/home_balance_request"
+                style="@style/HomeButton"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/home_balance_request"
+                android:onClick="onClickFeature"
+                android:textColor="@color/colorLogin"
+                android:padding="5dp"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:text="@string/balance_request"/>
+
+            <Button
+                android:id="@+id/business"
+                style="@style/HomeButton"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/busines_view_dashboard"
+                android:onClick="onClickFeature"
+                android:textColor="@color/colorLogin"
+                android:padding="5dp"
+                android:layout_marginTop="1dp"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:text="@string/business_view"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:padding="10dp"
+        android:background="@color/colorLogin">
+    <TextView
+        android:id="@+id/copy_rights"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Copyright © RITDF"
+        android:textSize="12dp"
+        android:gravity="center|left"
+        android:textColor="#FFFFFF"
+        android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/powered_by"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Powered By Soft Solution Zone"
+            android:textSize="12dp"
+            android:layout_weight="1"
+            android:layout_alignEnd="@+id/copy_rights"
+            android:gravity="center|right"
+            android:textColor="#FFFFFF"/>
+    </TableRow>
+</LinearLayout>

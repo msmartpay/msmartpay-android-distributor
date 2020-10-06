@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:orientation="horizontal"
+        android:background="@color/colorWhite">
+        
+        <TextView
+            android:id="@+id/tview_srno"
+            style="@style/tv_report_list"
+            android:layout_width="180dp"
+            android:text="17070116312204409789" />
+
+        <TextView
+            android:id="@+id/tview_date"
+            style="@style/tv_report_list"
+            android:layout_width="150dp"
+            android:gravity="center"
+            android:text="2017-07-01 16:31:22" />
+
+        <TextView
+            android:id="@+id/tview_particuler"
+            style="@style/tv_report_list"
+            android:layout_width="150dp"
+            android:gravity="center"
+            android:text="Particulars"/>
+
+        <TextView
+            android:id="@+id/tview_txn_amount"
+            style="@style/tv_report_list"
+            android:layout_width="90dp"
+            android:gravity="center"
+            android:text="Txn. Amt" />
+
+        <TextView
+            android:id="@+id/tview_charges"
+            style="@style/tv_report_list"
+            android:layout_width="100dp"
+            android:text="Charges"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/tview_net_amount"
+            style="@style/tv_report_list"
+            android:layout_width="100dp"
+            android:text="Net Amt"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/tview_action"
+            style="@style/tv_report_list"
+            android:layout_width="120dp"
+            android:gravity="center"
+            android:text="Action Via"/>
+
+        <TextView
+            android:id="@+id/tview_current_bal"
+            style="@style/tv_report_list"
+            android:layout_width="120dp"
+            android:gravity="center"
+            android:text="Current Bal"/>
+
+        <TextView
+            android:id="@+id/tview_txn_status"
+            style="@style/tv_report_list"
+            android:layout_width="120dp"
+            android:gravity="center"
+            android:text="Txn Status"/>
+
+        <TextView
+            android:id="@+id/tview_remark"
+            style="@style/tv_report_list"
+            android:layout_width="250dp"
+            android:text="Remark" />
+
+    </LinearLayout>
+
+</LinearLayout>-->
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_statement_adapter"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        card_view:cardBackgroundColor="#80d0d0d0"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:padding="15dp">
+
+            <RelativeLayout
+
+                android:id="@+id/rela1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:id="@+id/txnid"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dip"
+                    android:text="@string/txnid"
+                    android:textColor="@color/colorgreen"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/tview_srno"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txnid"
+                    android:layout_marginTop="10dip"
+                    android:text=""
+                    android:textColor="@color/holo_blue_dark"
+                    android:textSize="13sp" />
+
+
+                <TextView
+                    android:id="@+id/tview_date"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tview_srno"
+                    android:layout_marginTop="5dip"
+
+                    android:textColor="@color/active_tab"
+                    android:textSize="12sp" />
+
+
+                <TextView
+                    android:id="@+id/tview_particuler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tview_date"
+                    android:layout_alignBottom="@+id/tview_date"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="5dip"
+                    android:layout_toEndOf="@+id/tview_srno"
+                    android:gravity="center"
+
+                    android:textColor="@color/active_tab"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tview_charges"
+                    style="@style/tv_report_list"
+                    android:layout_width="wrap_content"
+                    android:layout_alignBaseline="@+id/tview_srno"
+                    android:layout_alignBottom="@+id/tview_srno"
+
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_toEndOf="@+id/tview_srno"
+                    android:gravity="center" />
+
+
+                <TextView
+                    android:id="@+id/tview_action"
+                    style="@style/tv_report_list"
+                    android:layout_width="0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/txnid"
+
+                    android:gravity="center"
+                    android:text="" />
+
+                <TextView
+                    android:id="@+id/tview_net_amount"
+                    style="@style/tv_report_list"
+                    android:layout_width="wrap_content"
+                    android:layout_alignBaseline="@+id/txnid"
+                    android:layout_alignBottom="@+id/txnid"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="8dip"
+                    android:layout_toEndOf="@+id/tview_action"
+                    android:gravity="center"
+
+                    android:textColor="@color/active_tab"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+
+            <LinearLayout
+
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rela1"
+
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/tv_report_list"
+                    android:layout_width="wrap_content"
+
+                    android:text="@string/status"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tview_txn_status"
+                    style="@style/tv_report_list"
+                    android:layout_width="100dp"
+                    android:layout_marginStart="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/currenbal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/status"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/tv_report_list"
+                    android:layout_width="wrap_content"
+
+                    android:layout_marginTop="5dp"
+                    android:text="@string/curr_bal"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+
+                <TextView
+                    android:id="@+id/tview_current_bal"
+                    style="@style/tv_report_list"
+                    android:layout_width="180dp"
+
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dip" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tview_remark"
+                style="@style/tv_report_list"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/currenbal"
+                android:layout_gravity="center"
+                android:background="@color/colorWhite"
+
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

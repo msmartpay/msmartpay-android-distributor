@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#9a2ead</color>
+    <color name="colorPrimaryDark">#7d3789</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorOrange">#ff972e</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="btncolor">#369c43</color>
+    <color name="black">#F000</color>
+    <color name="colorLogin">#9a2ead</color>
+    <color name="colorLoginDark">#7d3789</color>
+    <color name="colorFevorite">#4285F4</color>
+    <color name="holo_blue_dark">#3399ff</color>
+    <color name="holo_blue_light">#4285F4</color>
+    <color name="hintColor">#999999</color>
+    <color name="spinnerColor">#e5e5e5</color>
+    <color name="hintcolor">#efe8e8</color>
+    <color name="pdarkcolor">#66008c</color>
+
+    <color name="colorgreen">#37b748</color>
+    <color name="active_tab">#999999</color>
+
+    <color name="colorLightPrimary">#f4d4d6</color>
+</resources>

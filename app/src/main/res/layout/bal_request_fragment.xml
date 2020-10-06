@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/id_balancerequest_bank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_hint="Select Bank"/>
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/id_request_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_hint="Select Bank Type"
+                    android:entries="@array/bank_type"
+                    android:layout_below="@+id/id_balancerequest_bank" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_id_balance_request_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/id_request_type"
+                    android:textColorHint="@color/hintColor">
+
+                    <EditText
+                        android:id="@+id/id_balance_request_amount"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/height"
+                        android:layout_marginTop="5dp"
+                        android:ems="10"
+                        android:hint="Enter Deposit Amount"
+                        android:inputType="number">
+                    </EditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_id_balance_request_refId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/til_id_balance_request_amount"
+                    android:textColorHint="@color/hintColor">
+
+                    <EditText
+                        android:id="@+id/id_balance_request_refId"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/height"
+                        android:layout_marginTop="5dp"
+                        android:ems="10"
+                        android:hint="Bank Reference Id"
+                        android:inputType="text">
+
+                    </EditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <EditText
+                    android:id="@+id/id_balance_request_ddate"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/height"
+                    android:layout_below="@+id/til_id_balance_request_refId"
+                    android:layout_marginTop="5dp"
+                    android:editable="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="Deposit Date"
+                    android:inputType="text"
+                    android:textColorHint="@color/hintColor" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_id_balance_request_remarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/id_balance_request_ddate"
+                    android:textColorHint="@color/hintColor">
+
+                    <EditText
+                        android:id="@+id/id_balance_request_remarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height"
+                        android:hint="Enter Remarks" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:id="@+id/icic_qr_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/icici_qr_code"
+                    android:visibility="gone">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/upi_qr_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:background="@drawable/bhim_upi"
+                    android:visibility="gone">
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/id_balance_request_submit"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/flat_selector"
+        android:text="Submit Request"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="18.0dip"
+        android:typeface="sans"/>
+</LinearLayout>

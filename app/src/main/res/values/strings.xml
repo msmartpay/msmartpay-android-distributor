@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">MSmartpay\nDistributer</string>
+
+    <string name="view_agent">Select Option</string>
+    <string name="app_name_sapce">MSMART PAY</string>
+    <string name="rs">\u20B9</string>
+    <string name="status">Status:</string>
+    <string name="curr_bal">Curr.Bal:</string>
+    <string name="txnid">TXNID:</string>
+    <string name="bankdetails">BankDetails</string>
+    <string name="business_view">Business View</string>
+    <string name="balance_request">Balance Request</string>
+    <string name="reports">Reports</string>
+    <string name="push_balance">Push Balance</string>
+    <string name="deposit_request">Deposit Request</string>
+    <string name="transaction_status">Transaction Status</string>
+    <string name="add_agent">Add Agent</string>
+    <string name="view_agent1">View Agent</string>
+    <string name="address">Address</string>
+    <string name="address_head">Address</string>
+    <string name="ifsc_no">Ifsc code :</string>
+    <string name="a_c_no">A/c No :</string>
+    <string name="accont_holder_name">Accont Holder Name</string>
+    <string-array name="bank_type">
+        <item>NEFT</item>
+        <item>IMPS</item>
+        <item>RTGS</item>
+        <item>CASH</item>
+        <item>QR Scan</item>
+        <!--<item>UPI</item>-->
+    </string-array>
+    
+</resources>

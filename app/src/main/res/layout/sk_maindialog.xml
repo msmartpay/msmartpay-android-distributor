@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="fill_parent" 
+     android:layout_height="wrap_content"
+     android:background="#FFF"
+     android:padding="15dp"
+     android:orientation="vertical">
+  
+	 <TextView
+	     android:id="@+id/TextView01"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content"
+	     android:layout_gravity="center_horizontal"
+	     android:paddingBottom="20dip"
+	     android:paddingLeft="40dip"
+	     android:paddingRight="40dip"
+	     android:paddingTop="20dip"
+	     android:text="hello"
+		 android:textColor="@color/colorLogin" />
+
+	 <ImageView
+	     android:id="@+id/statusImage"
+	     android:layout_width="80dp"
+	     android:layout_height="80dp"
+	     android:layout_gravity="center_horizontal"
+	     android:layout_marginBottom="21dp"
+	     android:src="@drawable/failed" />
+
+	<Button
+		android:id="@+id/trans_status_button"
+		android:layout_width="fill_parent"
+		android:layout_height="40dip"
+		android:layout_alignParentBottom="true"
+		android:layout_centerHorizontal="true"
+		android:layout_gravity="bottom"
+		android:layout_marginTop="20dp"
+		android:background="@color/colorLogin"
+		android:text="OK"
+		android:textColor="#fff"
+		android:textStyle="bold" />
+
+</LinearLayout>
