@@ -69,7 +69,6 @@
 
             <Button android:id="@+id/home_view_agent"
                 style="@style/HomeButton"
-                android:onClick="onClickFeature"
                 android:text="@string/view_agent1"
                 android:textColor="@color/colorLogin"
                 android:padding="5dp"
@@ -82,7 +81,6 @@
             <Button android:id="@+id/home_add_agent"
                 style="@style/HomeButton"
                 android:layout_weight="1"
-                android:onClick="onClickFeature"
                 android:textColor="@color/colorLogin"
                 android:padding="5dp"
                 android:textAllCaps="false"
