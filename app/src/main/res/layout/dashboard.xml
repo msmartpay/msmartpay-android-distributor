@@ -105,8 +105,7 @@
             <Button android:id="@+id/home_deactive_agent"
                 style="@style/HomeButton"
                 android:layout_weight="1"
-                android:onClick="onClickFeature"
-                android:text="@string/transaction_status"
+                 android:text="@string/transaction_status"
                 android:drawableTop="@drawable/home_deactive_agent"/>
 
             <Button
@@ -114,7 +113,6 @@
                 style="@style/HomeButton"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/home_deposite_money"
-                android:onClick="onClickFeature"
                 android:text="@string/deposit_request"
                 android:textAllCaps="true" />
 
@@ -133,7 +131,6 @@
                 style="@style/HomeButton"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/home_push_balance"
-                android:onClick="onClickFeature"
                 android:textColor="@color/colorLogin"
                 android:padding="5dp"
                 android:textAllCaps="false"
@@ -148,7 +145,6 @@
                 android:padding="5dp"
                 android:textAllCaps="false"
                 android:drawableTop="@drawable/home_report"
-                android:onClick="onClickFeature"
                 android:text="@string/reports"
                 android:textSize="14sp"/>
         </LinearLayout>
@@ -166,7 +162,6 @@
                 style="@style/HomeButton"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/home_balance_request"
-                android:onClick="onClickFeature"
                 android:textColor="@color/colorLogin"
                 android:padding="5dp"
                 android:textAllCaps="false"
@@ -178,7 +173,6 @@
                 style="@style/HomeButton"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/busines_view_dashboard"
-                android:onClick="onClickFeature"
                 android:textColor="@color/colorLogin"
                 android:padding="5dp"
                 android:layout_marginTop="1dp"
