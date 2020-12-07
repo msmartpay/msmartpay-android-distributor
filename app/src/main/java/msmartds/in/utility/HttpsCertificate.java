@@ -2,11 +2,14 @@ package msmartds.in.utility;
 
 import android.content.Context;
 
-import java.io.BufferedInputStream;
+import org.apache.commons.io.IOUtils;
+
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -24,18 +27,47 @@ public class HttpsCertificate {
     }
 
     public SSLSocketFactory newSslSocketFactory() {
+
         try {
-            Certificate localCertificate = CertificateFactory.getInstance("X.509").generateCertificate(new BufferedInputStream(this.context.getApplicationContext().getResources().openRawResource(R.raw.msmartpay_in)));
-            System.out.println("ca=" + ((X509Certificate) localCertificate).getSubjectDN());
-            KeyStore localKeyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            localKeyStore.load(null, null);
-            localKeyStore.setCertificateEntry("ca", localCertificate);
-            TrustManagerFactory localTrustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            localTrustManagerFactory.init(localKeyStore);
-            SSLContext localSSLContext = SSLContext.getInstance("TLS");
-            localSSLContext.init(null, localTrustManagerFactory.getTrustManagers(), null);
-            SSLSocketFactory localSSLSocketFactory = localSSLContext.getSocketFactory();
+            InputStream is = this.context.getApplicationContext().getResources().openRawResource(R.raw.msmartpay_in);
+            StringWriter writer = new StringWriter();
+            IOUtils.copy(is, writer, StandardCharsets.UTF_8);
+            String certificates = writer.toString();
+            String certificateArray[] = certificates.split("-----BEGIN CERTIFICATE-----");
+
+            // creating a KeyStore containing our trusted CAs
+            KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+            ks.load(null, null);
+            for (int i = 1; i < certificateArray.length; i++) {
+                certificateArray[i] = "-----BEGIN CERTIFICATE-----" + certificateArray[i];
+
+                // generate input stream for certificate factory
+                InputStream stream = IOUtils.toInputStream(certificateArray[i]);
+
+                // CertificateFactory
+                CertificateFactory cf = CertificateFactory.getInstance("X.509");
+                // certificate
+                Certificate ca;
+                try {
+                    ca = cf.generateCertificate(stream);
+                } finally {
+                    is.close();
+                }
+
+                ks.setCertificateEntry("ca" + i, ca);
+            }
+            // TrustManagerFactory
+            String algorithm = TrustManagerFactory.getDefaultAlgorithm();
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance(algorithm);
+            // Create a TrustManager that trusts the CAs in our KeyStore
+            tmf.init(ks);
+
+            // Create a SSLContext with the certificate that uses tmf (TrustManager)
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, tmf.getTrustManagers(), null);
+            SSLSocketFactory localSSLSocketFactory = sslContext.getSocketFactory();
             return localSSLSocketFactory;
+
         } catch (Exception localException) {
             throw new AssertionError(localException);
         }

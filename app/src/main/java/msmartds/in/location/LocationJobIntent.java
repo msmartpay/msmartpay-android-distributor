@@ -38,8 +38,6 @@ public class LocationJobIntent extends JobIntentService {
         //do work
         intent = new Intent(LocationJobIntent.this, GoogleService.class);
         startService(intent);
-
-
     }
 
 
