@@ -182,6 +182,8 @@ public class DashBoardActivity extends DrawerActivity implements GPSTrackerPrese
         BrandID = myPrefs.getString("brandID", null);
         Key = myPrefs.getString("key", null);
         Logo = myPrefs.getString("logo", null);
+        gpsTrackerPresenter = new GPSTrackerPresenter(this, this, GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE);
+        initializeAppUpdateManager();
     }
 
 
