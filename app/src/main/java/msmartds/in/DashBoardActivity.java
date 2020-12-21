@@ -1,6 +1,6 @@
 package msmartds.in;
 
-import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -10,11 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.location.LocationManager;
-import android.net.Uri;
-import android.os.Build;
+import android.location.Location;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +29,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -39,29 +37,20 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Arrays;
-import java.util.List;
 
 import msmartds.in.URL.BaseActivity;
 import msmartds.in.URL.HttpURL;
 import msmartds.in.balRequest.BalanceRequest;
 import msmartds.in.businessView.BusinessViewActivity;
-import msmartds.in.location.LocationJobIntent;
-import msmartds.in.location.LocationMonitoringService;
+import msmartds.in.location.GPSTrackerPresenter;
 import msmartds.in.utility.L;
+import msmartds.in.utility.MyAppUpdateManager;
 import msmartds.in.utility.Mysingleton;
-import msmartds.in.utility.Util;
 
-public class DashBoardActivity extends DrawerActivity {
+public class DashBoardActivity extends DrawerActivity implements GPSTrackerPresenter.LocationListener {
 
     private Menu menu;
     ListView list;
@@ -83,8 +72,10 @@ public class DashBoardActivity extends DrawerActivity {
     private String distributorID, key, agentStatus, distributorBal, EmailText, PasswordText, agentStatusMessege, CopyRight, PoweredBy;
     private int i;
 
-    private LocationManager locationManager = null;
-    private boolean mAlreadyStartedService = false;
+    private GPSTrackerPresenter gpsTrackerPresenter = null;
+    private boolean isTxnClick = false;
+    // Declare the UpdateManager
+    private MyAppUpdateManager mUpdateManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +91,6 @@ public class DashBoardActivity extends DrawerActivity {
                 mDrawer.openDrawer(drawerpane);
             }
         });
-
 
         //All Buttons ID
         btnActiveAgent = (Button) findViewById(R.id.home_view_agent);
@@ -463,189 +453,7 @@ public class DashBoardActivity extends DrawerActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         updateDistributerBal();
-        requestMyPermissions();
-
-    }
-
-
-    /**
-     * Requesting multiple permissions (storage and location) at once
-     * This uses multiple permission model from dexter
-     * On permanent denial opens settings dialog
-     */
-    private void requestMyPermissions() {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            Dexter.withActivity(this)
-                    .withPermissions(Arrays.asList(
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                            , Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION
-                    ))
-                    .withListener(new MultiplePermissionsListener() {
-                        @Override
-                        public void onPermissionsChecked(MultiplePermissionsReport report) {
-
-                            if (report.areAllPermissionsGranted()) {
-                                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                                //Check gps is enable or not
-                                assert locationManager != null;
-                                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                                    //Write Function To enable gps
-                                    Util.onGPS(DashBoardActivity.this);
-                                } else {
-                                    //GPS is already On then
-                                    startWorkerManager();
-                                }
-
-
-                                 /* //Worker
-                                try {
-                                    if (!Util.isWorkScheduled(MyLocationWorker.getWorkInfoList(getApplicationContext()))) {
-                                        L.m2("isWorkScheduled","false");
-                                        MyLocationWorker.startLocationWorker(getApplicationContext());
-                                    }else {
-                                        L.m2("isWorkScheduled","true");
-                                    }
-                                }catch (Exception e){
-                                    L.m2("isWorkScheduled","error - "+e.getLocalizedMessage());
-                                }
-                                //Service
-
-                                // foregroundOnlyLocationService.subscribeToLocationUpdates();
-*/
-                            }
-                            // check for permanent denial of any permission
-                            if (report.isAnyPermissionPermanentlyDenied()) {
-                                // show alert dialog navigating to Settings
-                                showSettingsDialog();
-                            }
-                        }
-
-                        @Override
-                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                            token.continuePermissionRequest();
-                        }
-                    }).check();
-        } else {
-            Dexter.withActivity(this)
-                    .withPermissions(Arrays.asList(
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION
-                    ))
-                    .withListener(new MultiplePermissionsListener() {
-                        @Override
-                        public void onPermissionsChecked(MultiplePermissionsReport report) {
-                            if (report.areAllPermissionsGranted()) {
-                                startWorkerManager();
-
-                               /* //Worker
-                                try {
-                                    if (!Util.isWorkScheduled(MyLocationWorker.getWorkInfoList(getApplicationContext()))) {
-                                        L.m2("isWorkScheduled","false");
-                                        MyLocationWorker.startLocationWorker(getApplicationContext());
-                                    }else {
-                                        L.m2("isWorkScheduled","true");
-                                    }
-                                }catch (Exception e){
-                                    L.m2("isWorkScheduled","error - "+e.getLocalizedMessage());
-                                }
-                                //Service
-
-                                // foregroundOnlyLocationService.subscribeToLocationUpdates();
-*/
-                            }
-                            // check for permanent denial of any permission
-                            if (report.isAnyPermissionPermanentlyDenied()) {
-                                // show alert dialog navigating to Settings
-                                showSettingsDialog();
-                            }
-                        }
-
-                        @Override
-                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                            token.continuePermissionRequest();
-                        }
-                    }).check();
-        }
-    }
-
-    private void startWorkerManager() {
-        LocationJobIntent.start(DashBoardActivity.this);
-        startStep1();
-    }
-
-
-    /**
-     * Showing Alert Dialog with Settings option
-     * Navigates user to app settings
-     * NOTE: Keep proper title and message depending on your app
-     */
-    private void showSettingsDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(DashBoardActivity.this);
-        builder.setTitle("Location Permission");
-        builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
-        builder.setPositiveButton("GOTO SETTINGS", (dialog, which) -> {
-            dialog.cancel();
-            openSettings();
-        });
-        //builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        builder.show();
-
-    }
-
-    // navigating user to app settings
-    private void openSettings() {
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package", getPackageName(), null);
-        intent.setData(uri);
-        startActivityForResult(intent, 101);
-    }
-
-    private void startStep1() {
-        //Check whether this user has installed Google play service which is being used by Location updates.
-        if (Util.isGooglePlayServicesAvailable(this)) {
-
-            //Passing null to indicate that it is executing for the first time.
-            startStep3();
-
-        } else {
-            Toast.makeText(getApplicationContext(), "Google Play Service is not available.", Toast.LENGTH_LONG).show();
-        }
-
-    }
-
-    private void startStep3() {
-        //And it will be keep running until you close the entire application from task manager.
-        //This method will executed only once.
-
-        if (!mAlreadyStartedService) {
-            L.m2("Location", "Service Started");
-            //mMsgView.setText(R.string.msg_location_service_started);
-
-            //Start location sharing service to app server.........
-            Intent intent = new Intent(this, LocationMonitoringService.class);
-            startService(intent);
-
-            mAlreadyStartedService = true;
-            //Ends................................................
-        }
-
-    }
-
-    @Override
-    public void onDestroy() {
-
-
-        //Stop location sharing service to app server.........
-        //startWorkerManager();
-        stopService(new Intent(this, LocationMonitoringService.class));
-        mAlreadyStartedService = true;
-        //Ends................................................
-
-        super.onDestroy();
     }
 
     @Override
@@ -670,5 +478,83 @@ public class DashBoardActivity extends DrawerActivity {
         }
 
 
+    }
+
+    //--------------------------------------------In-APP-Update-------------------------------------------------------------
+    private void initializeAppUpdateManager(){
+        // Initialize the Update Manager with the Activity and the Update Mode
+        mUpdateManager = MyAppUpdateManager.Builder(this);
+
+        // Callback from UpdateInfoListener
+        // You can get the available version code of the apk in Google Play
+        // Number of days passed since the user was notified of an update through the Google Play
+        mUpdateManager.addUpdateInfoListener(new MyAppUpdateManager.UpdateInfoListener() {
+            @Override
+            public void onReceiveVersionCode(final int code) {
+                L.m2("onReceiveVersionCode",String.valueOf(code));
+                //txtAvailableVersion.setText(String.valueOf(code));
+            }
+
+            @Override
+            public void onReceiveStalenessDays(final int days) {
+                L.m2("onReceiveStalenessDays",String.valueOf(days));
+                //txtStalenessDays.setText(String.valueOf(days));
+            }
+        });
+
+        // Callback from Flexible Update Progress
+        // This is only available for Flexible mode
+        // Find more from https://developer.android.com/guide/playcore/in-app-updates#monitor_flexible
+        mUpdateManager.addFlexibleUpdateDownloadListener((bytesDownloaded, totalBytes) -> {
+            L.m2("addFlexibleUpdateDownload","Downloading: " + bytesDownloaded + " / " + totalBytes);
+        });
+        callImmediateUpdate(tViewDistributorBal);
+        //callFlexibleUpdate(tViewDistributorBal);
+    }
+    public void callFlexibleUpdate(View view) {
+        // Start a Flexible Update
+        mUpdateManager.mode(MyAppUpdateManager.FLEXIBLE).start();
+        //txtFlexibleUpdateProgress.setVisibility(View.VISIBLE);
+    }
+
+    public void callImmediateUpdate(View view) {
+        // Start a Immediate Update
+        mUpdateManager.mode(MyAppUpdateManager.IMMEDIATE).start();
+    }
+    //--------------------------------------------GPS Tracker--------------------------------------------------------------
+
+    @Override
+    public void onLocationFound(Location location) {
+        gpsTrackerPresenter.stopLocationUpdates();
+        if (isTxnClick) {
+            isTxnClick = false;
+        }
+    }
+
+    @Override
+    public void locationError(String msg) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE && resultCode == Activity.RESULT_OK) {
+            gpsTrackerPresenter.onStart();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        gpsTrackerPresenter.onStart();
+    }
+
+//--------------------------------------------End GPS Tracker--------------------------------------------------------------
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gpsTrackerPresenter.onPause();
     }
 }

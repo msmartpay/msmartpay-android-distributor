@@ -10,4 +10,8 @@ public interface Keys {
 
 
     String START_LOCATION_SERVICE = "LocationServiceStart";
+    String LATITUDE = "latitude";
+    String LONGITUDE = "longitude";
+    String KEY_FOREGROUND_ENABLED = "KEY_FOREGROUND_ENABLED";
+    String APP_IN_BACKGROUND = "APP_IN_BACKGROUND";
 }

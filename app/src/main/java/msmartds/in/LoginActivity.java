@@ -1,6 +1,7 @@
 package msmartds.in;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -8,14 +9,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -23,6 +21,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -39,17 +39,19 @@ import msmartds.in.URL.HttpURL;
 import msmartds.in.db.AppDatabase;
 import msmartds.in.db.Credentials;
 import msmartds.in.db.DatabaseClient;
+import msmartds.in.location.GPSTrackerPresenter;
 import msmartds.in.utility.Keys;
+import msmartds.in.utility.L;
 import msmartds.in.utility.Mysingleton;
+import msmartds.in.utility.Util;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements GPSTrackerPresenter.LocationListener {
     private EditText email, password;
-    private String Logo, Name, Email, BrandID, Mobile, Address, Key;
     private String Emailtext, Passwordtext;
     private TextView forgetPassword;
     private Button login, btnSignUp, btnSubmit, btnClosed;
     private EditText editEmailID;
-    private String url = HttpURL.LoginURL;
+    private String URL_LOGIN = HttpURL.LoginURL;
     private String forgetPassUrl = HttpURL.ForgetPassURL;
     private ProgressDialog pd;
     private JSONObject jsonObject;
@@ -59,8 +61,9 @@ public class LoginActivity extends BaseActivity {
     private CheckBox checkBox;
     private AppDatabase appDatabase;
 
-    public static final int MY_IGNORE_OPTIMIZATION_REQUEST = 111;
-    PowerManager pm;
+
+    private GPSTrackerPresenter gpsTrackerPresenter = null;
+    private boolean isTxnClick = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +71,9 @@ public class LoginActivity extends BaseActivity {
         setContentView(msmartds.in.R.layout.activity_login);
 
         context = LoginActivity.this;
+        gpsTrackerPresenter = new GPSTrackerPresenter(this, this, GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE);
         appDatabase = DatabaseClient.getInstance(context).getAppDatabase();
-        myPrefs = getSharedPreferences("Details", MODE_PRIVATE);
+        myPrefs = Util.getMyPref(this);
         prefsEditor = myPrefs.edit();
 
         email = (EditText) findViewById(msmartds.in.R.id.emailid);
@@ -90,24 +94,15 @@ public class LoginActivity extends BaseActivity {
             }*/ else if (TextUtils.isEmpty(password.getText().toString().trim()) && password.getText().toString().trim().length() < 6) {
                 Toast.makeText(context, "Please Enter Correct Password and Password > 6 !!!", Toast.LENGTH_SHORT).show();
             } else {
-
                 if (checkBox.isChecked()) {
-                   SaveCredentialsTask task = new SaveCredentialsTask();
-                   task.execute();
+                    SaveCredentialsTask task = new SaveCredentialsTask();
+                    task.execute();
                 }
-                pd = ProgressDialog.show(LoginActivity.this, "", "Loading. Please wait...", true);
-                pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                pd.setIndeterminate(true);
-                pd.setCancelable(false);
-                pd.show();
-
-                try {
-                    checkRequest();
-                } catch (JSONException e) {
-                    System.out.println("Login_Exception-->" + e.toString());
-                    e.printStackTrace();
+                if (!isTxnClick) {
+                    isTxnClick = true;
+                    gpsTrackerPresenter.checkGpsOnOrNot(GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE);
                 }
-
+                // loginRequest();
             }
         });
 
@@ -120,53 +115,32 @@ public class LoginActivity extends BaseActivity {
             startActivity(signUpIntent);
             finish();
         });
-
-        enableBackgroundService();
     }
 
-    @SuppressLint("BatteryLife")
-    private void enableBackgroundService(){
-        pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        boolean isIgnoringBatteryOptimizations = false;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            assert pm != null;
-            isIgnoringBatteryOptimizations = pm.isIgnoringBatteryOptimizations(getPackageName());
+    private void loginRequest() {
+        try {
+            pd = ProgressDialog.show(LoginActivity.this, "", "Loading. Please wait...", true);
+            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            pd.setIndeterminate(true);
+            pd.setCancelable(false);
+            pd.show();
+            JSONObject req = new JSONObject()
+                    .put("userName", Emailtext)
+                    .put("password", Passwordtext)
+                    .put("userType", "SSZ")
+                    .put("param", "login")
+                    .put("latitude", Util.LoadPrefData(getApplicationContext(), Keys.LATITUDE))
+                    .put("longitude", Util.LoadPrefData(getApplicationContext(), Keys.LONGITUDE));
 
-            if (!isIgnoringBatteryOptimizations) {
-
-                Intent intent = new Intent();
-                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, MY_IGNORE_OPTIMIZATION_REQUEST);
-
-            }else {
-                // Save File data and User Save
-                new  GetCredentialTask().execute();
-            }
-        }else {
-            // Save File data and User Save
-            new  GetCredentialTask().execute();
-        }
-
-    }
-
-    private void checkRequest() throws JSONException {
-
-        JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, url,
-                new JSONObject()
-                        .put("userName", Emailtext)
-                        .put("password", Passwordtext)
-                        .put("userType", "SSZ")
-                        .put("param", "login"),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject object) {
+            L.m2("request_url",URL_LOGIN.toString());
+            L.m2("request",req.toString());
+            JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, URL_LOGIN,
+                    req,
+                    object -> {
                         pd.dismiss();
-                        System.out.println("Object---->" + object.toString());
+                        L.m2("response", object.toString());
                         try {
                             if (object.getString("message").equalsIgnoreCase("Login Success")) {
-                                Log.d("url-called", url);
-                                Log.d("url data", object.toString());
                                 String Message = object.getString("message");
 
                                 prefsEditor.putString("DistributorName", object.getString("DistributorName"));
@@ -202,18 +176,17 @@ public class LoginActivity extends BaseActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }
-                }, new Response.ErrorListener()
-
-        {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                    }, error -> {
                 pd.dismiss();
                 Toast.makeText(LoginActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        getSocketTimeOut(jsonrequest);
-        Mysingleton.getInstance(LoginActivity.this).addToRequsetque(jsonrequest);
+            });
+            getSocketTimeOut(jsonrequest);
+            Mysingleton.getInstance(LoginActivity.this).addToRequsetque(jsonrequest);
+        } catch (Exception e) {
+            pd.dismiss();
+            System.out.println("Login_Exception-->" + e.toString());
+            e.printStackTrace();
+        }
     }
 
 //=======================================================
@@ -232,30 +205,24 @@ public class LoginActivity extends BaseActivity {
         btnClosed = (Button) d.findViewById(msmartds.in.R.id.close_button);
         editEmailID = (EditText) d.findViewById(msmartds.in.R.id.emailid);
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (TextUtils.isEmpty(editEmailID.getText().toString().trim())) {
-                } else {
-                    String emailID = editEmailID.getText().toString().trim();
-                    try {
-                        requestForgetPass(emailID);
-                        d.dismiss();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
+        btnSubmit.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(editEmailID.getText().toString().trim())) {
+            } else {
+                String emailID = editEmailID.getText().toString().trim();
+                try {
+                    requestForgetPass(emailID);
+                    d.dismiss();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
             }
         });
 
-        btnClosed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
+        btnClosed.setOnClickListener(v -> {
+            // TODO Auto-generated method stub
 
-                d.cancel();
-            }
+            d.cancel();
         });
 
         d.show();
@@ -293,13 +260,11 @@ public class LoginActivity extends BaseActivity {
                             e.printStackTrace();
                         }
                     }
-                }, new Response.ErrorListener()
-
-        {
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 pd.dismiss();
-                Toast.makeText(LoginActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
         getSocketTimeOut(jsonrequest);
@@ -330,24 +295,21 @@ public class LoginActivity extends BaseActivity {
         header.setText("Confirmation");
         tvConfirmation.setText(msg);
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    if (jsonObject.getString("status").equalsIgnoreCase("0")) {
-                        Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                        d.dismiss();
-                    } else {
-                        d.dismiss();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        btnSubmit.setOnClickListener(v -> {
+            try {
+                if (jsonObject.getString("status").equalsIgnoreCase("0")) {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                    d.dismiss();
+                } else {
+                    d.dismiss();
                 }
-
-                d.cancel();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+            d.cancel();
         });
 
         btnClosed.setOnClickListener(v -> {
@@ -356,43 +318,44 @@ public class LoginActivity extends BaseActivity {
         });
         d.show();
     }
+
     @SuppressLint("StaticFieldLeak")
     class SaveCredentialsTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
 
-            List<Credentials> credentialsList =  appDatabase.appDBDao().getAll();
-            if(credentialsList!=null && credentialsList.size()>0){
-                    appDatabase.appDBDao().delete();
+            List<Credentials> credentialsList = appDatabase.appDBDao().getAll();
+            if (credentialsList != null && credentialsList.size() > 0) {
+                appDatabase.appDBDao().delete();
             }
-                //creating a task
-                Credentials credentials = new Credentials();
-                credentials.setUser(Emailtext);
-                credentials.setPassword(Passwordtext);
-                //adding to database
-                appDatabase.appDBDao().insert(credentials);
+            //creating a task
+            Credentials credentials = new Credentials();
+            credentials.setUser(Emailtext);
+            credentials.setPassword(Passwordtext);
+            //adding to database
+            appDatabase.appDBDao().insert(credentials);
             return null;
         }
     }
 
 
     @SuppressLint("StaticFieldLeak")
-    class GetCredentialTask extends AsyncTask<Object,Object,Object>{
-        String user="",pass="";
-        boolean flag =false;
+    class GetCredentialTask extends AsyncTask<Object, Object, Object> {
+        String user = "", pass = "";
+        boolean flag = false;
 
         @Override
         protected Object doInBackground(Object... objects) {
-            List<Credentials> credentialsList =  appDatabase.appDBDao().getAll();
-            if(credentialsList!=null && credentialsList.size()>0){
+            List<Credentials> credentialsList = appDatabase.appDBDao().getAll();
+            if (credentialsList != null && credentialsList.size() > 0) {
                 user = credentialsList.get(0).getUser();
                 pass = credentialsList.get(0).getPassword();
-                 if (myPrefs != null) {
-                     String response = myPrefs.getString("emailID", null);
-                     // Toast.makeText(getActivity(), "xml not null", Toast.LENGTH_LONG).show();
+                if (myPrefs != null) {
+                    String response = myPrefs.getString("emailID", null);
+                    // Toast.makeText(getActivity(), "xml not null", Toast.LENGTH_LONG).show();
                     if (response != null && response.length() > 0) {
-                        flag=true;
+                        flag = true;
                     } else {
                         //  Toast.makeText(getApplicationContext(), "Data is not stored in xml", Toast.LENGTH_LONG);
                     }
@@ -407,12 +370,50 @@ public class LoginActivity extends BaseActivity {
             email.setText(user);
             password.setText(pass);
 
-            if(flag){
+            if (flag) {
                 Intent loginIntent = new Intent(getApplicationContext(), DashBoardActivity.class);
                 startActivity(loginIntent);
                 finish();
             }
 
         }
+    }
+
+    //--------------------------------------------GPS Tracker--------------------------------------------------------------
+
+    @Override
+    public void onLocationFound(Location location) {
+        gpsTrackerPresenter.stopLocationUpdates();
+        if (isTxnClick) {
+            isTxnClick = false;
+            loginRequest();
+        }
+    }
+
+    @Override
+    public void locationError(String msg) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE && resultCode == Activity.RESULT_OK) {
+            gpsTrackerPresenter.onStart();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        gpsTrackerPresenter.onStart();
+    }
+
+//--------------------------------------------End GPS Tracker--------------------------------------------------------------
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gpsTrackerPresenter.onPause();
     }
 }

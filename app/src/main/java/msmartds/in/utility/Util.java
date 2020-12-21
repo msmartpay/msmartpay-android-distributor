@@ -9,10 +9,12 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.provider.Settings;
 import android.text.format.Formatter;
+import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.work.WorkInfo;
@@ -45,58 +47,77 @@ public class Util {
         }
         return running;
     }
-    public static void  getSocketTimeOut(JsonObjectRequest objectRequest){
+
+    public static void getSocketTimeOut(JsonObjectRequest objectRequest) {
         objectRequest.setRetryPolicy(new DefaultRetryPolicy(
                 HttpURL.MY_SOCKET_TIMEOUT_MS,
                 /*DefaultRetryPolicy.DEFAULT_MAX_RETRIES*/0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
+
     public static Gson gson1;
 
 
-    public static Gson getGson(){
-        if(gson1==null)
+    public static Gson getGson() {
+        if (gson1 == null)
             gson1 = new Gson();
         return gson1;
     }
+
     @SuppressLint("HardwareIds")
-    public static String getDeviceId(Context context){
+    public static String getDeviceId(Context context) {
         return Settings.Secure.getString(context.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
     }
 
-    private static SharedPreferences getMyPref(Context context){
-        if(pref==null) {
+    public static SharedPreferences getMyPref(Context context) {
+        if (pref == null) {
             pref = context.getSharedPreferences("Details", Context.MODE_PRIVATE);
         }
         return pref;
     }
-    public static void SavePrefData(Context context, String key, String value){
-        if(editor==null)
-            editor=getMyPref(context).edit();
-        editor.putString(key,value);
+
+    public static void SavePrefData(Context context, String key, String value) {
+        if (editor == null)
+            editor = getMyPref(context).edit();
+        editor.putString(key, value);
         editor.apply();
     }
-    public static String LoadPrefData(Context context, String key){
-        return getMyPref(context).getString(key,"");
+
+    public static String LoadPrefData(Context context, String key) {
+        return getMyPref(context).getString(key, "");
     }
-    public static void SavePrefBoolean(Context context, String key, Boolean value){
-        if(editor==null)
-            editor=getMyPref(context).edit();
-        editor.putBoolean(key,value);
+
+    public static void SavePrefBoolean(Context context, String key, Boolean value) {
+        if (editor == null)
+            editor = getMyPref(context).edit();
+        editor.putBoolean(key, value);
         editor.apply();
     }
-    public static Boolean LoadPrefBoolean(Context context, String key){
-        return getMyPref(context).getBoolean(key,false);
+
+    public static Boolean LoadPrefBoolean(Context context, String key) {
+        return getMyPref(context).getBoolean(key, false);
     }
-    public static void clearMyPref(Context context){
-        if(editor==null)
-            editor=getMyPref(context).edit();
+
+    public static void clearMyPref(Context context) {
+        if (editor == null)
+            editor = getMyPref(context).edit();
         editor.clear().apply();
     }
+    public static void showView(View v) {
+        v.setVisibility(View.VISIBLE);
+    }
+
+    public static void hideView(View v) {
+        v.setVisibility(View.GONE);
+    }
+
+    public static void invisibleView(View v) {
+        v.setVisibility(View.INVISIBLE);
+    }
 
 
-    public static String getIpAddress(Context context){
+    public static String getIpAddress(Context context) {
         boolean haveConnectedWifi = false;
         boolean haveConnectedMobile = false;
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -111,7 +132,7 @@ public class Util {
                     haveConnectedMobile = true;
         }
 
-        if(haveConnectedWifi){
+        if (haveConnectedWifi) {
             return getWifiIPAddress(context);
         }
         if (haveConnectedMobile)
@@ -119,18 +140,20 @@ public class Util {
 
         return null;
     }
+
     public static String getWifiIPAddress(Context context) {
         WifiManager wifiMgr = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         assert wifiMgr != null;
         WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
         int ip = wifiInfo.getIpAddress();
-        return  Formatter.formatIpAddress(ip);
+        return Formatter.formatIpAddress(ip);
     }
+
     public static String getMobileIPAddress() {
         try {
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
                 NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
                     InetAddress inetAddress = enumIpAddr.nextElement();
                     if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
                         return inetAddress.getHostAddress();
@@ -144,7 +167,7 @@ public class Util {
     }
 
 
-    public static String getCompleteAddressString(Context context,double LATITUDE, double LONGITUDE) {
+    public static String getCompleteAddressString(Context context, double LATITUDE, double LONGITUDE) {
         String strAdd = "";
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         try {
@@ -176,12 +199,31 @@ public class Util {
         return true;
     }
 
-    public static void onGPS(Context context) {
+    public static void onGPS(Activity context, int requestCode) {
 
-        final AlertDialog.Builder builder= new AlertDialog.Builder(context);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("YES", (dialog, which) -> context.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))).setNegativeButton("NO", (dialog, which) -> dialog.cancel());
-        final AlertDialog alertDialog=builder.create();
+        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("YES", (dialog, which) ->
+                context.startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), requestCode))
+                .setNegativeButton("NO", (dialog, which) -> dialog.cancel());
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    public static void openSettingsDialog(Activity context, int requestCode) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Location Permission")
+                .setMessage("This app needs permission to use this feature. You can grant them in app settings.")
+                .setCancelable(false)
+                .setPositiveButton("GOTO SETTINGS", (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+                    intent.setData(uri);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivityForResult(intent, requestCode);
+                    dialog.dismiss();
+                });
+        final AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
 }
