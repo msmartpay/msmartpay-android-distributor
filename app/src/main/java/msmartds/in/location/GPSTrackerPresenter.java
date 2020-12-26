@@ -2,6 +2,7 @@ package msmartds.in.location;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -58,7 +59,7 @@ public class GPSTrackerPresenter {
         this.requestCode = requestCode;
         try {
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(mActivity);
-           getLastLocationSuccess();
+            getLastLocationSuccess();
             createLocationRequest();
             mLocationCallback = new LocationCallback() {
                 @Override
@@ -71,6 +72,8 @@ public class GPSTrackerPresenter {
                     }
                 }
             };
+            locationManager = (LocationManager) mActivity.getSystemService(Context.LOCATION_SERVICE);
+            checkGpsOnOrNot(requestCode);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
