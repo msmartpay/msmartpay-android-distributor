@@ -31,7 +31,7 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="Distributor Pannel"
+            android:text="Distributor Panel"
             android:textColor="@color/colorWhite"
             android:textSize="18dip"
             android:textStyle="bold"
