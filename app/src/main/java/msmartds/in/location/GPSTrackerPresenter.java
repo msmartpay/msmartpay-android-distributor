@@ -222,9 +222,6 @@ public class GPSTrackerPresenter {
         ArrayList<String> list = new ArrayList<String>();
         list.add(Manifest.permission.ACCESS_FINE_LOCATION);
         list.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-            //list.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
-        }
         Dexter.withContext(mActivity)
                 .withPermissions(list)
                 .withListener(new MultiplePermissionsListener() {
