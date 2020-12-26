@@ -58,6 +58,7 @@ public class PushMoneyActivity extends BaseActivity implements GPSTrackerPresent
 
     private GPSTrackerPresenter gpsTrackerPresenter = null;
     private boolean isTxnClick = false;
+    private boolean isLocationGet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +103,20 @@ public class PushMoneyActivity extends BaseActivity implements GPSTrackerPresent
             } else if (editAmount.equals("")) {
                 Toast.makeText(PushMoneyActivity.this, "Please enter valid amount", Toast.LENGTH_SHORT).show();
             } else {
-                if (!isTxnClick) {
-                    isTxnClick = true;
-                    gpsTrackerPresenter.checkGpsOnOrNot(GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE);
-                }
+                startPushMoneyProcess();
             }
         });
+    }
+
+    private void startPushMoneyProcess(){
+        if (isLocationGet){
+            pushMoneyRequest();
+        }else {
+            if (!isTxnClick) {
+                isTxnClick = true;
+                gpsTrackerPresenter.checkGpsOnOrNot(GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE);
+            }
+        }
     }
 
     private void pushMoneyRequest() {
@@ -269,10 +278,11 @@ public class PushMoneyActivity extends BaseActivity implements GPSTrackerPresent
 
     @Override
     public void onLocationFound(Location location) {
+        isLocationGet = true;
         gpsTrackerPresenter.stopLocationUpdates();
         if (isTxnClick) {
             isTxnClick = false;
-            pushMoneyRequest();
+            startPushMoneyProcess();
         }
     }
 

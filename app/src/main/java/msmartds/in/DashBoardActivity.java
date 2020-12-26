@@ -483,7 +483,7 @@ public class DashBoardActivity extends DrawerActivity implements GPSTrackerPrese
     }
 
     //--------------------------------------------In-APP-Update-------------------------------------------------------------
-    private void initializeAppUpdateManager(){
+    private void initializeAppUpdateManager() {
         // Initialize the Update Manager with the Activity and the Update Mode
         mUpdateManager = MyAppUpdateManager.Builder(this);
 
@@ -493,13 +493,13 @@ public class DashBoardActivity extends DrawerActivity implements GPSTrackerPrese
         mUpdateManager.addUpdateInfoListener(new MyAppUpdateManager.UpdateInfoListener() {
             @Override
             public void onReceiveVersionCode(final int code) {
-                L.m2("onReceiveVersionCode",String.valueOf(code));
+                L.m2("onReceiveVersionCode", String.valueOf(code));
                 //txtAvailableVersion.setText(String.valueOf(code));
             }
 
             @Override
             public void onReceiveStalenessDays(final int days) {
-                L.m2("onReceiveStalenessDays",String.valueOf(days));
+                L.m2("onReceiveStalenessDays", String.valueOf(days));
                 //txtStalenessDays.setText(String.valueOf(days));
             }
         });
@@ -508,11 +508,12 @@ public class DashBoardActivity extends DrawerActivity implements GPSTrackerPrese
         // This is only available for Flexible mode
         // Find more from https://developer.android.com/guide/playcore/in-app-updates#monitor_flexible
         mUpdateManager.addFlexibleUpdateDownloadListener((bytesDownloaded, totalBytes) -> {
-            L.m2("addFlexibleUpdateDownload","Downloading: " + bytesDownloaded + " / " + totalBytes);
+            L.m2("addFlexibleUpdateDownload", "Downloading: " + bytesDownloaded + " / " + totalBytes);
         });
         callImmediateUpdate(tViewDistributorBal);
         //callFlexibleUpdate(tViewDistributorBal);
     }
+
     public void callFlexibleUpdate(View view) {
         // Start a Flexible Update
         mUpdateManager.mode(MyAppUpdateManager.FLEXIBLE).start();

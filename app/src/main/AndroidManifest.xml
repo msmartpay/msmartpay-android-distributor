@@ -7,14 +7,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <!-- TODO: Step 1.0, Review Permissions: Specify permissions you are using. -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-
-    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -72,11 +67,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <service android:name="msmartds.in.location.GoogleService" />
-        <service android:name="msmartds.in.location.LocationJobIntent"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
-        <service android:name="msmartds.in.location.LocationMonitoringService"/>
     </application>
 
 </manifest>

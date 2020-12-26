@@ -13,7 +13,6 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -64,6 +63,7 @@ public class LoginActivity extends BaseActivity implements GPSTrackerPresenter.L
 
     private GPSTrackerPresenter gpsTrackerPresenter = null;
     private boolean isTxnClick = false;
+    private boolean isLocationGet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +98,7 @@ public class LoginActivity extends BaseActivity implements GPSTrackerPresenter.L
                     SaveCredentialsTask task = new SaveCredentialsTask();
                     task.execute();
                 }
-                if (!isTxnClick) {
-                    isTxnClick = true;
-                    gpsTrackerPresenter.checkGpsOnOrNot(GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE);
-                }
-                // loginRequest();
+                loginProcess();
             }
         });
 
@@ -115,6 +111,17 @@ public class LoginActivity extends BaseActivity implements GPSTrackerPresenter.L
             startActivity(signUpIntent);
             finish();
         });
+    }
+
+    private void loginProcess() {
+        if (isLocationGet) {
+            loginRequest();
+        } else {
+            if (!isTxnClick) {
+                isTxnClick = true;
+                gpsTrackerPresenter.checkGpsOnOrNot(GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE);
+            }
+        }
     }
 
     private void loginRequest() {
@@ -132,8 +139,8 @@ public class LoginActivity extends BaseActivity implements GPSTrackerPresenter.L
                     .put("latitude", Util.LoadPrefData(getApplicationContext(), Keys.LATITUDE))
                     .put("longitude", Util.LoadPrefData(getApplicationContext(), Keys.LONGITUDE));
 
-            L.m2("request_url",URL_LOGIN.toString());
-            L.m2("request",req.toString());
+            L.m2("request_url", URL_LOGIN.toString());
+            L.m2("request", req.toString());
             JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, URL_LOGIN,
                     req,
                     object -> {
@@ -383,10 +390,11 @@ public class LoginActivity extends BaseActivity implements GPSTrackerPresenter.L
 
     @Override
     public void onLocationFound(Location location) {
+        isLocationGet = true;
         gpsTrackerPresenter.stopLocationUpdates();
         if (isTxnClick) {
             isTxnClick = false;
-            loginRequest();
+            loginProcess();
         }
     }
 
