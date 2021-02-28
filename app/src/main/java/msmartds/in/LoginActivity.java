@@ -111,17 +111,23 @@ public class LoginActivity extends BaseActivity implements GPSTrackerPresenter.L
             startActivity(signUpIntent);
             finish();
         });
+
+        new GetCredentialTask().execute();
     }
 
     private void loginProcess() {
-        if (isLocationGet) {
+       /* if (Util.isPowerSaveMode(LoginActivity.this)) {
             loginRequest();
-        } else {
-            if (!isTxnClick) {
-                isTxnClick = true;
-                gpsTrackerPresenter.checkGpsOnOrNot(GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE);
+        } else {*/
+            if (isLocationGet) {
+                loginRequest();
+            } else {
+                if (!isTxnClick) {
+                    isTxnClick = true;
+                    gpsTrackerPresenter.checkGpsOnOrNot(GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE);
+                }
             }
-        }
+        //}
     }
 
     private void loginRequest() {

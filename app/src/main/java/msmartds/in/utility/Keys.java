@@ -14,4 +14,5 @@ public interface Keys {
     String LONGITUDE = "longitude";
     String KEY_FOREGROUND_ENABLED = "KEY_FOREGROUND_ENABLED";
     String APP_IN_BACKGROUND = "APP_IN_BACKGROUND";
+    String POWER_MODE = "POWER_MODE";
 }

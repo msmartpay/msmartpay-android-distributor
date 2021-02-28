@@ -108,15 +108,19 @@ public class PushMoneyActivity extends BaseActivity implements GPSTrackerPresent
         });
     }
 
-    private void startPushMoneyProcess(){
-        if (isLocationGet){
+    private void startPushMoneyProcess() {
+       /* if (Util.isPowerSaveMode(PushMoneyActivity.this)) {
             pushMoneyRequest();
-        }else {
-            if (!isTxnClick) {
-                isTxnClick = true;
-                gpsTrackerPresenter.checkGpsOnOrNot(GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE);
+        } else {*/
+            if (isLocationGet) {
+                pushMoneyRequest();
+            } else {
+                if (!isTxnClick) {
+                    isTxnClick = true;
+                    gpsTrackerPresenter.checkGpsOnOrNot(GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE);
+                }
             }
-        }
+        //}
     }
 
     private void pushMoneyRequest() {
