@@ -154,27 +154,28 @@ public class LoginActivity extends BaseActivity implements GPSTrackerPresenter.L
                         L.m2("response", object.toString());
                         try {
                             if (object.getString("message").equalsIgnoreCase("Login Success")) {
-                                String Message = object.getString("message");
 
-                                prefsEditor.putString("DistributorName", object.getString("DistributorName"));
-                                prefsEditor.putString(Keys.DS_ID, object.getString("distributorId"));
-                                prefsEditor.putString("distributorInitial", object.getString("distributorInitial"));
-                                prefsEditor.putString("companyName", object.getString("companyName"));
-                                prefsEditor.putString("clientId", object.getString("clientId"));
-                                prefsEditor.putString("loginUrl", object.getString("loginUrl"));
-                                prefsEditor.putString("innerHeaderImage", object.getString("innerHeaderImage"));
-                                prefsEditor.putString("LogoURL", object.getString("loginUrl") + "/" + object.getString("innerHeaderImage"));
-                                prefsEditor.putString("poweredBy", object.getString("poweredBy"));
-                                prefsEditor.putString("panelType", object.getString("panelType"));
-                                prefsEditor.putString("domainName", object.getString("domainName"));
-                                prefsEditor.putString("balance", object.getString("balance"));
-                                prefsEditor.putString("mdID", object.getString("mdID"));
-                                prefsEditor.putString("WhitelableCompanyName", object.getString("WhitelableCompanyName"));
-                                prefsEditor.putString("MobileNo", object.getString("MobileNo"));
-                                prefsEditor.putString("agentLoginUrl", object.getString("agentLoginUrl"));
-                                prefsEditor.putString("agentCellEmailId", object.getString("agentCellEmailId"));
-                                prefsEditor.putString("TickerMessage", object.getString("TickerMessage"));
-                                prefsEditor.putString(Keys.TXN_KEY, object.getString("txnKey"));
+                                JSONObject dataObj = object.getJSONObject("data");
+                                prefsEditor.putString("DistributorName", dataObj.getString("DistributorName"));
+                                prefsEditor.putString(Keys.DS_ID, dataObj.getString("distributorId"));
+                                prefsEditor.putString("distributorInitial", dataObj.getString("distributorInitial"));
+                                prefsEditor.putString("companyName", dataObj.getString("companyName"));
+                                prefsEditor.putString("clientId", dataObj.getString("clientId"));
+                                prefsEditor.putString("loginUrl", dataObj.getString("loginUrl"));
+                                prefsEditor.putString("innerHeaderImage", dataObj.getString("innerHeaderImage"));
+                                prefsEditor.putString("LogoURL", dataObj.getString("loginUrl") + "/" + dataObj.getString("innerHeaderImage"));
+                                prefsEditor.putString("poweredBy", dataObj.getString("poweredBy"));
+                                prefsEditor.putString("panelType", dataObj.getString("panelType"));
+                                prefsEditor.putString("domainName", dataObj.getString("domainName"));
+                                prefsEditor.putString("balance", dataObj.getString("balance"));
+                                prefsEditor.putString("mdID", dataObj.getString("mdId"));
+                                prefsEditor.putString("mdInitial", dataObj.getString("mdInitial"));
+                                prefsEditor.putString("WhitelableCompanyName", dataObj.getString("WhitelableCompanyName"));
+                                prefsEditor.putString("MobileNo", dataObj.getString("MobileNo"));
+                                prefsEditor.putString("agentLoginUrl", dataObj.getString("agentLoginUrl"));
+                                prefsEditor.putString("agentCellEmailId", dataObj.getString("agentCellEmailId"));
+                                prefsEditor.putString("TickerMessage", dataObj.getString("TickerMessage"));
+                                prefsEditor.putString(Keys.TXN_KEY, dataObj.getString("txnKey"));
                                 prefsEditor.putString("message", object.getString("message"));
                                 prefsEditor.putString("status", object.getString("status"));
                                 prefsEditor.putString("emailID", Emailtext);

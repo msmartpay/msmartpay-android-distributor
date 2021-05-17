@@ -128,50 +128,28 @@ public class DashBoardActivity extends DrawerActivity implements GPSTrackerPrese
             }
         });
 
-        btnDeActiveAgent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAgentCustomDialog();
-            }
+        btnDeActiveAgent.setOnClickListener(v -> showAgentCustomDialog());
+
+        btnAddAgent.setOnClickListener(v -> {
+            Intent addAgentIntent = new Intent(DashBoardActivity.this, AddAgentActivity.class);
+            startActivity(addAgentIntent);
         });
 
-        btnAddAgent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent addAgentIntent = new Intent(DashBoardActivity.this, AddAgentActivity.class);
-                startActivity(addAgentIntent);
-            }
+        btnPushBalance.setOnClickListener(v -> showPushBalanceCustomDialog());
+
+        btnReport.setOnClickListener(v -> {
+            Intent reportIntent = new Intent(DashBoardActivity.this, ReportActivity.class);
+            startActivity(reportIntent);
         });
 
-        btnPushBalance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPushBalanceCustomDialog();
-            }
+        home_balance_request.setOnClickListener(view1 -> {
+            Intent reportIntent = new Intent(DashBoardActivity.this, BalanceRequest.class);
+            startActivity(reportIntent);
         });
 
-        btnReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent reportIntent = new Intent(DashBoardActivity.this, ReportActivity.class);
-                startActivity(reportIntent);
-            }
-        });
-
-        home_balance_request.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent reportIntent = new Intent(DashBoardActivity.this, BalanceRequest.class);
-                startActivity(reportIntent);
-            }
-        });
-
-        business.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent business = new Intent(DashBoardActivity.this, BusinessViewActivity.class);
-                startActivity(business);
-            }
+        business.setOnClickListener(v -> {
+            Intent business = new Intent(DashBoardActivity.this, BusinessViewActivity.class);
+            startActivity(business);
         });
 
         SharedPreferences myPrefs = DashBoardActivity.this.getSharedPreferences("myPrefs", MODE_PRIVATE);
