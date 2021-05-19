@@ -140,7 +140,7 @@ public class LoginActivity extends BaseActivity implements GPSTrackerPresenter.L
             JSONObject req = new JSONObject()
                     .put("userName", Emailtext)
                     .put("password", Passwordtext)
-                    .put("userType", "SSZ")
+                    .put("userType", "AE")
                     .put("param", "login")
                     .put("latitude", Util.LoadPrefData(getApplicationContext(), Keys.LATITUDE))
                     .put("longitude", Util.LoadPrefData(getApplicationContext(), Keys.LONGITUDE));
@@ -251,36 +251,34 @@ public class LoginActivity extends BaseActivity implements GPSTrackerPresenter.L
         pd.setIndeterminate(true);
         pd.setCancelable(false);
         pd.show();
+        JSONObject reqObj =new JSONObject()
+                .put("userName", emailID)
+                .put("userType", "AE");
 
+        L.m2("request_url", forgetPassUrl);
+        L.m2("request", reqObj.toString());
         JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, forgetPassUrl,
-                new JSONObject()
-                        .put("userName", emailID)
-                        .put("userType", "SSZ"),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject object) {
-                        pd.dismiss();
-                        jsonObject = new JSONObject();
-                        jsonObject = object;
+                reqObj,
+                object -> {
+                    pd.dismiss();
+                    jsonObject = new JSONObject();
+                    jsonObject = object;
 
-                        System.out.println("Object---->" + object.toString());
-                        try {
-                            if (object.getString("status").equalsIgnoreCase("0")) {
-                                showConfirmationDialog(object.getString("message").toString());
-                            } else {
-                                showConfirmationDialog(object.getString("message").toString());
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    try {
+                        L.m2("request_url",forgetPassUrl);
+                        L.m2("request", object.toString());
+                        if (object.getInt("status")==0) {
+                            showConfirmationDialog(object.getString("message").toString());
+                        } else {
+                            showConfirmationDialog(object.getString("message").toString());
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pd.dismiss();
-                Toast.makeText(getApplicationContext(), "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                }, error -> {
+                    pd.dismiss();
+                    Toast.makeText(getApplicationContext(), "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
+                });
         getSocketTimeOut(jsonrequest);
         Mysingleton.getInstance(LoginActivity.this).addToRequsetque(jsonrequest);
     }

@@ -119,13 +119,10 @@ public class BalanceRequestFragment extends BaseFragment implements View.OnClick
         scrollview.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
         scrollview.setFocusable(true);
         scrollview.setFocusableInTouchMode(true);
-        scrollview.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // TODO Auto-generated method stub
-                v.requestFocusFromTouch();
-                return false;
-            }
+        scrollview.setOnTouchListener((v, event) -> {
+            // TODO Auto-generated method stub
+            v.requestFocusFromTouch();
+            return false;
         });
         if (isConnectionAvailable()) {
             getBankDetails();
@@ -306,25 +303,22 @@ public class BalanceRequestFragment extends BaseFragment implements View.OnClick
 
                         Log.d("data", data.toString());
                         try {
-                            if ((data.getString("status") != null && data.getString("status").equals("0"))) {
+                            if (data.getInt("status")==0) {
                                 pd.dismiss();
                                 new AlertDialog.Builder(getActivity())
                                         .setTitle("Status")
                                         .setIcon(R.drawable.trnsuccess)
                                         .setMessage(data.get("message") + "")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Intent intent = new Intent(getActivity(), DashBoardActivity.class);
-                                                startActivity(intent);
-                                                getActivity().finish();
-                                            }
+                                        .setPositiveButton("Yes", (dialog, which) -> {
+                                            Intent intent = new Intent(getActivity(), DashBoardActivity.class);
+                                            startActivity(intent);
+                                            requireActivity().finish();
                                         })
                                         .show();
 
                             } else {
                                 pd.dismiss();
-                                new AlertDialog.Builder(getActivity())
+                                new AlertDialog.Builder(requireActivity())
                                         .setTitle("Status")
                                         .setIcon(R.drawable.failed)
                                         .setMessage(data.get("message") + "")
@@ -333,7 +327,7 @@ public class BalanceRequestFragment extends BaseFragment implements View.OnClick
                                             public void onClick(DialogInterface dialog, int which) {
                                                 Intent intent = new Intent(getActivity(), DashBoardActivity.class);
                                                 startActivity(intent);
-                                                getActivity().finish();
+                                                requireActivity().finish();
                                             }
                                         })
                                         .show();
@@ -347,12 +341,7 @@ public class BalanceRequestFragment extends BaseFragment implements View.OnClick
 
 
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        pd.dismiss();
-                    }
-                });
+                }, error -> pd.dismiss());
                 getSocketTimeOut(objectRequest);
                 Mysingleton.getInstance(getActivity()).addToRequsetque(objectRequest);
             } catch (Exception e) {
@@ -370,24 +359,17 @@ public class BalanceRequestFragment extends BaseFragment implements View.OnClick
     }
 
     private void setDateTimeField() {
-        fromDateEtxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v == fromDateEtxt) {
-                    fromDatePickerDialog.show();
-                }
+        fromDateEtxt.setOnClickListener(v -> {
+            if (v == fromDateEtxt) {
+                fromDatePickerDialog.show();
             }
         });
 
         Calendar newCalendar = Calendar.getInstance();
-        fromDatePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                fromDateEtxt.setText(dateFormatter.format(newDate.getTime()));
-            }
-
+        fromDatePickerDialog = new DatePickerDialog(getActivity(), (view, year, monthOfYear, dayOfMonth) -> {
+            Calendar newDate = Calendar.getInstance();
+            newDate.set(year, monthOfYear, dayOfMonth);
+            fromDateEtxt.setText(dateFormatter.format(newDate.getTime()));
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
 

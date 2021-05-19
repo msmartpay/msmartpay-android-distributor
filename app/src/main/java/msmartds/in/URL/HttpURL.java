@@ -25,7 +25,7 @@ public interface HttpURL {
     String BalanceRequest = BaseURL + "DSCommonService/WalletBalRequest";
     String BalanceRequestHistory = BaseURL + "DSCommonService/WalletBalReqDetails";
     String BusinessViewUrl = BaseURL + "DSCommonService/GetAllServiceBuisinessDone";
-    String CollectionBanks =BaseURL +"DSCommonService/collection-banks ";
+    String CollectionBanks =BaseURL +"DSCommonService/CollectionBanks ";
     String BankDetails = BaseURL + "DSCommonService/BankDetails";
      //String BankDetails = BaseURL + "SKDMR/BankDetails";
     String AccountStatementByDate = BaseURL + "DSCommonService/AccountStatementByDate";

@@ -275,11 +275,11 @@ public class DashBoardActivity extends DrawerActivity implements GPSTrackerPrese
                                 L.m2("Response-1",object.toString());
                                 try {
                                     if (object.getInt("status")==0) {
-
+                                        JSONObject jsonData = object.getJSONObject("data");
                                         Intent intent = new Intent(DashBoardActivity.this, PushMoneyActivity.class);
                                         intent.putExtra("AgentID", AgentID);
-                                        intent.putExtra("FirmName", object.getString("agencyName"));
-                                        intent.putExtra("Balance", object.getString("amount"));
+                                        intent.putExtra("FirmName", jsonData.getString("agencyName"));
+                                        intent.putExtra("Balance", jsonData.getString("amount"));
                                         startActivity(intent);
                                     } else {
                                         Toast.makeText(DashBoardActivity.this, object.getString("message").toString(), Toast.LENGTH_SHORT).show();
@@ -336,7 +336,6 @@ public class DashBoardActivity extends DrawerActivity implements GPSTrackerPrese
                         if (object.getInt("status") == 0) {
                             editor.putString("spinner_data", AgentWiseTypeData);
                             editor.commit();
-//                                Toast.makeText(DashBoardActivity.this, object.getString("message").toString(), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(DashBoardActivity.this, AgentsStatusWiseListActivity.class);
                             intent.putExtra("agentList", object.toString());
                             startActivity(intent);
@@ -368,11 +367,10 @@ public class DashBoardActivity extends DrawerActivity implements GPSTrackerPrese
                         try {
                             L.m2("url res", object.toString());
                             if (object.getInt("status") == 0) {
-
-                                editor.putString("balance", object.getString("balaance"));
+                                JSONObject jsonData = object.getJSONObject("data");
+                                editor.putString("balance", jsonData.getString("balance"));
                                 editor.commit();
-                                tViewDistributorBal.setText("Rs. " + object.getString("balaance"));
-                                L.m2("Bal--->", object.getString("balaance"));
+                                tViewDistributorBal.setText("Rs. " + jsonData.getString("balance"));
                             } else {
                                 Toast.makeText(DashBoardActivity.this, object.getString("message").toString(), Toast.LENGTH_SHORT).show();
                             }

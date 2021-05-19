@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by Smartkinda on 6/14/2017.
@@ -61,7 +62,7 @@ public class AgentsStatusWiseListActivity extends AppCompatActivity {
             toolbar.setTitle("ALL AGENTS");
         }
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         try {
             jsonObject1 = new JSONObject(agentListData.toString());

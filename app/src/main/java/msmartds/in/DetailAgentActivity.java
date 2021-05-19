@@ -413,7 +413,7 @@ public class DetailAgentActivity extends BaseActivity {
 
         btnSubmit.setOnClickListener(v -> {
             try {
-                if (jsonObject.getString("status").equalsIgnoreCase("0")) {
+                if (jsonObject.getInt("status")==0) {
                     JSONObject jsonObject = new JSONObject(getIntent().getStringExtra("agentList"));
                     JSONArray jsonArray = jsonObject.getJSONArray("agentDetails");
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -512,25 +512,19 @@ public class DetailAgentActivity extends BaseActivity {
             btnSubmit.setText("Active");
         }
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    changeAgentRequest();
-                } catch (JSONException e) {
-                    System.out.println("change_agent_status_failed--->" + e);
-                    e.printStackTrace();
-                }
-                d.cancel();
+        btnSubmit.setOnClickListener(v -> {
+            try {
+                changeAgentRequest();
+            } catch (JSONException e) {
+                System.out.println("change_agent_status_failed--->" + e);
+                e.printStackTrace();
             }
+            d.cancel();
         });
 
-        btnClosed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                d.cancel();
-            }
+        btnClosed.setOnClickListener(v -> {
+            // TODO Auto-generated method stub
+            d.cancel();
         });
         d.show();
     }
@@ -548,42 +542,39 @@ public class DetailAgentActivity extends BaseActivity {
             changeStatus = "Activate";
         }
 
+        JSONObject reqObj = new JSONObject()
+                .put("distributorId", distributorID)
+                .put("txnkey", key)
+                .put("param", "changeStatusAgent")
+                .put("agentFullId", tviewDetailAgentId.getText().toString())
+                .put("checkChangeStatus", changeStatus);
+        L.m2("url-", change_Status_url);
+        L.m2("url-req", reqObj.toString());
         JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, change_Status_url,
-                new JSONObject()
-                        .put("distributorId", distributorID)
-                        .put("txnkey", key)
-                        .put("param", "changeStatusAgent")
-                        .put("agentFullId", tviewDetailAgentId.getText().toString())
-                        .put("checkChangeStatus", changeStatus),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject object) {
-                        pd.dismiss();
-                        Log.d("data Request-->", distributorID + ":" + key + ":" + tviewDetailAgentId + ":" + "changeStatusAgent");
-                        System.out.println("Object----1>" + object.toString());
-                        try {
-                            if (object.getString("status").equalsIgnoreCase("0")) {
-                                Log.d("url-called", change_Status_url);
-                                Log.d("url data", object.toString());
+                reqObj,
+                object -> {
+                    pd.dismiss();
+                    try {
+                        L.m2("url-", change_Status_url);
+                        L.m2("url-res", object.toString());
+                        if (object.getInt("status")==0) {
+                            Log.d("url-called", change_Status_url);
+                            Log.d("url data", object.toString());
 
-                                showConfirmationDialog(object.getString("message").toString());
+                            showConfirmationDialog(object.getString("message").toString());
 
-                            } else {
-                                pd.dismiss();
-                                showConfirmationDialog(object.getString("message").toString());
-                            }
-                        } catch (JSONException e) {
+                        } else {
                             pd.dismiss();
-                            e.printStackTrace();
+                            showConfirmationDialog(object.getString("message").toString());
                         }
+                    } catch (JSONException e) {
+                        pd.dismiss();
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pd.dismiss();
-                Toast.makeText(DetailAgentActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                }, error -> {
+                    pd.dismiss();
+                    Toast.makeText(DetailAgentActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
+                });
         getSocketTimeOut(jsonrequest);
         Mysingleton.getInstance(getApplicationContext()).addToRequsetque(jsonrequest);
     }
@@ -595,48 +586,42 @@ public class DetailAgentActivity extends BaseActivity {
         pd.setIndeterminate(true);
         pd.setCancelable(false);
         pd.show();
-        Log.d("Before stateRequest-->", distributorID + ":" + key);
+        JSONObject reqObj = new JSONObject()
+                .put("distributorId", distributorID)
+                .put("txnkey", key);
+        L.m2("url-", state_url);
+        L.m2("url-req", reqObj.toString());
         final JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, state_url,
-                new JSONObject()
-                        .put("distributorId", distributorID)
-                        .put("txnkey", key),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject object) {
-                        pd.dismiss();
-                        Log.d("data Request--2>", distributorID + ":" + key);
-                        System.out.println("Object----2>" + object.toString());
-                        try {
-                            if (object.getString("status").equalsIgnoreCase("0")) {
-                                JSONArray stateJsonArray = object.getJSONArray("StateList");
-                                State = new ArrayList<>();
-                                for (int i = 0; i < stateJsonArray.length(); i++) {
-
-                                    JSONObject obj = stateJsonArray.getJSONObject(i);
-                                    State.add(obj.getString("state"));
-                                }
-                                StateAdaptor = new ArrayAdapter(DetailAgentActivity.this, msmartds.in.R.layout.spinner_textview_layout, State);
-                                StateAdaptor.setDropDownViewResource(msmartds.in.R.layout.spinner_textview_layout);
-                                spinnerState.setAdapter(StateAdaptor);
-                                spinnerState.setSelection(StateAdaptor.getPosition(stringState));
-                                Log.d("state_data--->", State.toString());
-                            } else {
-                                pd.dismiss();
-                                showConfirmationDialog(object.getString("message").toString());
+                reqObj,
+                object -> {
+                    pd.dismiss();
+                    try {
+                        L.m2("url-", state_url);
+                        L.m2("url-res", object.toString());
+                        if (object.getInt("status")==0) {
+                            JSONArray stateJsonArray = object.getJSONArray("data");
+                            State = new ArrayList<>();
+                            for (int i = 0; i < stateJsonArray.length(); i++) {
+                                String state = stateJsonArray.getString(i);
+                                State.add(state);
                             }
-                        } catch (JSONException e) {
+                            StateAdaptor = new ArrayAdapter(DetailAgentActivity.this, R.layout.spinner_textview_layout, State);
+                            StateAdaptor.setDropDownViewResource(R.layout.spinner_textview_layout);
+                            spinnerState.setAdapter(StateAdaptor);
+                            spinnerState.setSelection(StateAdaptor.getPosition(stringState));
+                        } else {
                             pd.dismiss();
-                            e.printStackTrace();
+                            showConfirmationDialog(object.getString("message").toString());
                         }
-                        // StateAdaptor.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        pd.dismiss();
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pd.dismiss();
-                Toast.makeText(DetailAgentActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    // StateAdaptor.notifyDataSetChanged();
+                }, error -> {
+                    pd.dismiss();
+                    Toast.makeText(DetailAgentActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
+                });
         getSocketTimeOut(jsonrequest);
         Mysingleton.getInstance(getApplicationContext()).addToRequsetque(jsonrequest);
     }
@@ -648,49 +633,44 @@ public class DetailAgentActivity extends BaseActivity {
         pd.setIndeterminate(true);
         pd.setCancelable(false);
         pd.show();
-        Log.d("Before districtRequest", distributorID + ":" + key + ":" + state);
+        JSONObject reqObj =new JSONObject()
+                .put("state", state)
+                .put("distributorId", distributorID)
+                .put("txnkey", key);
+        L.m2("url-", district_url);
+        L.m2("url-res", reqObj.toString());
         final JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, district_url,
-                new JSONObject()
-                        .put("state", state)
-                        .put("distributorId", distributorID)
-                        .put("txnkey", key),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject object) {
-                        pd.dismiss();
-                        Log.d("data Request--2>", distributorID + ":" + key);
-                        System.out.println("Object----2>" + object.toString());
-                        try {
-                            if (object.getString("status").equalsIgnoreCase("0")) {
-                                JSONArray stateJsonArray = object.getJSONArray("districtList");
-                                District = new ArrayList<>();
-                                for (int i = 0; i < stateJsonArray.length(); i++) {
+                reqObj,
+                object -> {
+                    pd.dismiss();
+                    L.m2("url-", district_url);
+                    L.m2("url-res", object.toString());
+                    try {
+                        if (object.getInt("status")==0) {
+                            JSONArray stateJsonArray = object.getJSONArray("data");
+                            District = new ArrayList<>();
+                            for (int i = 0; i < stateJsonArray.length(); i++) {
 
-                                    JSONObject obj = stateJsonArray.getJSONObject(i);
-                                    District.add(obj.getString("district"));
-                                }
-                                DistrictAdaptor = new ArrayAdapter(DetailAgentActivity.this, msmartds.in.R.layout.spinner_textview_layout, District);
-                                DistrictAdaptor.setDropDownViewResource(msmartds.in.R.layout.spinner_textview_layout);
-                                spinnerDistrict.setAdapter(DistrictAdaptor);
-                                spinnerDistrict.setSelection(DistrictAdaptor.getPosition(stringDistrict));
-                                Log.d("district_data--->", District.toString());
-                            } else {
-                                pd.dismiss();
-                                showConfirmationDialog(object.getString("message").toString());
+                                String district = stateJsonArray.getString(i);
+                                District.add(district);
                             }
-                        } catch (JSONException e) {
+                            DistrictAdaptor = new ArrayAdapter(DetailAgentActivity.this, R.layout.spinner_textview_layout, District);
+                            DistrictAdaptor.setDropDownViewResource(R.layout.spinner_textview_layout);
+                            spinnerDistrict.setAdapter(DistrictAdaptor);
+                            spinnerDistrict.setSelection(DistrictAdaptor.getPosition(stringDistrict));
+                        } else {
                             pd.dismiss();
-                            e.printStackTrace();
+                            showConfirmationDialog(object.getString("message").toString());
                         }
-                        //  StateAdaptor.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        pd.dismiss();
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pd.dismiss();
-                Toast.makeText(DetailAgentActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    //  StateAdaptor.notifyDataSetChanged();
+                }, error -> {
+                    pd.dismiss();
+                    Toast.makeText(DetailAgentActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
+                });
         getSocketTimeOut(jsonrequest);
         Mysingleton.getInstance(getApplicationContext()).addToRequsetque(jsonrequest);
     }

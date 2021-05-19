@@ -118,7 +118,7 @@ public class ChangePasswordActivity extends BaseActivity {
                     jsonObject=object;
                     System.out.println("Object_changePass---->"+object.toString());
                     try {
-                        if (object.getString("status").equalsIgnoreCase("0")) {
+                        if (object.getInt("status")==0) {
 
                             showConfirmationDialog(object.getString("message").toString());
                         }
@@ -176,12 +176,9 @@ public class ChangePasswordActivity extends BaseActivity {
             d.cancel();
         });
 
-        btnClosed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                d.cancel();
-            }
+        btnClosed.setOnClickListener(v -> {
+            // TODO Auto-generated method stub
+            d.cancel();
         });
         d.show();
     }
