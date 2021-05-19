@@ -6,8 +6,8 @@ package msmartds.in.URL;
 
 public interface HttpURL {
 
-    String BaseURL = "https://android.msmartpay.in/DSMRA1.0/resources/";
-
+    //String BaseURL = "https://android.msmartpay.in/DSMRA1.0/resources/";
+    String BaseURL = "http://msmartpay.in:8888/DSMRA1.0/resources/";
     String LoginURL = BaseURL + "DSLogin/Login";
     // String LoginURL = BaseURL + "SKDMR/Login";
     String ForgetPassURL = BaseURL + "DSLogin/ForgetPass";
@@ -25,11 +25,13 @@ public interface HttpURL {
     String BalanceRequest = BaseURL + "DSCommonService/WalletBalRequest";
     String BalanceRequestHistory = BaseURL + "DSCommonService/WalletBalReqDetails";
     String BusinessViewUrl = BaseURL + "DSCommonService/GetAllServiceBuisinessDone";
+    String CollectionBanks =BaseURL +"DSCommonService/collection-banks ";
     String BankDetails = BaseURL + "DSCommonService/BankDetails";
-    String CollectionBanks = BaseURL + "DSCommonService/CollectionBanks";
-    //String BankDetails = BaseURL + "SKDMR/BankDetails";
+     //String BankDetails = BaseURL + "SKDMR/BankDetails";
     String AccountStatementByDate = BaseURL + "DSCommonService/AccountStatementByDate";
     String LOCATION =  BaseURL +"location/save";
+
+
 
     int MY_SOCKET_TIMEOUT_MS = 10 * 60 * 1000;
 }

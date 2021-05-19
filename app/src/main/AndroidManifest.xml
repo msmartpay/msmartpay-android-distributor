@@ -59,7 +59,7 @@
             android:configChanges="screenSize|orientation" />
         <activity
             android:name="msmartds.in.DashBoardActivity"
-            android:configChanges="screenSize|orientation" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name="msmartds.in.balRequest.BalanceRequest"
             android:configChanges="screenSize|orientation" />
@@ -72,15 +72,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="msmartds.in.itemManagement.ItemManagement"
-            android:configChanges="screenSize|orientation" />
-        <activity
-            android:name="msmartds.in.itemDetails.ItemStatus"
-            android:configChanges="screenSize|orientation" />
-        <activity
-            android:name="msmartds.in.AddItem"
-            android:configChanges="screenSize|orientation" />
         <activity
             android:name="msmartds.in.bankDetails.BankDetailsActivity"
             android:configChanges="screenSize|orientation" />

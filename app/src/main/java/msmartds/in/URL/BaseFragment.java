@@ -1,11 +1,8 @@
 package msmartds.in.URL;
 
-import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 import androidx.fragment.app.Fragment;
 
@@ -19,6 +16,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 public class BaseFragment extends Fragment {
 
     boolean conn = false;
+
+    public static void getSocketTimeOut(JsonObjectRequest objectRequest) {
+        objectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                HttpURL.MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+    }
+
     public boolean isConnectionAvailable() {
 
         if (!isOnline()) {
@@ -27,17 +32,12 @@ public class BaseFragment extends Fragment {
             return true;
         }
     }
-    public static void  getSocketTimeOut(JsonObjectRequest objectRequest){
-        objectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                HttpURL.MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-    }
+
     public boolean isOnline() {
         boolean haveConnectedWifi = false;
         boolean haveConnectedMobile = false;
 
-        ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
         NetworkInfo[] netInfo = cm.getAllNetworkInfo();
         for (NetworkInfo ni : netInfo) {
             if (ni.getTypeName().equalsIgnoreCase("WIFI"))
@@ -58,14 +58,5 @@ public class BaseFragment extends Fragment {
         }
 
         return conn;
-    }
-
-    public void showKeyBoard(){
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
-    }
-    public void hideKeyBoard(View view){
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(),0);
     }
 }

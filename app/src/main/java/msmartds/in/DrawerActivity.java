@@ -149,19 +149,16 @@ public class DrawerActivity extends BaseActivity {
             }
         });
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (AgentWiseTypeData == null) {
-                    Toast.makeText(DrawerActivity.this, "Please Select Valid Option", Toast.LENGTH_LONG).show();
-                } else {
-                    Intent intent = new Intent(DrawerActivity.this, AgentsStatusWiseListActivity.class);
-                    editor.putString("spinner_data", AgentWiseTypeData);
-                    editor.commit();
-                    d.dismiss();
-                    startActivity(intent);
-                    finish();
-                }
+        btnSubmit.setOnClickListener(v -> {
+            if (AgentWiseTypeData == null) {
+                Toast.makeText(DrawerActivity.this, "Please Select Valid Option", Toast.LENGTH_LONG).show();
+            } else {
+                Intent intent = new Intent(DrawerActivity.this, AgentsStatusWiseListActivity.class);
+                editor.putString("spinner_data", AgentWiseTypeData);
+                editor.commit();
+                d.dismiss();
+                startActivity(intent);
+                finish();
             }
         });
 

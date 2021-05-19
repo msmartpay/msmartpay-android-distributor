@@ -44,6 +44,7 @@ import java.util.Locale;
 
 import msmartds.in.URL.BaseActivity;
 import msmartds.in.URL.HttpURL;
+import msmartds.in.utility.L;
 import msmartds.in.utility.Mysingleton;
 
 /**
@@ -150,12 +151,7 @@ public class AddAgentActivity extends BaseActivity {
 
         dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
-        DateOfBirth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    chddDatePickerDialog.show();
-            }
-        });
+        DateOfBirth.setOnClickListener(v -> chddDatePickerDialog.show());
         findViewsById();
         setchDDDateTimeField();
 
@@ -244,71 +240,68 @@ public class AddAgentActivity extends BaseActivity {
 
         //Add agent coding start from here by IRFAN
 
-        btnAddAgent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnAddAgent.setOnClickListener(v -> {
 
-                FirstName = editFirstName.getText().toString().trim();
-                LastName = editLastName.getText().toString().trim();
-                CompanyShopName = editCompanyShopName.getText().toString().trim();
-                EmailID = editEmailID.getText().toString().trim();
-                MobileNo = editMobileNo.getText().toString().trim();
-                Address1 = editAddress1.getText().toString().trim();
-                Address2 = editAddress2.getText().toString().trim();
-                CityName = editCityName.getText().toString().trim();
-                PinCode = editPinCode.getText().toString().trim();
-                PAN = editPAN.getText().toString().trim();
+            FirstName = editFirstName.getText().toString().trim();
+            LastName = editLastName.getText().toString().trim();
+            CompanyShopName = editCompanyShopName.getText().toString().trim();
+            EmailID = editEmailID.getText().toString().trim();
+            MobileNo = editMobileNo.getText().toString().trim();
+            Address1 = editAddress1.getText().toString().trim();
+            Address2 = editAddress2.getText().toString().trim();
+            CityName = editCityName.getText().toString().trim();
+            PinCode = editPinCode.getText().toString().trim();
+            PAN = editPAN.getText().toString().trim();
 
-                if(FirstName.length()<=0)
-                {
-                    editFirstName.requestFocus();
-                    Toast.makeText(getApplicationContext(), "Please Enter First Name", Toast.LENGTH_SHORT).show();
-                }else if(LastName.length()<=0){
-                    editLastName.requestFocus();
-                    Toast.makeText(getApplicationContext(), "Please Enter Last Name", Toast.LENGTH_SHORT).show();
-                }else if(DateOfBirth.length()<=0){
-                    Toast.makeText(getApplicationContext(), "Please Set Your Date Of Birth", Toast.LENGTH_SHORT).show();
-                }else if(genderData == null){
-                    Toast.makeText(AddAgentActivity.this, "Please Select Valid Option", Toast.LENGTH_LONG).show();
-                } else if(companyTypeData == null){
-                    Toast.makeText(AddAgentActivity.this, "Please Select Valid Option", Toast.LENGTH_LONG).show();
-                }else if(CompanyShopName.length()<=0) {
-                    editCompanyShopName.requestFocus();
-                    Toast.makeText(getApplicationContext(), "Please Enter Company/Firm/Shop Name", Toast.LENGTH_SHORT).show();
-                }else if(EmailID.length()<=0) {
-                    editEmailID.requestFocus();
-                    Toast.makeText(getApplicationContext(), "Please Enter Valid Email ID", Toast.LENGTH_SHORT).show();
-                }else if(MobileNo.length()<=9) {
-                    editMobileNo.requestFocus();
-                    Toast.makeText(getApplicationContext(), "Please Enter Valid Mobile Number", Toast.LENGTH_SHORT).show();
-                }else if(Address1.length()<=0) {
-                    editAddress1.requestFocus();
-                    Toast.makeText(getApplicationContext(), "Please Enter Address Line 1", Toast.LENGTH_SHORT).show();
-                }else if(Address2.length()<=0) {
-                    editAddress2.requestFocus();
-                    Toast.makeText(getApplicationContext(), "Please Enter Address Line 2", Toast.LENGTH_SHORT).show();
-                } else if(countryData == null){
-                    Toast.makeText(getApplicationContext(), "Please Select Your Country", Toast.LENGTH_SHORT).show();
-                } else if(stateData == null){
-                    Toast.makeText(getApplicationContext(), "Please Select Your State", Toast.LENGTH_SHORT).show();
-                } else if(districtData == null){
-                    Toast.makeText(getApplicationContext(), "Please Select Your District", Toast.LENGTH_SHORT).show();
-                }else if(CityName.length()<=0) {
-                    editCityName.requestFocus();
-                    Toast.makeText(getApplicationContext(), "Please Enter City Name", Toast.LENGTH_SHORT).show();
-                }else if(PinCode.length()<=5) {
-                    editPinCode.requestFocus();
-                    Toast.makeText(getApplicationContext(), "Please Enter Valid Pin Code", Toast.LENGTH_SHORT).show();
-                }/*else if(PAN.length()<=0) {
-                    editPAN.requestFocus();
-                    Toast.makeText(getApplicationContext(), "Please Enter PAN Number (Optional)", Toast.LENGTH_SHORT).show();
-                }*/else if (!Service.isValidEmail(EmailID)) {
-                    Toast.makeText(getApplicationContext(), "Please Enter Valid Email Id", Toast.LENGTH_SHORT).show();
-                } else{
+            if(FirstName.length()<=0)
+            {
+                editFirstName.requestFocus();
+                Toast.makeText(getApplicationContext(), "Please Enter First Name", Toast.LENGTH_SHORT).show();
+            }else if(LastName.length()<=0){
+                editLastName.requestFocus();
+                Toast.makeText(getApplicationContext(), "Please Enter Last Name", Toast.LENGTH_SHORT).show();
+            }else if(DateOfBirth.length()<=0){
+                Toast.makeText(getApplicationContext(), "Please Set Your Date Of Birth", Toast.LENGTH_SHORT).show();
+            }else if(genderData == null){
+                Toast.makeText(AddAgentActivity.this, "Please Select Valid Option", Toast.LENGTH_LONG).show();
+            } else if(companyTypeData == null){
+                Toast.makeText(AddAgentActivity.this, "Please Select Valid Option", Toast.LENGTH_LONG).show();
+            }else if(CompanyShopName.length()<=0) {
+                editCompanyShopName.requestFocus();
+                Toast.makeText(getApplicationContext(), "Please Enter Company/Firm/Shop Name", Toast.LENGTH_SHORT).show();
+            }else if(EmailID.length()<=0) {
+                editEmailID.requestFocus();
+                Toast.makeText(getApplicationContext(), "Please Enter Valid Email ID", Toast.LENGTH_SHORT).show();
+            }else if(MobileNo.length()<=9) {
+                editMobileNo.requestFocus();
+                Toast.makeText(getApplicationContext(), "Please Enter Valid Mobile Number", Toast.LENGTH_SHORT).show();
+            }else if(Address1.length()<=0) {
+                editAddress1.requestFocus();
+                Toast.makeText(getApplicationContext(), "Please Enter Address Line 1", Toast.LENGTH_SHORT).show();
+            }else if(Address2.length()<=0) {
+                editAddress2.requestFocus();
+                Toast.makeText(getApplicationContext(), "Please Enter Address Line 2", Toast.LENGTH_SHORT).show();
+            } else if(countryData == null){
+                Toast.makeText(getApplicationContext(), "Please Select Your Country", Toast.LENGTH_SHORT).show();
+            } else if(stateData == null){
+                Toast.makeText(getApplicationContext(), "Please Select Your State", Toast.LENGTH_SHORT).show();
+            } else if(districtData == null){
+                Toast.makeText(getApplicationContext(), "Please Select Your District", Toast.LENGTH_SHORT).show();
+            }else if(CityName.length()<=0) {
+                editCityName.requestFocus();
+                Toast.makeText(getApplicationContext(), "Please Enter City Name", Toast.LENGTH_SHORT).show();
+            }else if(PinCode.length()<=5) {
+                editPinCode.requestFocus();
+                Toast.makeText(getApplicationContext(), "Please Enter Valid Pin Code", Toast.LENGTH_SHORT).show();
+            }/*else if(PAN.length()<=0) {
+                editPAN.requestFocus();
+                Toast.makeText(getApplicationContext(), "Please Enter PAN Number (Optional)", Toast.LENGTH_SHORT).show();
+            }*/else if (!Service.isValidEmail(EmailID)) {
+                Toast.makeText(getApplicationContext(), "Please Enter Valid Email Id", Toast.LENGTH_SHORT).show();
+            } else{
 
-                    agentResistrationDetails();
-                    }
-            }
+                agentResistrationDetails();
+                }
         });
     }
 
@@ -361,46 +354,34 @@ public class AddAgentActivity extends BaseActivity {
                 .put("param", "AgentRegistration")
                 .put("AthoMobile", MobileNo);
 
-            Log.e("DOB---1>",DateOfBirth.getText().toString());
+            L.m2("Url--1>", url);
+            L.m2("Request--1>", jsonObjectReq.toString());
 
-            Log.e("Request",jsonObjectReq.toString());
 
             JsonObjectRequest  jsonrequest = new JsonObjectRequest(Request.Method.POST, url, jsonObjectReq,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject object) {
-                            pd.dismiss();
-                            jsonObject = new JSONObject();
-                            jsonObject=object;
-
-                            System.out.println("Object----1>"+object.toString());
-                            try {
+                    object -> {
+                        pd.dismiss();
+                        jsonObject = new JSONObject();
+                        jsonObject=object;
+                        try {
+                            L.m2("Url--1>", url);
+                            L.m2("Response--1>", object.toString());
+                            if (object.getInt("status")==0) {
                                 pd.dismiss();
-                                if (object.getString("status").equalsIgnoreCase("0")) {
-                                    pd.dismiss();
-                                    Log.d("url-called", url);
-                                    Log.d("url data", object.toString());
-
-                                    showConfirmationDialog(object.getString("message").toString());
-                                }
-                                else {
-                                    pd.dismiss();
-                                    showConfirmationDialog(object.getString("message").toString());
-                                }
-                            } catch (JSONException e) {
-                                pd.dismiss();
-                                e.printStackTrace();
+                                showConfirmationDialog(object.getString("message").toString());
                             }
+                            else {
+                                pd.dismiss();
+                                showConfirmationDialog(object.getString("message").toString());
+                            }
+                        } catch (JSONException e) {
+                            pd.dismiss();
+                            e.printStackTrace();
                         }
-                    },new Response.ErrorListener()
-
-            {
-                @Override
-                public void onErrorResponse (VolleyError error){
-                    pd.dismiss();
-                    Toast.makeText(getApplicationContext(), "Server Error : "+error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
+                    }, error -> {
+                        pd.dismiss();
+                        Toast.makeText(getApplicationContext(), "Server Error : "+error.toString(), Toast.LENGTH_SHORT).show();
+                    });
             getSocketTimeOut(jsonrequest);
             Mysingleton.getInstance(getApplicationContext()).addToRequsetque(jsonrequest);
         } catch (JSONException e) {
@@ -432,32 +413,26 @@ public class AddAgentActivity extends BaseActivity {
         header.setText("Confirmation");
         tvConfirmation.setText(msg);
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    if(jsonObject.getString("status").equalsIgnoreCase("0")){
-                        Intent intent = new Intent(AddAgentActivity.this, DashBoardActivity.class);
-                        startActivity(intent);
-                        AddAgentActivity.this.finish();
-                        d.dismiss();
-                    }else{
-                        d.dismiss();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        btnSubmit.setOnClickListener(v -> {
+            try {
+                if(jsonObject.getInt("status")==0){
+                    Intent intent = new Intent(AddAgentActivity.this, DashBoardActivity.class);
+                    startActivity(intent);
+                    AddAgentActivity.this.finish();
+                    d.dismiss();
+                }else{
+                    d.dismiss();
                 }
-
-                d.cancel();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+            d.cancel();
         });
 
-        btnClosed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                d.cancel();
-            }
+        btnClosed.setOnClickListener(v -> {
+            // TODO Auto-generated method stub
+            d.cancel();
         });
         d.show();
     }
@@ -470,40 +445,41 @@ public class AddAgentActivity extends BaseActivity {
         pd.setCancelable(false);
         pd.show();
 
-        final JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, state_url,
-                new JSONObject()
-                        .put("distributorId", distributorID)
-                        .put("txnkey", key),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject object) {
-                        pd.dismiss();
-                        Log.d("data Request--2>", distributorID+":"+key);
-                        System.out.println("Object----2>"+object.toString());
-                        try {
-                            if (object.getString("status").equalsIgnoreCase("0")) {
-                            JSONArray stateJsonArray = object.getJSONArray("StateList");
-                            State = new ArrayList<>();
-                            for(int i=0; i<stateJsonArray.length(); i++){
+        JSONObject jsonReq = new JSONObject()
+                .put("distributorId", distributorID)
+                .put("txnkey", key);
+        L.m2("Url--1>", state_url);
+        L.m2("Request--1>", jsonReq.toString());
 
-                               JSONObject obj=stateJsonArray.getJSONObject(i);
-                                State.add(obj.getString("state"));
-                            }
-                                StateAdaptor = new ArrayAdapter(AddAgentActivity.this, msmartds.in.R.layout.spinner_textview_layout,State);
-                                StateAdaptor.setDropDownViewResource(msmartds.in.R.layout.spinner_textview_layout);
-                                spinnerState.setAdapter(StateAdaptor);
-                            Log.d("state_data--->",State.toString());
-                            }
-                            else {
-                                pd.dismiss();
-                                showConfirmationDialog(object.getString("message").toString());
-                            }
-                        } catch (JSONException e) {
-                            pd.dismiss();
-                            e.printStackTrace();
+        final JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, state_url,
+                jsonReq,
+                object -> {
+                    pd.dismiss();
+                    try {
+                        L.m2("Url--1>", state_url);
+                        L.m2("Response--1>", object.toString());
+
+                        if (object.getInt("status")==0) {
+                        JSONArray stateJsonArray = object.getJSONArray("data");
+                        State = new ArrayList<>();
+                        for(int i=0; i<stateJsonArray.length(); i++){
+                           String state=stateJsonArray.getString(i);
+                            State.add(state);
                         }
-                        StateAdaptor.notifyDataSetChanged();
+                            StateAdaptor = new ArrayAdapter(AddAgentActivity.this, R.layout.spinner_textview_layout,State);
+                            StateAdaptor.setDropDownViewResource(R.layout.spinner_textview_layout);
+                            spinnerState.setAdapter(StateAdaptor);
+                        Log.d("state_data--->",State.toString());
+                        }
+                        else {
+                            pd.dismiss();
+                            showConfirmationDialog(object.getString("message").toString());
+                        }
+                    } catch (JSONException e) {
+                        pd.dismiss();
+                        e.printStackTrace();
                     }
+                    StateAdaptor.notifyDataSetChanged();
                 },new Response.ErrorListener()
 
         {
@@ -524,53 +500,48 @@ public class AddAgentActivity extends BaseActivity {
         pd.setIndeterminate(true);
         pd.setCancelable(false);
         pd.show();
+        JSONObject jsonReq = new JSONObject()
+                .put("state", state)
+                .put("distributorId", distributorID)
+                .put("txnkey", key);
+        L.m2("Url--1>", district_url);
+        L.m2("Request--1>", jsonReq.toString());
 
         final JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, district_url,
                 new JSONObject()
                         .put("state", state)
                         .put("distributorId", distributorID)
                         .put("txnkey", key),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject object) {
-                        pd.dismiss();
-                        Log.d("data Request--2>", distributorID+":"+key);
-                        System.out.println("Object----2>"+object.toString());
-                        try {
-                            if (object.getString("status").equalsIgnoreCase("0")) {
-                                JSONArray stateJsonArray = object.getJSONArray("districtList");
-                                District = new ArrayList<>();
-                                for(int i=0; i<stateJsonArray.length(); i++){
-
-                                    JSONObject obj=stateJsonArray.getJSONObject(i);
-                                    District.add(obj.getString("district"));
-
-                                    Log.d("district_data---1>",District.toString());
-                                }
-                                DistrictAdaptor = new ArrayAdapter(AddAgentActivity.this, msmartds.in.R.layout.spinner_textview_layout,District);
-                                DistrictAdaptor.setDropDownViewResource(msmartds.in.R.layout.spinner_textview_layout);
-                                spinnerDistrict.setAdapter(DistrictAdaptor);
-                                Log.d("district_data---2>",District.toString());
+                object -> {
+                    pd.dismiss();
+                     try {
+                         L.m2("Url--1>", district_url);
+                         L.m2("Response--1>", object.toString());
+                         if (object.getInt("status")==0) {
+                            JSONArray stateJsonArray = object.getJSONArray("data");
+                            District = new ArrayList<>();
+                            for(int i=0; i<stateJsonArray.length(); i++){
+                                String district=stateJsonArray.getString(i);
+                                District.add(district);
                             }
-                            else {
-                                pd.dismiss();
-                                showConfirmationDialog(object.getString("message").toString());
-                            }
-                        } catch (JSONException e) {
-                            pd.dismiss();
-                            e.printStackTrace();
+                            DistrictAdaptor = new ArrayAdapter(AddAgentActivity.this, R.layout.spinner_textview_layout,District);
+                            DistrictAdaptor.setDropDownViewResource(R.layout.spinner_textview_layout);
+                            spinnerDistrict.setAdapter(DistrictAdaptor);
+                            Log.d("district_data---2>",District.toString());
                         }
-                        StateAdaptor.notifyDataSetChanged();
+                        else {
+                            pd.dismiss();
+                            showConfirmationDialog(object.getString("message").toString());
+                        }
+                    } catch (JSONException e) {
+                        pd.dismiss();
+                        e.printStackTrace();
                     }
-                },new Response.ErrorListener()
-
-        {
-            @Override
-            public void onErrorResponse (VolleyError error){
-                pd.dismiss();
-                Toast.makeText(AddAgentActivity.this, "Server Error : "+error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    StateAdaptor.notifyDataSetChanged();
+                }, error -> {
+                    pd.dismiss();
+                    Toast.makeText(AddAgentActivity.this, "Server Error : "+error.toString(), Toast.LENGTH_SHORT).show();
+                });
         getSocketTimeOut(jsonrequest);
         Mysingleton.getInstance(getApplicationContext()).addToRequsetque(jsonrequest);
     }

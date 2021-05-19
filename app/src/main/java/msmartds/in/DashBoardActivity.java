@@ -41,6 +41,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 import msmartds.in.URL.BaseActivity;
 import msmartds.in.URL.HttpURL;
 import msmartds.in.balRequest.BalanceRequest;
@@ -53,9 +55,9 @@ import msmartds.in.utility.Mysingleton;
 public class DashBoardActivity extends DrawerActivity implements GPSTrackerPresenter.LocationListener {
 
     private Menu menu;
-    ListView list;
-    String Logo, Name, Email, BrandID, Mobile, Address, Key;
-    ImageView navgiation;
+    private ListView list;
+    private String Logo, Name, Email, BrandID, Mobile, Address, Key;
+    private ImageView navgiation;
     private Button btnActiveAgent, btnDeActiveAgent, btnAddAgent, btnDepositeRequest, btnPushBalance, btnReport, home_balance_request, business;
     private Button btnSubmit, btnClosed;
     private TextView tViewDistributorBal, CopyRightText, PoweredByText;
@@ -121,12 +123,7 @@ public class DashBoardActivity extends DrawerActivity implements GPSTrackerPrese
         CopyRightText.setText(CopyRight);
         PoweredByText.setText(PoweredBy);
 
-        btnActiveAgent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showAgentCustomDialog();
-            }
-        });
+        btnActiveAgent.setOnClickListener(v -> showAgentCustomDialog());
 
         btnDeActiveAgent.setOnClickListener(v -> showAgentCustomDialog());
 
@@ -205,37 +202,31 @@ public class DashBoardActivity extends DrawerActivity implements GPSTrackerPrese
             }
         });
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (AgentWiseTypeData == null) {
-                    Toast.makeText(DashBoardActivity.this, "Please select valid option !", Toast.LENGTH_LONG).show();
-                } else {
-                    try {
-                        if (i == 1) {
-                            agentStatus = "All";
-                        } else if (i == 2) {
-                            agentStatus = "Activate";
-                        } else if (i == 3) {
-                            agentStatus = "Deactive";
-                        }
-                        agentStatusRequest();
-                        d.dismiss();
-                    } catch (JSONException e) {
-                        System.out.println("agentList_Exception-->" + e.toString());
-                        e.printStackTrace();
+        btnSubmit.setOnClickListener(v -> {
+            if (AgentWiseTypeData == null) {
+                Toast.makeText(DashBoardActivity.this, "Please select valid option !", Toast.LENGTH_LONG).show();
+            } else {
+                try {
+                    if (i == 1) {
+                        agentStatus = "All";
+                    } else if (i == 2) {
+                        agentStatus = "Activate";
+                    } else if (i == 3) {
+                        agentStatus = "Deactive";
                     }
+                    agentStatusRequest();
+                    d.dismiss();
+                } catch (JSONException e) {
+                    System.out.println("agentList_Exception-->" + e.toString());
+                    e.printStackTrace();
                 }
             }
         });
 
-        btnClosed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
+        btnClosed.setOnClickListener(v -> {
+            // TODO Auto-generated method stub
 
-                d.cancel();
-            }
+            d.cancel();
         });
 
         d.show();
@@ -243,17 +234,11 @@ public class DashBoardActivity extends DrawerActivity implements GPSTrackerPrese
     }
 
     public void showPushBalanceCustomDialog() {
-        // TODO Auto-generated method stub
         final Dialog d = new Dialog(DashBoardActivity.this, msmartds.in.R.style.Base_Theme_AppCompat_Light_Dialog_Alert);
-
         d.setCancelable(false);
-
         d.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-
         d.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-
         d.setContentView(msmartds.in.R.layout.push_balance_dialog);
-
         d.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         btnSubmit = (Button) d.findViewById(msmartds.in.R.id.btn_push_submit);
@@ -273,44 +258,38 @@ public class DashBoardActivity extends DrawerActivity implements GPSTrackerPrese
                 pd.setIndeterminate(true);
                 pd.setCancelable(false);
                 pd.show();
-
                 JsonObjectRequest jsonrequest = null;
                 try {
+                    JSONObject reqObj=new JSONObject()
+                            .put("distributorId", distributorID)
+                            .put("txnkey", key)
+                            .put("param", "singleAgentDetail")
+                            .put("agentId", AgentID);
+                    L.m2("Url-1",url_single_push);
+                    L.m2("Request-1",reqObj.toString());
                     jsonrequest = new JsonObjectRequest(Request.Method.POST, url_single_push,
-                            new JSONObject()
-                                    .put("distributorId", distributorID)
-                                    .put("txnkey", key)
-                                    .put("param", "singleAgentDetail")
-                                    .put("agentId", AgentID),
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject object) {
-                                    pd.dismiss();
-                                    Log.d("data Request-->", distributorID + ":" + key + ":" + AgentID);
-                                    System.out.println("Object----1>" + object.toString());
-                                    try {
-                                        if (object.getString("status").equalsIgnoreCase("0")) {
-                                            Log.d("url-called", url_single_push);
-                                            Log.d("url data", object.toString());
+                            reqObj,
+                            object -> {
+                                pd.dismiss();
+                                L.m2("Url-1",url_single_push);
+                                L.m2("Response-1",object.toString());
+                                try {
+                                    if (object.getInt("status")==0) {
 
-                                            Intent intent = new Intent(DashBoardActivity.this, PushMoneyActivity.class);
-                                            intent.putExtra("AgentID", AgentID);
-                                            intent.putExtra("FirmName", object.getString("agencyName"));
-                                            intent.putExtra("Balance", object.getString("amount"));
-                                            startActivity(intent);
-                                        } else {
-                                            Toast.makeText(DashBoardActivity.this, object.getString("message").toString(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                        Intent intent = new Intent(DashBoardActivity.this, PushMoneyActivity.class);
+                                        intent.putExtra("AgentID", AgentID);
+                                        intent.putExtra("FirmName", object.getString("agencyName"));
+                                        intent.putExtra("Balance", object.getString("amount"));
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(DashBoardActivity.this, object.getString("message").toString(), Toast.LENGTH_SHORT).show();
                                     }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            pd.dismiss();
-                            Toast.makeText(DashBoardActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-                        }
+                            }, error -> {
+                        pd.dismiss();
+                        Toast.makeText(DashBoardActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
                     });
                 } catch (JSONException e) {
                     pd.dismiss();
@@ -339,93 +318,74 @@ public class DashBoardActivity extends DrawerActivity implements GPSTrackerPrese
         pd.setCancelable(false);
         pd.show();
 
+        JSONObject reqObj = new JSONObject()
+                .put("distributorId", distributorID)
+                .put("txnkey", key)
+                .put("param", "AgentDetails")
+                .put("Status", agentStatus);
+        L.m2("Url-->", url);
+        L.m2("data Request-->", reqObj.toString());
         JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, url,
-                new JSONObject()
-                        .put("distributorId", distributorID)
-                        .put("txnkey", key)
-                        .put("param", "AgentDetails")
-                        .put("Status", agentStatus),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject object) {
-                        pd.dismiss();
-                        Log.d("data Request-->", distributorID + ":" + key + ":" + agentStatus + ":" + "AgentDetails");
-                        System.out.println("Object----5>" + object.toString());
-                        try {
-                            if (object.getString("message").equalsIgnoreCase("Success")) {
-                                Log.d("url-called", url);
-                                Log.d("url data", object.toString());
+                reqObj,
+                object -> {
+                    pd.dismiss();
 
-                                editor.putString("spinner_data", AgentWiseTypeData);
-                                editor.commit();
+                    try {
+                        L.m2("Url-->", url);
+                        L.m2("data Response-->", object.toString());
+                        if (object.getInt("status") == 0) {
+                            editor.putString("spinner_data", AgentWiseTypeData);
+                            editor.commit();
 //                                Toast.makeText(DashBoardActivity.this, object.getString("message").toString(), Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(DashBoardActivity.this, AgentsStatusWiseListActivity.class);
-                                intent.putExtra("agentList", object.toString());
-                                startActivity(intent);
-                            } else {
-                                Toast.makeText(DashBoardActivity.this, object.getString("message").toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            Intent intent = new Intent(DashBoardActivity.this, AgentsStatusWiseListActivity.class);
+                            intent.putExtra("agentList", object.toString());
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(DashBoardActivity.this, object.getString("message").toString(), Toast.LENGTH_SHORT).show();
                         }
+                    } catch (JSONException e) {
+                        L.m2("error", Objects.requireNonNull(e.getMessage()));
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pd.dismiss();
-                Toast.makeText(DashBoardActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                }, error -> {
+                    pd.dismiss();
+                    Toast.makeText(DashBoardActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
+                });
         BaseActivity.getSocketTimeOutStatic(jsonrequest);
         Mysingleton.getInstance(DashBoardActivity.this).addToRequsetque(jsonrequest);
     }
 
     private void updateDistributerBal() {
-      /*  pd = ProgressDialog.show(DashBoardActivity.this, "", "Loading. Please wait...", true);
-        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        pd.setIndeterminate(true);
-        pd.setCancelable(false);
-        pd.show();
-*/
-        try {
-            JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, url_dsBalance,
-                    new JSONObject()
-                            .put("distributorId", distributorID)
-                            .put("txnkey", key),
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject object) {
-                            //  pd.dismiss();
-                            System.out.println("Object---->" + object.toString());
-                            try {
-                                if (object.getString("status").equalsIgnoreCase("0")) {
-                                    Log.d("url-called", url_dsBalance);
-                                    Log.d("url data", object.toString());
-                                    String Message = object.getString("message");
 
-                                    editor.putString("balance", object.getString("balaance"));
-                                    editor.commit();
-                                    tViewDistributorBal.setText("Rs. " + object.getString("balaance"));
-                                    Log.d("Bal--->", object.getString("balaance"));
-//                                Toast.makeText(DashBoardActivity.this, object.getString("message").toString(), Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(DashBoardActivity.this, object.getString("message").toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+        try {
+            JSONObject reqObj = new JSONObject();
+            reqObj.put("distributorId", distributorID);
+            reqObj.put("txnkey", key);
+            L.m2("url-", url_dsBalance);
+            L.m2("url-req", reqObj.toString());
+            JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, url_dsBalance,
+                    reqObj,
+                    object -> {
+                        try {
+                            L.m2("url res", object.toString());
+                            if (object.getInt("status") == 0) {
+
+                                editor.putString("balance", object.getString("balaance"));
+                                editor.commit();
+                                tViewDistributorBal.setText("Rs. " + object.getString("balaance"));
+                                L.m2("Bal--->", object.getString("balaance"));
+                            } else {
+                                Toast.makeText(DashBoardActivity.this, object.getString("message").toString(), Toast.LENGTH_SHORT).show();
                             }
+                        } catch (JSONException e) {
+                            L.m2("error", Objects.requireNonNull(e.getMessage()));
                         }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    //pd.dismiss();
-                    Toast.makeText(DashBoardActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-                }
+                    }, error -> {
+                Toast.makeText(DashBoardActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
             });
             BaseActivity.getSocketTimeOutStatic(jsonrequest);
             Mysingleton.getInstance(DashBoardActivity.this).addToRequsetque(jsonrequest);
         } catch (JSONException e) {
-
+            L.m2("error", Objects.requireNonNull(e.getMessage()));
         }
 
     }

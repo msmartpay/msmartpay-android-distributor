@@ -65,7 +65,7 @@ public class AgentsStatusWiseListActivity extends AppCompatActivity {
 
         try {
             jsonObject1 = new JSONObject(agentListData.toString());
-            jsonArray = jsonObject1.getJSONArray("agentDetails");
+            jsonArray = jsonObject1.getJSONArray("data");
             JSONObject jsonObject;
             agentLists = new ArrayList<>();
             Log.d("Array lenght ", jsonArray.length() + "");

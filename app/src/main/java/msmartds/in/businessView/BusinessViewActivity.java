@@ -30,28 +30,24 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import msmartds.in.R;
 import msmartds.in.URL.BaseActivity;
 import msmartds.in.URL.HttpURL;
+import msmartds.in.utility.L;
 import msmartds.in.utility.Mysingleton;
 
 public class BusinessViewActivity extends BaseActivity {
 
 
-    private String distributorid;
-    private ProgressDialog pd;
-
-    private Context context;
     ArrayList<BusinessViewItem> currentMonth = null;
-
     ArrayList<BusinessViewItem> previousMonth = null;
-
-
     RecyclerView recycler_viewRechage;
     RecyclerView recycler_viewWallet;
-
-
+    private String distributorid, txnKey;
+    private ProgressDialog pd;
+    private Context context;
     private TextView currTextView, prevTextView;
 
     @Override
@@ -59,21 +55,22 @@ public class BusinessViewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(msmartds.in.R.layout.business_view_activity);
 
-        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(msmartds.in.R.id.toolbar);
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
 
         toolbar.setTitle("Business View");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         context = BusinessViewActivity.this;
         SharedPreferences myPrefs = getApplicationContext().getSharedPreferences("Details", MODE_PRIVATE);
         distributorid = myPrefs.getString("distributorId", "");
+        txnKey = myPrefs.getString("txnKey", null);
         currTextView = findViewById(R.id.currTextView);
         prevTextView = findViewById(R.id.prevTextView);
 
-       /* RecyclerView */
+        /* RecyclerView */
         recycler_viewRechage = (RecyclerView) findViewById(msmartds.in.R.id.recycler_viewRechage);
-       /* RecyclerView*/
+        /* RecyclerView*/
         recycler_viewWallet = (RecyclerView) findViewById(msmartds.in.R.id.recycler_viewWallet);
 
 
@@ -94,116 +91,112 @@ public class BusinessViewActivity extends BaseActivity {
         pd.show();
 
         try {
-            JSONObject jsonObjectReq = new JSONObject()
-                    .put("distributor_id", distributorid);
-
-            Log.d("summary_Request--1>", jsonObjectReq.toString());
             String serviceBuisinessDoneURL = HttpURL.BusinessViewUrl;
-            JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, serviceBuisinessDoneURL, jsonObjectReq,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject object) {
-                            pd.dismiss();
-                            try {
-                                if (object.get("status") != null && object.get("status").equals("0")) {
-                                    final JSONArray parentArray = (JSONArray) object.get("distributorBuisinessDetails");
+            JSONObject jsonObjectReq = new JSONObject()
+                    .put("distributor_id", distributorid)
+                    .put("txnkey", txnKey);
+            L.m2("Url--1>", serviceBuisinessDoneURL);
+            L.m2("Request--1>", jsonObjectReq.toString());
 
-                                    if (parentArray.length() > 0) {
-                                        for (int i = 0; i < parentArray.length(); i++) {
-                                            JSONObject obj = (JSONObject) parentArray.get(i);
+            JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, serviceBuisinessDoneURL, jsonObjectReq,
+                    object -> {
+                        pd.dismiss();
+                        try {
+                            L.m2("Url--1>", serviceBuisinessDoneURL);
+                            L.m2("Reponse--1", object.toString());
+                            if (object.getInt("status") == 0) {
+                                final JSONArray parentArray = (JSONArray) object.get("data");
+
+                                if (parentArray.length() > 0) {
+                                    for (int i = 0; i < parentArray.length(); i++) {
+                                        JSONObject obj = (JSONObject) parentArray.get(i);
+
+                                        if (obj.getString("Month-Type").equals("CurrentMonth")) {
+                                            Log.d("check--1", obj.getString("Month-Type"));
 
                                             if (obj.getString("Month-Type").equals("CurrentMonth")) {
-                                                Log.d("check--1", obj.getString("Month-Type"));
+                                                currTextView.setVisibility(View.GONE);
+                                                BusinessViewItem businessItem = new BusinessViewItem();
 
-                                                if (obj.getString("Month-Type").equals("CurrentMonth")) {
-                                                    currTextView.setVisibility(View.GONE);
-                                                    BusinessViewItem businessItem = new BusinessViewItem();
+                                                if (currentMonth == null)
 
-                                                    if (currentMonth == null)
-
-                                                        currentMonth = new ArrayList<>();
-                                                    businessItem.setTransAmount(obj.get("Trans-Amount") + "");
-                                                    businessItem.setTransCount(obj.get("Trans-Count") + "");
-                                                    businessItem.setTransStatus(obj.get("Trans-Status") + "");
-                                                    businessItem.setServiceName(obj.get("Service-Name") + "");
-                                                    businessItem.setMonthType(obj.get("Month-Type") + "");
+                                                    currentMonth = new ArrayList<>();
+                                                businessItem.setTransAmount(obj.get("Trans-Amount") + "");
+                                                businessItem.setTransCount(obj.get("Trans-Count") + "");
+                                                businessItem.setTransStatus(obj.get("Trans-Status") + "");
+                                                businessItem.setServiceName(obj.get("Service-Name") + "");
+                                                businessItem.setMonthType(obj.get("Month-Type") + "");
 
 
-                                                    currentMonth.add(businessItem);
+                                                currentMonth.add(businessItem);
 
-                                                } else if (obj.getString("Month-Type").equals("")) {
+                                            } else if (obj.getString("Month-Type").equals("")) {
 
-                                                    currTextView.setVisibility(View.VISIBLE);
-                                                }
-
-
-                                            } else if (obj.getString("Month-Type").equals("PreviousMonth")) {
-                                                Log.d("check--2", obj.getString("Month-Type"));
-
-                                                if (obj.getString("Month-Type").equals("PreviousMonth")) {
-                                                    prevTextView.setVisibility(View.GONE);
-
-                                                    BusinessViewItem businessItem = new BusinessViewItem();
-                                                    if (previousMonth == null)
-
-                                                        previousMonth = new ArrayList<>();
-                                                    businessItem.setTransAmount(obj.get("Trans-Amount") + "");
-                                                    businessItem.setTransCount(obj.get("Trans-Count") + "");
-                                                    businessItem.setTransStatus(obj.get("Trans-Status") + "");
-                                                    businessItem.setServiceName(obj.get("Service-Name") + "");
-                                                    businessItem.setMonthType(obj.get("Month-Type") + "");
-
-                                                    previousMonth.add(businessItem);
-                                                } else if (obj.getString("Month-Type").equals("")) {
-                                                    prevTextView.setVisibility(View.VISIBLE);
-                                                }
-
-
+                                                currTextView.setVisibility(View.VISIBLE);
                                             }
 
+
+                                        } else if (obj.getString("Month-Type").equals("PreviousMonth")) {
+                                            Log.d("check--2", obj.getString("Month-Type"));
+
+                                            if (obj.getString("Month-Type").equals("PreviousMonth")) {
+                                                prevTextView.setVisibility(View.GONE);
+
+                                                BusinessViewItem businessItem = new BusinessViewItem();
+                                                if (previousMonth == null)
+
+                                                    previousMonth = new ArrayList<>();
+                                                businessItem.setTransAmount(obj.get("Trans-Amount") + "");
+                                                businessItem.setTransCount(obj.get("Trans-Count") + "");
+                                                businessItem.setTransStatus(obj.get("Trans-Status") + "");
+                                                businessItem.setServiceName(obj.get("Service-Name") + "");
+                                                businessItem.setMonthType(obj.get("Month-Type") + "");
+
+                                                previousMonth.add(businessItem);
+                                            } else if (obj.getString("Month-Type").equals("")) {
+                                                prevTextView.setVisibility(View.VISIBLE);
+                                            }
+
+
                                         }
-
-
-                                        if (currentMonth != null) {
-                                            currTextView.setVisibility(View.GONE);
-                                            RecyclerAdapterCurrent adapterCurrent = new RecyclerAdapterCurrent(getApplicationContext(), currentMonth);
-                                            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(BusinessViewActivity.this, 2);
-                                            recycler_viewRechage.setLayoutManager(layoutManager);
-                                            recycler_viewRechage.setItemAnimator(new DefaultItemAnimator());
-                                            recycler_viewRechage.setAdapter(adapterCurrent);
-                                        } else if (currentMonth == null) {
-                                            currTextView.setVisibility(View.VISIBLE);
-                                        }
-
-                                        if (previousMonth != null) {
-                                            prevTextView.setVisibility(View.GONE);
-                                            RecyclerAdaptorPrevious adaptorPrevious1 = new RecyclerAdaptorPrevious(getApplicationContext(), previousMonth);
-                                            RecyclerView.LayoutManager layoutManager1 = new GridLayoutManager(BusinessViewActivity.this, 2);
-                                            recycler_viewWallet.setLayoutManager(layoutManager1);
-                                            recycler_viewWallet.setItemAnimator(new DefaultItemAnimator());
-                                            recycler_viewWallet.setAdapter(adaptorPrevious1);
-                                        } else if (previousMonth == null) {
-                                            prevTextView.setVisibility(View.VISIBLE);
-                                        }
-
 
                                     }
-                                } else {
-                                    Toast.makeText(context, "Data is not available...", Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener()
 
-            {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    pd.dismiss();
-                    Toast.makeText(BusinessViewActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
+
+                                    if (currentMonth != null) {
+                                        currTextView.setVisibility(View.GONE);
+                                        RecyclerAdapterCurrent adapterCurrent = new RecyclerAdapterCurrent(getApplicationContext(), currentMonth);
+                                        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(BusinessViewActivity.this, 2);
+                                        recycler_viewRechage.setLayoutManager(layoutManager);
+                                        recycler_viewRechage.setItemAnimator(new DefaultItemAnimator());
+                                        recycler_viewRechage.setAdapter(adapterCurrent);
+                                    } else if (currentMonth == null) {
+                                        currTextView.setVisibility(View.VISIBLE);
+                                    }
+
+                                    if (previousMonth != null) {
+                                        prevTextView.setVisibility(View.GONE);
+                                        RecyclerAdaptorPrevious adaptorPrevious1 = new RecyclerAdaptorPrevious(getApplicationContext(), previousMonth);
+                                        RecyclerView.LayoutManager layoutManager1 = new GridLayoutManager(BusinessViewActivity.this, 2);
+                                        recycler_viewWallet.setLayoutManager(layoutManager1);
+                                        recycler_viewWallet.setItemAnimator(new DefaultItemAnimator());
+                                        recycler_viewWallet.setAdapter(adaptorPrevious1);
+                                    } else if (previousMonth == null) {
+                                        prevTextView.setVisibility(View.VISIBLE);
+                                    }
+
+
+                                }
+                            } else {
+                                Toast.makeText(context, "Data is not available...", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }, error -> {
+                        pd.dismiss();
+                        Toast.makeText(BusinessViewActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
+                    });
             getSocketTimeOut(jsonrequest);
             Mysingleton.getInstance(getApplicationContext()).addToRequsetque(jsonrequest);
         } catch (Exception exp) {
@@ -212,29 +205,32 @@ public class BusinessViewActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+
+        return super.onSupportNavigateUp();
+    }
 
     //==============================current=====================================================
     private class RecyclerAdapterCurrent extends RecyclerView.Adapter<RecyclerAdapterCurrent.MyViewHolder> {
-        private Context context;
-
         ArrayList<BusinessViewItem> balance;
+        private Context context;
         private View itemView;
 
         RecyclerAdapterCurrent(Context context, ArrayList<BusinessViewItem> balance) {
             this.context = context;
             this.balance = balance;
 
-        }
-
-        class MyViewHolder extends RecyclerView.ViewHolder {
-            TextView balance1;
-            TextView recharge;
-
-            MyViewHolder(View itemView) {
-                super(itemView);
-                balance1 = itemView.findViewById(msmartds.in.R.id.money);
-                recharge = itemView.findViewById(msmartds.in.R.id.recharge);
-            }
         }
 
         @Override
@@ -262,14 +258,25 @@ public class BusinessViewActivity extends BaseActivity {
         public int getItemCount() {
             return balance.size();
         }
+
+        class MyViewHolder extends RecyclerView.ViewHolder {
+            TextView balance1;
+            TextView recharge;
+
+            MyViewHolder(View itemView) {
+                super(itemView);
+                balance1 = itemView.findViewById(msmartds.in.R.id.money);
+                recharge = itemView.findViewById(msmartds.in.R.id.recharge);
+            }
+        }
     }
 
     //===================================previous=============================
     public class RecyclerAdaptorPrevious extends RecyclerView.Adapter<RecyclerAdaptorPrevious.MyViewHolder> {
 
-        private Context contextData;
         ArrayList<BusinessViewItem> balance;
         List<BusinessViewItem> recharge;
+        private Context contextData;
         private View itemView;
 
         private RecyclerAdaptorPrevious(Context context, ArrayList<BusinessViewItem> balance/* ArrayList<BusinessItem> recharge*/) {
@@ -280,17 +287,6 @@ public class BusinessViewActivity extends BaseActivity {
                 Toast.makeText(context, "Data is not available !!", Toast.LENGTH_SHORT).show();
             }
 
-        }
-
-        class MyViewHolder extends RecyclerView.ViewHolder {
-            TextView balance1;
-            private TextView recharge;
-
-            MyViewHolder(View itemView) {
-                super(itemView);
-                balance1 = (TextView) itemView.findViewById(msmartds.in.R.id.money);
-                recharge = (TextView) itemView.findViewById(msmartds.in.R.id.recharge);
-            }
         }
 
         @Override
@@ -320,24 +316,17 @@ public class BusinessViewActivity extends BaseActivity {
         public int getItemCount() {
             return balance.size();
         }
-    }
 
+        class MyViewHolder extends RecyclerView.ViewHolder {
+            TextView balance1;
+            private TextView recharge;
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
+            MyViewHolder(View itemView) {
+                super(itemView);
+                balance1 = (TextView) itemView.findViewById(msmartds.in.R.id.money);
+                recharge = (TextView) itemView.findViewById(msmartds.in.R.id.recharge);
+            }
         }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public boolean onSupportNavigateUp() {
-
-        return super.onSupportNavigateUp();
     }
 
 

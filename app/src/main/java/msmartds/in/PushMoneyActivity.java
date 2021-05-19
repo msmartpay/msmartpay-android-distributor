@@ -36,6 +36,7 @@ import msmartds.in.URL.BaseActivity;
 import msmartds.in.URL.HttpURL;
 import msmartds.in.location.GPSTrackerPresenter;
 import msmartds.in.utility.Keys;
+import msmartds.in.utility.L;
 import msmartds.in.utility.Mysingleton;
 import msmartds.in.utility.Util;
 
@@ -144,36 +145,31 @@ public class PushMoneyActivity extends BaseActivity implements GPSTrackerPresent
                     .put("PaymentRemark", Remark)
                     .put("latitude", Util.LoadPrefData(getApplicationContext(), Keys.LATITUDE))
                     .put("longitude", Util.LoadPrefData(getApplicationContext(), Keys.LONGITUDE));
-
+            L.m2("Url-1",url);
+            L.m2("Request-1",jsonReq.toString());
             jsonrequest = new JsonObjectRequest(Request.Method.POST, url, jsonReq,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject object) {
-                            jsonObject = new JSONObject();
-                            jsonObject = object;
-                            pd.dismiss();
-                            Log.d("data Request-->", distributorID + ":" + key + ":" + dataAgentID + ":" + Remark.toString());
-                            System.out.println("Object----1>" + object.toString());
-                            try {
-                                if (object.getString("status").equalsIgnoreCase("0")) {
-                                    Log.d("url-called", url);
-                                    Log.d("url data", object.toString());
-                                    showConfirmationDialog();
-                                } else {
-                                    showConfirmationDialog();
-                                }
-                            } catch (JSONException e) {
-                                pd.dismiss();
-                                e.printStackTrace();
+                    object -> {
+                        jsonObject = new JSONObject();
+                        jsonObject = object;
+                        pd.dismiss();
+                        L.m2("Url-1",url);
+                        L.m2("Response-1",object.toString());
+                        try {
+                            if (object.getInt("status")==0) {
+                                Log.d("url-called", url);
+                                Log.d("url data", object.toString());
+                                showConfirmationDialog();
+                            } else {
+                                showConfirmationDialog();
                             }
+                        } catch (JSONException e) {
+                            pd.dismiss();
+                            e.printStackTrace();
                         }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    pd.dismiss();
-                    Toast.makeText(PushMoneyActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
+                    }, error -> {
+                        pd.dismiss();
+                        Toast.makeText(PushMoneyActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
+                    });
         } catch (JSONException e) {
             pd.dismiss();
             e.printStackTrace();
@@ -210,7 +206,7 @@ public class PushMoneyActivity extends BaseActivity implements GPSTrackerPresent
 
         btnSubmit.setOnClickListener(v -> {
             try {
-                if (jsonObject.getString("status").equalsIgnoreCase("0")) {
+                if (jsonObject.getInt("status")==0) {
                     Intent intent = new Intent(PushMoneyActivity.this, DashBoardActivity.class);
                     startActivity(intent);
                     PushMoneyActivity.this.finish();
@@ -238,39 +234,34 @@ public class PushMoneyActivity extends BaseActivity implements GPSTrackerPresent
 
         JsonObjectRequest jsonrequest = null;
         try {
+            JSONObject jsonReq = new JSONObject()
+                    .put("distributorId", distributorID)
+                    .put("txnkey", key)
+                    .put("agentId", dataAgentID)
+                    .put("param", "singleAgentDetail");
+            L.m2("Url-1",url1);
+            L.m2("Request-1",jsonReq.toString());
             jsonrequest = new JsonObjectRequest(Request.Method.POST, url1,
-                    new JSONObject()
-                            .put("distributorId", distributorID)
-                            .put("txnkey", key)
-                            .put("agentId", dataAgentID)
-                            .put("param", "singleAgentDetail"),
+                    jsonReq,
+                    object -> {
+                        jsonObject = new JSONObject();
+                        jsonObject = object;
+                        L.m2("Url-1",url1);
+                        L.m2("Response-1",object.toString());
 
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject object) {
-                            jsonObject = new JSONObject();
-                            jsonObject = object;
-
-                            Log.d("data Request-->", distributorID + ":" + key + ":" + dataAgentID);
-                            System.out.println("Object----1>" + object.toString());
-                            try {
-                                if (object.getString("status").equalsIgnoreCase("0")) {
-                                    Log.d("url-called", url1);
-                                    Log.d("url data", object.toString());
-                                    tviewAgentName.setText(object.getString("agentName"));
-                                } else {
-                                    //          showConfirmationDialog();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                        try {
+                            if (object.getInt("status")==0) {
+                                Log.d("url-called", url1);
+                                Log.d("url data", object.toString());
+                                tviewAgentName.setText(object.getString("agentName"));
+                            } else {
+                                //          showConfirmationDialog();
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(), "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
+                    }, error ->
+                    Toast.makeText(getApplicationContext(), "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show());
         } catch (JSONException e) {
             e.printStackTrace();
         }

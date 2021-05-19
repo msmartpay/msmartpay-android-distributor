@@ -48,6 +48,7 @@ import msmartds.in.R;
 import msmartds.in.URL.BaseFragment;
 import msmartds.in.URL.HttpURL;
 import msmartds.in.collectBanks.CollectBankModel;
+import msmartds.in.utility.L;
 import msmartds.in.utility.Mysingleton;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -57,7 +58,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public class BalanceRequestFragment extends BaseFragment implements View.OnClickListener {
 
-    private LinearLayout icic_qr_code,upi_qr_code;
+    private LinearLayout icic_qr_code, upi_qr_code;
     private Communication comm;
     private MaterialSpinner bank_details, neftdetails;
     private EditText damount, b_refid, remarks, fromDateEtxt;
@@ -103,11 +104,11 @@ public class BalanceRequestFragment extends BaseFragment implements View.OnClick
         remarks = (EditText) view.findViewById(R.id.id_balance_request_remarks);
         damount = (EditText) view.findViewById(R.id.id_balance_request_amount);
         b_refid = (EditText) view.findViewById(R.id.id_balance_request_refId);
-        til_id_balance_request_refId=view.findViewById(R.id.til_id_balance_request_refId);
+        til_id_balance_request_refId = view.findViewById(R.id.til_id_balance_request_refId);
         bank_details = view.findViewById(R.id.id_balancerequest_bank);
-        neftdetails =  view.findViewById(R.id.id_request_type);
-        icic_qr_code=view.findViewById(R.id.icic_qr_code);
-        upi_qr_code=view.findViewById(R.id.upi_qr_code);
+        neftdetails = view.findViewById(R.id.id_request_type);
+        icic_qr_code = view.findViewById(R.id.icic_qr_code);
+        upi_qr_code = view.findViewById(R.id.upi_qr_code);
 
 
         brequest = (Button) view.findViewById(R.id.id_balance_request_submit);
@@ -135,10 +136,10 @@ public class BalanceRequestFragment extends BaseFragment implements View.OnClick
         neftdetails.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position==-1){
-                    selectedType=null;
+                if (position == -1) {
+                    selectedType = null;
                     til_id_balance_request_refId.setVisibility(View.GONE);
-                }else {
+                } else {
                     selectedType = neftdetails.getSelectedItem().toString();
                     if (selectedType.equalsIgnoreCase("cash")) {
                         til_id_balance_request_refId.setVisibility(View.GONE);
@@ -157,17 +158,17 @@ public class BalanceRequestFragment extends BaseFragment implements View.OnClick
         bank_details.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position==-1){
-                    bankDetailsItem=null;
-                }else {
+                if (position == -1) {
+                    bankDetailsItem = null;
+                } else {
                     bankDetailsItem = bankList.get(position);
-                    if(bankDetailsItem!=null && bankDetailsItem.getBank_name().contains("ICICI Bank QR CODE")){
+                    if (bankDetailsItem != null && bankDetailsItem.getBank_name().contains("ICICI Bank QR CODE")) {
                         icic_qr_code.setVisibility(View.VISIBLE);
                         //upi_qr_code.setVisibility(View.GONE);
                     }/*else if(bankDetailsItem!=null && bankDetailsItem.getBank_name().contains("BHIM UPI")){
                         upi_qr_code.setVisibility(View.VISIBLE);
                         icic_qr_code.setVisibility(View.GONE);
-                    }*/else{
+                    }*/ else {
                         //upi_qr_code.setVisibility(View.GONE);
                         icic_qr_code.setVisibility(View.GONE);
                     }
@@ -192,24 +193,26 @@ public class BalanceRequestFragment extends BaseFragment implements View.OnClick
         pd.show();
 
         try {
+            String url = HttpURL.CollectionBanks;
             JSONObject jsonObjectReq = new JSONObject()
                     .put("txnkey", txnKey)
                     .put("distributorId", distributorId);
 
-            Log.d("getBankDetails : ", jsonObjectReq.toString());
+            L.m2("Url--1>", url);
+            L.m2("Request--1>", jsonObjectReq.toString());
 
-            JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, HttpURL.CollectionBanks, jsonObjectReq,
+            JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, url, jsonObjectReq,
 
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject object) {
-                            pd.dismiss();
-                            try {
-                                if(object!=null)
-                                    Log.d("object response : ", object.toString());
-                                if (object.get("status") != null && object.get("status").equals("0")) {
+                    object -> {
+                        pd.dismiss();
+                        try {
+                            if (object != null) {
+                                L.m2("Url--1>", url);
+                                L.m2("Response--1>", object.toString());
+
+                                if (object.getInt("status") == 0) {
                                     final JSONArray parentArray = (JSONArray) object.get("data");
-                                    bankList=new ArrayList<>();
+                                    bankList = new ArrayList<>();
                                     if (parentArray.length() > 0) {
                                         for (int i = 0; i < parentArray.length(); i++) {
                                             JSONObject obj = (JSONObject) parentArray.get(i);
@@ -217,7 +220,7 @@ public class BalanceRequestFragment extends BaseFragment implements View.OnClick
                                             CollectBankModel bankDetailsItem = new CollectBankModel();
 
                                             bankDetailsItem.setActual_bank_name(obj.get("bank_name") + "");
-                                            bankDetailsItem.setBank_name(obj.get("bank_name") + " "+obj.get("bank_account") + " "+obj.get("bnk_ifsc") + "");
+                                            bankDetailsItem.setBank_name(obj.get("bank_name") + " " + obj.get("bank_account") + " " + obj.get("bnk_ifsc") + "");
                                             bankDetailsItem.setBank_account(obj.get("bank_account") + "");
                                             bankDetailsItem.setBank_account_name(obj.get("bank_account_name") + "");
                                             bankDetailsItem.setBnk_ifsc(obj.get("bnk_ifsc") + "");
@@ -233,18 +236,13 @@ public class BalanceRequestFragment extends BaseFragment implements View.OnClick
                                     }
 
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    }, new Response.ErrorListener()
-
-            {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    pd.dismiss();
-                    Toast.makeText(getActivity(), "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-                }
+                    }, error -> {
+                pd.dismiss();
+                Toast.makeText(getActivity(), "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
             });
             getSocketTimeOut(jsonrequest);
             Mysingleton.getInstance(getActivity()).addToRequsetque(jsonrequest);
@@ -269,7 +267,7 @@ public class BalanceRequestFragment extends BaseFragment implements View.OnClick
     }
 
 
-    private void balanceRequest(){
+    private void balanceRequest() {
         String remarkss = remarks.getText().toString();
 
         amount = damount.getText().toString();

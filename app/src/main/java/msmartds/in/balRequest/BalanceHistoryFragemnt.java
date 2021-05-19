@@ -3,7 +3,6 @@ package msmartds.in.balRequest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ import java.util.HashMap;
 
 import msmartds.in.URL.BaseFragment;
 import msmartds.in.URL.HttpURL;
+import msmartds.in.utility.L;
 import msmartds.in.utility.Mysingleton;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -54,12 +54,6 @@ public class BalanceHistoryFragemnt extends BaseFragment {
 
     }
 
-
-    public interface Communicator2 {
-
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,57 +68,58 @@ public class BalanceHistoryFragemnt extends BaseFragment {
         nodata = (TextView) view.findViewById(msmartds.in.R.id.nodata);
 
         try {
+            JSONObject reqObj = new JSONObject()
+                    .put("distributorId", distributorId)
+                    .put("txnkey", txnKey);
+            L.m2("Url--1>", BalanceRequestHistoryUrl);
+            L.m2("Request--1>", reqObj.toString());
 
             JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST, BalanceRequestHistoryUrl,
-                    new JSONObject()
-                            .put("distributorId", distributorId)
-                            .put("txnkey", txnKey), new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject data) {
+                    reqObj,
+                    data -> {
+                        try {
+                            L.m2("Url--1>", BalanceRequestHistoryUrl);
+                            L.m2("Response--1>", data.toString());
 
-                    Log.d("url called", BalanceRequestHistoryUrl);
-                    Log.d("Data", data.toString());
-                    try {
-                        if (data.getString("status").equalsIgnoreCase("0")) {
-                            nodata.setVisibility(View.GONE);
-                            reqDate = new ArrayList<>();
-                            appDate = new ArrayList<>();
-                            mode = new ArrayList<>();
-                            status = new ArrayList<>();
-                            amount = new ArrayList<>();
-                            request_id = new ArrayList<>();
-                            remark = new ArrayList<>();
-                            map = new HashMap<>();
+                            if (data.getInt("status") == 0) {
+                                nodata.setVisibility(View.GONE);
+                                reqDate = new ArrayList<>();
+                                appDate = new ArrayList<>();
+                                mode = new ArrayList<>();
+                                status = new ArrayList<>();
+                                amount = new ArrayList<>();
+                                request_id = new ArrayList<>();
+                                remark = new ArrayList<>();
+                                map = new HashMap<>();
 
-                            JSONArray parentary = data.getJSONArray("data");
-                            for (int i = 0; i < parentary.length(); i++) {
-                                JSONObject obj = (JSONObject) parentary.get(i);
-                                reqDate.add(obj.get("reqDate").toString());
-                                appDate.add(obj.get("appDate").toString());
-                                mode.add(obj.get("mod").toString());
-                                amount.add(obj.get("amount").toString());
-                                status.add(obj.get("status").toString());
-                                request_id.add(obj.get("ReqId").toString());
-                                remark.add(obj.get("remark").toString());
+                                JSONArray parentary = data.getJSONArray("data");
+                                for (int i = 0; i < parentary.length(); i++) {
+                                    JSONObject obj = (JSONObject) parentary.get(i);
+                                    reqDate.add(obj.get("reqDate").toString());
+                                    appDate.add(obj.get("appDate").toString());
+                                    mode.add(obj.get("mod").toString());
+                                    amount.add(obj.get("amount").toString());
+                                    status.add(obj.get("status").toString());
+                                    request_id.add(obj.get("ReqId").toString());
+                                    remark.add(obj.get("remark").toString());
+                                }
+                                map.put("reqDate", reqDate);
+                                map.put("appDate", appDate);
+                                map.put("mode", mode);
+                                map.put("amount", amount);
+                                map.put("status", status);
+                                map.put("request_id", request_id);
+                                map.put("remark", remark);
+                                brlist.setAdapter(new CustomBalanceAdapter(context, map));
+                            } else {
+                                brlist.setVisibility(View.GONE);
                             }
-                            map.put("reqDate", reqDate);
-                            map.put("appDate", appDate);
-                            map.put("mode", mode);
-                            map.put("amount", amount);
-                            map.put("status", status);
-                            map.put("request_id", request_id);
-                            map.put("remark", remark);
-                            brlist.setAdapter(new CustomBalanceAdapter(context, map));
-                        } else {
-                            brlist.setVisibility(View.GONE);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }, new Response.ErrorListener() {
+                    }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                 }
@@ -136,6 +131,11 @@ public class BalanceHistoryFragemnt extends BaseFragment {
             e.printStackTrace();
         }
         return view;
+    }
+
+
+    public interface Communicator2 {
+
     }
 
     //History Adaptor
@@ -177,6 +177,29 @@ public class BalanceHistoryFragemnt extends BaseFragment {
             return 0;
         }
 
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            View row = convertView;
+
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                row = inflater.inflate(msmartds.in.R.layout.balance_history_adapter, parent, false);
+                holder = new ViewHolder(row);
+                row.setTag(holder);
+            } else {
+                holder = (ViewHolder) row.getTag();
+            }
+
+            holder.status.setText(status.get(position));
+            holder.mode.setText("Mode : " + mode.get(position) + "");
+            holder.remark.setText("Remark : " + remark.get(position));
+            holder.reqDate.setText("Date : " + reqDate.get(position));
+            holder.request_id.setText(request_id.get(position));
+            holder.amount.setText("Rs. " + amount.get(position));
+            return row;
+        }
+
         class ViewHolder {
             TextView reqDate;
             TextView appDate;
@@ -194,29 +217,6 @@ public class BalanceHistoryFragemnt extends BaseFragment {
                 amount = (TextView) v.findViewById(msmartds.in.R.id.cstmamount);
                 status = (TextView) v.findViewById(msmartds.in.R.id.cstmstatus);
             }
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
-            View row = convertView;
-
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                row = inflater.inflate(msmartds.in.R.layout.balance_history_adapter, parent, false);
-                holder = new ViewHolder(row);
-                row.setTag(holder);
-            } else {
-                holder = (ViewHolder) row.getTag();
-            }
-
-            holder.status.setText(status.get(position));
-            holder.mode.setText("Mode : "+mode.get(position) + "");
-            holder.remark.setText("Remark : "+remark.get(position));
-            holder.reqDate.setText("Date : "+reqDate.get(position));
-            holder.request_id.setText(request_id.get(position));
-            holder.amount.setText("Rs. "+amount.get(position));
-            return row;
         }
     }
 

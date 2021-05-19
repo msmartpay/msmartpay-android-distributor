@@ -26,6 +26,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 import msmartds.in.URL.BaseActivity;
 import msmartds.in.URL.HttpURL;
 import msmartds.in.utility.Mysingleton;
@@ -61,7 +63,7 @@ public class ChangePasswordActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(msmartds.in.R.id.toolbar);
         toolbar.setTitle("Change Password");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         editOldPassword = (EditText) findViewById(msmartds.in.R.id.old_pass_edit);
         editNewPassword = (EditText) findViewById(msmartds.in.R.id.new_pass_edit);
@@ -69,29 +71,26 @@ public class ChangePasswordActivity extends BaseActivity {
 
         btnChangePassword = (Button) findViewById(msmartds.in.R.id.submit_change_password);
 
-        btnChangePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnChangePassword.setOnClickListener(v -> {
 
-                oldPassword = editOldPassword.getText().toString().trim();
-                newPassword = editNewPassword.getText().toString().trim();
-                confirmPassword = editConfirmPassword.getText().toString().trim();
+            oldPassword = editOldPassword.getText().toString().trim();
+            newPassword = editNewPassword.getText().toString().trim();
+            confirmPassword = editConfirmPassword.getText().toString().trim();
 
-                if(oldPassword.length() <=0){
-                    editOldPassword.requestFocus();
-                    Toast.makeText(ChangePasswordActivity.this, "Enter Old Password", Toast.LENGTH_SHORT).show();
-                } else if(newPassword.length() <=0){
-                    editNewPassword.requestFocus();
-                    Toast.makeText(ChangePasswordActivity.this, "Enter New Password", Toast.LENGTH_SHORT).show();
-                }else if(confirmPassword.length() <=0){
-                    editConfirmPassword.requestFocus();
-                    Toast.makeText(ChangePasswordActivity.this, "Enter Confirm Password", Toast.LENGTH_SHORT).show();
-                } else{
-                    try {
-                        changePasswordRequest();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+            if(oldPassword.length() <=0){
+                editOldPassword.requestFocus();
+                Toast.makeText(ChangePasswordActivity.this, "Enter Old Password", Toast.LENGTH_SHORT).show();
+            } else if(newPassword.length() <=0){
+                editNewPassword.requestFocus();
+                Toast.makeText(ChangePasswordActivity.this, "Enter New Password", Toast.LENGTH_SHORT).show();
+            }else if(confirmPassword.length() <=0){
+                editConfirmPassword.requestFocus();
+                Toast.makeText(ChangePasswordActivity.this, "Enter Confirm Password", Toast.LENGTH_SHORT).show();
+            } else{
+                try {
+                    changePasswordRequest();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -113,38 +112,27 @@ public class ChangePasswordActivity extends BaseActivity {
                         .put("NewPassword", newPassword)
                         .put("clientType", "TEMP")
                         .put("param", "changePassword"),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject object) {
-                        pd.dismiss();
-                        jsonObject = new JSONObject();
-                        jsonObject=object;
-                        System.out.println("Object_changePass---->"+object.toString());
-                        try {
-                            if (object.getString("status").equalsIgnoreCase("0")) {
+                object -> {
+                    pd.dismiss();
+                    jsonObject = new JSONObject();
+                    jsonObject=object;
+                    System.out.println("Object_changePass---->"+object.toString());
+                    try {
+                        if (object.getString("status").equalsIgnoreCase("0")) {
 
-                                showConfirmationDialog(object.getString("message").toString());
-                            }
-                            else {
-                                pd.dismiss();
-                                showConfirmationDialog(object.getString("message").toString());
-                            }
-                        } catch (JSONException e) {
-                            pd.dismiss();
-                            e.printStackTrace();
+                            showConfirmationDialog(object.getString("message").toString());
                         }
-                        //  StateAdaptor.notifyDataSetChanged();
+                        else {
+                            pd.dismiss();
+                            showConfirmationDialog(object.getString("message").toString());
+                        }
+                    } catch (JSONException e) {
+                        pd.dismiss();
+                        e.printStackTrace();
                     }
-                },new Response.ErrorListener()
-
-        {
-            @Override
-            public void onErrorResponse (VolleyError error){
-                pd.dismiss();
-            }
-        });
+                    //  StateAdaptor.notifyDataSetChanged();
+                }, error -> pd.dismiss());
         getSocketTimeOut(jsonrequest);
-
         Mysingleton.getInstance(ChangePasswordActivity.this).addToRequsetque(jsonrequest);
 
     }
@@ -172,23 +160,20 @@ public class ChangePasswordActivity extends BaseActivity {
         tvConfirmation.setText(msg);
         tvTitle.setText("Confirmation");
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    if(jsonObject.getString("status").equalsIgnoreCase("0")){
-                        Intent intent = new Intent(ChangePasswordActivity.this, DashBoardActivity.class);
-                        startActivity(intent);
-                        ChangePasswordActivity.this.finish();
-                        d.dismiss();
-                    }else{
-                        d.dismiss();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        btnSubmit.setOnClickListener(v -> {
+            try {
+                if(jsonObject.getInt("status")==0){
+                    Intent intent = new Intent(ChangePasswordActivity.this, DashBoardActivity.class);
+                    startActivity(intent);
+                    ChangePasswordActivity.this.finish();
+                    d.dismiss();
+                }else{
+                    d.dismiss();
                 }
-                d.cancel();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            d.cancel();
         });
 
         btnClosed.setOnClickListener(new View.OnClickListener() {

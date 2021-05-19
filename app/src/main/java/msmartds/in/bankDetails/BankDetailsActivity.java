@@ -30,9 +30,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import msmartds.in.URL.BaseActivity;
 import msmartds.in.URL.HttpURL;
+import msmartds.in.utility.L;
 import msmartds.in.utility.Mysingleton;
 
 
@@ -74,7 +76,7 @@ public class BankDetailsActivity extends BaseActivity {
 
 
         //=====================arrow backbuttton press==================================
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
         context = BankDetailsActivity.this;
@@ -104,60 +106,54 @@ public class BankDetailsActivity extends BaseActivity {
                     .put("txnkey", txnKey)
                     .put("distributorId", distributorId);
 
-            Log.d("summary_Request--1>", jsonObjectReq.toString());
+            L.m2("Url--1>", BUSINESS_DETAILS_URL);
+            L.m2("Request--1>", jsonObjectReq.toString());
 
             JsonObjectRequest jsonrequest = new JsonObjectRequest(Request.Method.POST, BUSINESS_DETAILS_URL, jsonObjectReq,
 
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject object) {
-                            pd.dismiss();
-                            try {
-                                if (object.get("status") != null && object.get("status").equals("0")) {
-                                    final JSONArray parentArray = (JSONArray) object.get("BankDetails");
+                    object -> {
+                        pd.dismiss();
+                        try {
+                            L.m2("Url--1>", BUSINESS_DETAILS_URL);
+                            L.m2("Response--1>", object.toString());
+                            if (object.getInt("status")==0) {
+                                final JSONArray parentArray = (JSONArray) object.get("data");
 
-                                    if (parentArray.length() > 0) {
-                                        for (int i = 0; i < parentArray.length(); i++) {
-                                            JSONObject obj = (JSONObject) parentArray.get(i);
+                                if (parentArray.length() > 0) {
+                                    for (int i = 0; i < parentArray.length(); i++) {
+                                        JSONObject obj = (JSONObject) parentArray.get(i);
 
-                                                BankDetailsItem bankDetailsItem = new BankDetailsItem();
+                                            BankDetailsItem bankDetailsItem = new BankDetailsItem();
 
-                                                if (bankDetails_list == null)
+                                            if (bankDetails_list == null)
 
-                                                    bankDetails_list = new ArrayList<>();
+                                                bankDetails_list = new ArrayList<>();
 
-                                                bankDetailsItem.setCLIENT_ID(obj.get("CLIENT_ID") + "");
-                                                bankDetailsItem.setBANK_NAME(obj.get("BANK_NAME") + "");
-                                                bankDetailsItem.setACCOUNT_NO(obj.get("ACCOUNT_NO") + "");
-                                                bankDetailsItem.setIFSC_CODE(obj.get("IFSC_CODE") + "");
-                                                bankDetailsItem.setBANK_HOLDER_NAME(obj.get("BANK_HOLDER_NAME") + "");
-                                                bankDetailsItem.setADDRESS(obj.get("ADDRESS") + "");
+                                            bankDetailsItem.setCLIENT_ID(obj.get("CLIENT_ID") + "");
+                                            bankDetailsItem.setBANK_NAME(obj.get("BANK_NAME") + "");
+                                            bankDetailsItem.setACCOUNT_NO(obj.get("ACCOUNT_NO") + "");
+                                            bankDetailsItem.setIFSC_CODE(obj.get("IFSC_CODE") + "");
+                                            bankDetailsItem.setBANK_HOLDER_NAME(obj.get("BANK_HOLDER_NAME") + "");
+                                            bankDetailsItem.setADDRESS(obj.get("ADDRESS") + "");
 
-                                                    bankDetails_list.add(bankDetailsItem);
-
-                                        }
-                                        BankDetailsActivity.RecyclerAdapterBank adapterCurrent = new BankDetailsActivity.RecyclerAdapterBank(getApplicationContext(), bankDetails_list);
-                                        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(context, 1);
-                                        recycler_bankdetails.setLayoutManager(layoutManager);
-                                        recycler_bankdetails.setItemAnimator(new DefaultItemAnimator());
-                                        recycler_bankdetails.setAdapter(adapterCurrent);
-
+                                                bankDetails_list.add(bankDetailsItem);
 
                                     }
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener()
+                                    RecyclerAdapterBank adapterCurrent = new RecyclerAdapterBank(getApplicationContext(), bankDetails_list);
+                                    RecyclerView.LayoutManager layoutManager = new GridLayoutManager(context, 1);
+                                    recycler_bankdetails.setLayoutManager(layoutManager);
+                                    recycler_bankdetails.setItemAnimator(new DefaultItemAnimator());
+                                    recycler_bankdetails.setAdapter(adapterCurrent);
 
-            {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    pd.dismiss();
-                    Toast.makeText(BankDetailsActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }, error -> {
+                        pd.dismiss();
+                        Toast.makeText(BankDetailsActivity.this, "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
+                    });
             getSocketTimeOut(jsonrequest);
             Mysingleton.getInstance(getApplicationContext()).addToRequsetque(jsonrequest);
 
