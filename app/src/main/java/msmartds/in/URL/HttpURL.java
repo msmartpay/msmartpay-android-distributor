@@ -6,8 +6,8 @@ package msmartds.in.URL;
 
 public interface HttpURL {
 
-    //String BaseURL = "https://android.msmartpay.in/DSMRA1.0/resources/";
-    String BaseURL = "http://msmartpay.in:8888/DSMRA1.0/resources/";
+    String BaseURL = "https://android.msmartpay.in/DSMRA1.0/resources/";
+    ///String BaseURL = "http://msmartpay.in:8888/DSMRA1.0/resources/";
     String LoginURL = BaseURL + "DSLogin/Login";
     // String LoginURL = BaseURL + "SKDMR/Login";
     String ForgetPassURL = BaseURL + "DSLogin/ForgetPass";
