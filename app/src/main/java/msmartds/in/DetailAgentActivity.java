@@ -137,12 +137,7 @@ public class DetailAgentActivity extends BaseActivity {
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
         //Set Date Of Birth
-        tviewDetailDOB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chddDatePickerDialog.show();
-            }
-        });
+        tviewDetailDOB.setOnClickListener(v -> chddDatePickerDialog.show());
         findViewsById();
         setchDDDateTimeField();
 
@@ -215,90 +210,87 @@ public class DetailAgentActivity extends BaseActivity {
 
             }
         });
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnUpdate.setOnClickListener(v -> {
 
-                if (TextUtils.isEmpty(editDetailAgentName.getText().toString().trim())) {
-                    Toast.makeText(DetailAgentActivity.this, "Please Enter Agent Name !!!", Toast.LENGTH_SHORT).show();
-                } else if (TextUtils.isEmpty(editDetailAgencyName.getText().toString().trim())) {
-                    Toast.makeText(DetailAgentActivity.this, "Please Enter Agency Name !!!", Toast.LENGTH_SHORT).show();
-                } else if (companyTypeData == null) {
-                    Toast.makeText(DetailAgentActivity.this, "Please Select Valid Option", Toast.LENGTH_LONG).show();
-                } else if (tviewDetailDOB.length() <= 0) {
-                    Toast.makeText(getApplicationContext(), "Please Set Your Date Of Birth", Toast.LENGTH_SHORT).show();
-                } else if (TextUtils.isEmpty(editDetailAgentAddress.getText().toString().trim())) {
-                    Toast.makeText(getApplicationContext(), "Please Enter Address !!!", Toast.LENGTH_SHORT).show();
-                } else if (stateData == null) {
-                    Toast.makeText(getApplicationContext(), "Please Select Your State", Toast.LENGTH_SHORT).show();
-                } else if (districtData == null) {
-                    Toast.makeText(getApplicationContext(), "Please Select Your District", Toast.LENGTH_SHORT).show();
-                } else if (TextUtils.isEmpty(editDetailCityName.getText().toString().trim())) {
-                    Toast.makeText(getApplicationContext(), "Please Enter City Name", Toast.LENGTH_SHORT).show();
-                } else if (editDetailPinCode.length() <= 5) {
-                    Toast.makeText(getApplicationContext(), "Please Enter Valid Pin Code", Toast.LENGTH_SHORT).show();
-                } else if (TextUtils.isEmpty(editDetailPAN.getText().toString().trim())) {
-                    Toast.makeText(DetailAgentActivity.this, "Please Enter PAN Number !!!", Toast.LENGTH_SHORT).show();
-                } else {
-                    final String PAN = editDetailPAN.getText().toString().trim();
-                    pd = ProgressDialog.show(DetailAgentActivity.this, "", "Loading. Please wait...", true);
-                    pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                    pd.setIndeterminate(true);
-                    pd.setCancelable(false);
-                    pd.show();
+            if (TextUtils.isEmpty(editDetailAgentName.getText().toString().trim())) {
+                Toast.makeText(DetailAgentActivity.this, "Please Enter Agent Name !!!", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(editDetailAgencyName.getText().toString().trim())) {
+                Toast.makeText(DetailAgentActivity.this, "Please Enter Agency Name !!!", Toast.LENGTH_SHORT).show();
+            } else if (companyTypeData == null) {
+                Toast.makeText(DetailAgentActivity.this, "Please Select Valid Option", Toast.LENGTH_LONG).show();
+            } else if (tviewDetailDOB.length() <= 0) {
+                Toast.makeText(getApplicationContext(), "Please Set Your Date Of Birth", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(editDetailAgentAddress.getText().toString().trim())) {
+                Toast.makeText(getApplicationContext(), "Please Enter Address !!!", Toast.LENGTH_SHORT).show();
+            } else if (stateData == null) {
+                Toast.makeText(getApplicationContext(), "Please Select Your State", Toast.LENGTH_SHORT).show();
+            } else if (districtData == null) {
+                Toast.makeText(getApplicationContext(), "Please Select Your District", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(editDetailCityName.getText().toString().trim())) {
+                Toast.makeText(getApplicationContext(), "Please Enter City Name", Toast.LENGTH_SHORT).show();
+            } else if (editDetailPinCode.length() <= 5) {
+                Toast.makeText(getApplicationContext(), "Please Enter Valid Pin Code", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(editDetailPAN.getText().toString().trim())) {
+                Toast.makeText(DetailAgentActivity.this, "Please Enter PAN Number !!!", Toast.LENGTH_SHORT).show();
+            } else {
+                final String PAN = editDetailPAN.getText().toString().trim();
+                pd = ProgressDialog.show(DetailAgentActivity.this, "", "Loading. Please wait...", true);
+                pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                pd.setIndeterminate(true);
+                pd.setCancelable(false);
+                pd.show();
 
-                    try {
-                        JSONObject reqObj = new JSONObject()
-                                .put("distributorId", distributorID)
-                                .put("txnkey", key)
-                                .put("param", "updateAgent")
-                                .put("agentFullId", dataAgentID)
-                                .put("dateofbirth", tviewDetailDOB.getText().toString())
-                                .put("Gender", tviewDetailAgentGender.getText().toString())
-                                .put("CompanyType", spinnerCompanyType.getSelectedItem().toString())
-                                .put("AgencyName", editDetailAgencyName.getText().toString())
-                                .put("Address", editDetailAgentAddress.getText().toString())
-                                .put("State", spinnerState.getSelectedItem().toString())
-                                .put("District", spinnerDistrict.getSelectedItem().toString())
-                                .put("City", editDetailCityName.getText().toString())
-                                .put("Pincode", editDetailPinCode.getText().toString())
-                                .put("PanNo", PAN);
-                        L.m2("url-called", update_url);
-                        L.m2("Request", reqObj.toString());
-                        JsonObjectRequest jsonrequest = null;
-                        jsonrequest = new JsonObjectRequest(Request.Method.POST, update_url,
-                                reqObj,
-                                object -> {
-                                    pd.dismiss();
-                                    jsonObject = new JSONObject();
-                                    jsonObject = object;
+                try {
+                    JSONObject reqObj = new JSONObject()
+                            .put("distributorId", distributorID)
+                            .put("txnkey", key)
+                            .put("param", "updateAgent")
+                            .put("agentFullId", dataAgentID)
+                            .put("dateofbirth", tviewDetailDOB.getText().toString())
+                            .put("Gender", tviewDetailAgentGender.getText().toString())
+                            .put("CompanyType", spinnerCompanyType.getSelectedItem().toString())
+                            .put("AgencyName", editDetailAgencyName.getText().toString())
+                            .put("Address", editDetailAgentAddress.getText().toString())
+                            .put("State", spinnerState.getSelectedItem().toString())
+                            .put("District", spinnerDistrict.getSelectedItem().toString())
+                            .put("City", editDetailCityName.getText().toString())
+                            .put("Pincode", editDetailPinCode.getText().toString())
+                            .put("PanNo", PAN);
+                    L.m2("url-called", update_url);
+                    L.m2("Request", reqObj.toString());
+                    JsonObjectRequest jsonrequest = null;
+                    jsonrequest = new JsonObjectRequest(Request.Method.POST, update_url,
+                            reqObj,
+                            object -> {
+                                pd.dismiss();
+                                jsonObject = new JSONObject();
+                                jsonObject = object;
 
-                                    Log.d("data Request-->", distributorID + ":" + key + ":" + dataAgentID);
-                                    System.out.println("Object----1>" + object.toString());
-                                    try {
-                                        if (object.getString("status").equalsIgnoreCase("0")) {
-                                            Log.d("url-called", update_url);
-                                            Log.d("url data", object.toString());
+                                Log.d("data Request-->", distributorID + ":" + key + ":" + dataAgentID);
+                                System.out.println("Object----1>" + object.toString());
+                                try {
+                                    if (object.getString("status").equalsIgnoreCase("0")) {
+                                        Log.d("url-called", update_url);
+                                        Log.d("url data", object.toString());
 
-                                            showConfirmationDialog(object.getString("message").toString());
-                                        } else {
-                                            showConfirmationDialog(object.getString("message").toString());
-                                        }
-                                    } catch (JSONException e) {
-                                        pd.dismiss();
-                                        e.printStackTrace();
+                                        showConfirmationDialog(object.getString("message").toString());
+                                    } else {
+                                        showConfirmationDialog(object.getString("message").toString());
                                     }
-                                }, error -> {
-                            pd.dismiss();
-                            Toast.makeText(getApplicationContext(), "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
-                        });
-                        Mysingleton.getInstance(getApplicationContext()).addToRequsetque(jsonrequest);
-                    } catch (JSONException e) {
+                                } catch (JSONException e) {
+                                    pd.dismiss();
+                                    e.printStackTrace();
+                                }
+                            }, error -> {
                         pd.dismiss();
-                        e.printStackTrace();
-                    }
-
+                        Toast.makeText(getApplicationContext(), "Server Error : " + error.toString(), Toast.LENGTH_SHORT).show();
+                    });
+                    Mysingleton.getInstance(getApplicationContext()).addToRequsetque(jsonrequest);
+                } catch (JSONException e) {
+                    pd.dismiss();
+                    e.printStackTrace();
                 }
+
             }
         });
 
@@ -344,25 +336,25 @@ public class DetailAgentActivity extends BaseActivity {
                             L.m2("url-called", url);
                             L.m2("url data", object.toString());
                             if (object.getInt("status") == 0) {
-
+                                    JSONObject dataObj = object.getJSONObject("data");
                                 tviewDetailAgentId.setText(dataAgentID);
-                                tviewDetailAgentMobile.setText(object.getString("mobileNo"));
-                                tviewDetailEmail.setText(object.getString("emailId"));
-                                tviewDetailAgentGender.setText(object.getString("gender"));
-                                editDetailAgentName.setText(object.getString("agentName"));
-                                editDetailAgencyName.setText(object.getString("agencyName"));
-                                tviewDetailDOB.setText(object.getString("dob"));
-                                editDetailAgentAddress.setText(object.getString("address"));
-                                editDetailCityName.setText(object.getString("city"));
-                                editDetailPinCode.setText(object.getString("pinCode"));
-                                editDetailPAN.setText(object.getString("panNo"));
-                                stringState = object.getString("state");
-                                stringDistrict = object.getString("district");
+                                tviewDetailAgentMobile.setText(dataObj.getString("mobileNo"));
+                                tviewDetailEmail.setText(dataObj.getString("emailId"));
+                                tviewDetailAgentGender.setText(dataObj.getString("gender"));
+                                editDetailAgentName.setText(dataObj.getString("agentName"));
+                                editDetailAgencyName.setText(dataObj.getString("agencyName"));
+                                tviewDetailDOB.setText(dataObj.getString("dob"));
+                                editDetailAgentAddress.setText(dataObj.getString("address"));
+                                editDetailCityName.setText(dataObj.getString("city"));
+                                editDetailPinCode.setText(dataObj.getString("pinCode"));
+                                editDetailPAN.setText(dataObj.getString("panNo"));
+                                stringState = dataObj.getString("state");
+                                stringDistrict = dataObj.getString("district");
 
                                 for (int i = 0; i < CompanyTypeAdaptor.getCount(); i++) {
                                     Log.d("firmType--1>", CompanyTypeAdaptor.getItem(i).toString());
 
-                                    if (object.getString("firmType").equals(CompanyTypeAdaptor.getItem(i).toString())) {
+                                    if (dataObj.getString("firmType").equals(CompanyTypeAdaptor.getItem(i).toString())) {
                                         Log.d("firmType--2>", CompanyTypeAdaptor.getItem(i).toString());
                                         spinnerCompanyType.setSelection(i);
                                         break;
@@ -415,7 +407,7 @@ public class DetailAgentActivity extends BaseActivity {
             try {
                 if (jsonObject.getInt("status")==0) {
                     JSONObject jsonObject = new JSONObject(getIntent().getStringExtra("agentList"));
-                    JSONArray jsonArray = jsonObject.getJSONArray("agentDetails");
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject js = jsonArray.getJSONObject(i);
                         if (dataAgentID.equalsIgnoreCase(js.getString("AgentId"))) {

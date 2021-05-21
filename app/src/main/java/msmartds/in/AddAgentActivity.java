@@ -1,5 +1,6 @@
 package msmartds.in;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -100,7 +101,9 @@ public class AddAgentActivity extends BaseActivity {
         scrollview.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
         scrollview.setFocusable(true);
         scrollview.setFocusableInTouchMode(true);
+
         scrollview.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 // TODO Auto-generated method stub

@@ -229,7 +229,7 @@ public class GPSTrackerPresenter {
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
                         if (multiplePermissionsReport.areAllPermissionsGranted()) {
                             Log.e(TAG, "areAllPermissionsGranted");
-                            onStart();
+                            checkGpsOnOrNot(GPS_IS_ON__OR_OFF_CODE);
                         }
                         if (multiplePermissionsReport.isAnyPermissionPermanentlyDenied()) {
                             Log.e(TAG, "isAnyPermissionPermanentlyDenied");

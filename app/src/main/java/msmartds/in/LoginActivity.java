@@ -412,7 +412,7 @@ public class LoginActivity extends BaseActivity implements GPSTrackerPresenter.L
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE && resultCode == Activity.RESULT_OK) {
-            gpsTrackerPresenter.onStart();
+            gpsTrackerPresenter.checkGpsOnOrNot(GPSTrackerPresenter.GPS_IS_ON__OR_OFF_CODE );
         }
     }
 

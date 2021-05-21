@@ -274,9 +274,9 @@ public class BalanceRequestFragment extends BaseFragment implements View.OnClick
         //refId.replaceAll(" ", "_");
 
         if (ddate.length() <= 0) {
-            Toast.makeText(getActivity().getApplicationContext(), "Select Deposit Date. ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), "Select Deposit Date. ", Toast.LENGTH_SHORT).show();
         } else if (amount.length() <= 0 && Double.parseDouble(amount) < 100) {
-            Toast.makeText(getActivity().getApplicationContext(), "Enter valid amount", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), "Enter valid amount", Toast.LENGTH_SHORT).show();
         } else if ("cash".equalsIgnoreCase(selectedType) && (refId != null && refId.length() <= 0)) {
             Toast.makeText(getActivity(), "Enter Valid Transaction Reference Id", Toast.LENGTH_LONG).show();
         } else {
@@ -322,13 +322,10 @@ public class BalanceRequestFragment extends BaseFragment implements View.OnClick
                                         .setTitle("Status")
                                         .setIcon(R.drawable.failed)
                                         .setMessage(data.get("message") + "")
-                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Intent intent = new Intent(getActivity(), DashBoardActivity.class);
-                                                startActivity(intent);
-                                                requireActivity().finish();
-                                            }
+                                        .setPositiveButton("Ok", (dialog, which) -> {
+                                            Intent intent = new Intent(getActivity(), DashBoardActivity.class);
+                                            startActivity(intent);
+                                            requireActivity().finish();
                                         })
                                         .show();
 
