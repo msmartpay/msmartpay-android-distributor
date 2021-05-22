@@ -24,6 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import msmartds.in.URL.BaseActivity;
 import msmartds.in.bankDetails.BankDetailsActivity;
+import msmartds.in.reports.ReportActivity;
 
 public class DrawerActivity extends BaseActivity {
     public RelativeLayout drawerpane;

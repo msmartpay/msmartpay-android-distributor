@@ -21,13 +21,13 @@ public interface HttpURL {
     String StateURL = BaseURL + "DSCommonService/SelectState";
     String ActiveDeactiveURL = BaseURL + "DSCommonService/ActiveDeactiveAgent";
     String DSDistributor = BaseURL + "DSCommonService/GetBalance";
-    String SummaryReport = BaseURL + "DSCommonService/AccountStatement";
     String BalanceRequest = BaseURL + "DSCommonService/WalletBalRequest";
     String BalanceRequestHistory = BaseURL + "DSCommonService/WalletBalReqDetails";
     String BusinessViewUrl = BaseURL + "DSCommonService/GetAllServiceBuisinessDone";
     String CollectionBanks =BaseURL +"DSCommonService/CollectionBanks ";
     String BankDetails = BaseURL + "DSCommonService/BankDetails";
      //String BankDetails = BaseURL + "SKDMR/BankDetails";
+     String SummaryReport = BaseURL + "DSCommonService/AccountStatement";
     String AccountStatementByDate = BaseURL + "DSCommonService/AccountStatementByDate";
     String LOCATION =  BaseURL +"location/save";
 

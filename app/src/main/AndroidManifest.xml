@@ -55,7 +55,7 @@
             android:name="msmartds.in.DetailAgentActivity"
             android:configChanges="screenSize|orientation" />
         <activity
-            android:name="msmartds.in.ReportActivity"
+            android:name="msmartds.in.reports.ReportActivity"
             android:configChanges="screenSize|orientation" />
         <activity
             android:name="msmartds.in.DashBoardActivity"
