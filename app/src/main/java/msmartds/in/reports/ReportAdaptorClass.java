@@ -70,7 +70,7 @@ public class ReportAdaptorClass extends ArrayAdapter<ReportsModel> implements Fi
         //Particulars.setText(arrayListData.get(position).Particulars);
         Particulars.setText("Transaction Amount");
         //TxnAmount.setText(arrayListData.get(position).TxnAmount);
-        Charges.setText("\u20B9 " + arrayListData.get(position).getCharge());
+        Charges.setText("\u20B9 " + arrayListData.get(position).getTransactionAmount());
        // NetAmount.setText(arrayListData.get(position).NetAmount);
         Action.setText(arrayListData.get(position).getActionOnBalanceAmount());
         CurrentBal.setText("\u20B9 "+arrayListData.get(position).getFinalBalanceAmount());

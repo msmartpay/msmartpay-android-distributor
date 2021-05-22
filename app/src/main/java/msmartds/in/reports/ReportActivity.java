@@ -194,6 +194,7 @@ public class ReportActivity extends BaseActivity {
                                 reportsModel.setTimeOfTransaction(jsonObject.getString("TimeOfTransaction"));
                                 reportsModel.setService(jsonObject.getString("Service"));
                                 reportsModel.setCommission(jsonObject.getDouble("Commission"));
+                                reportsModel.setTransactionAmount(jsonObject.getDouble("TransactionAmount"));
                                 reportsModel.setNetTransactionAmount(jsonObject.getDouble("NetTransactionAmount"));
                                 reportsModel.setUpdatedBalanceAmount(jsonObject.getDouble("UpdatedBalanceAmount"));
                                 reportsModel.setTransactionStatus(jsonObject.getString("TransactionStatus"));
@@ -262,6 +263,7 @@ public class ReportActivity extends BaseActivity {
                                 reportsModel.setTimeOfTransaction(jsonObject.getString("TimeOfTransaction"));
                                 reportsModel.setService(jsonObject.getString("Service"));
                                 reportsModel.setCommission(jsonObject.getDouble("Commission"));
+                                reportsModel.setTransactionAmount(jsonObject.getDouble("TransactionAmount"));
                                 reportsModel.setNetTransactionAmount(jsonObject.getDouble("NetTransactionAmount"));
                                 reportsModel.setUpdatedBalanceAmount(jsonObject.getDouble("UpdatedBalanceAmount"));
                                 reportsModel.setTransactionStatus(jsonObject.getString("TransactionStatus"));
