@@ -183,28 +183,54 @@ public class ReportActivity extends BaseActivity {
                             JSONObject jsonObject;
                             agentLists = new ArrayList<>();
                             Log.d("Array lenght ", jsonArray.length() + "");
-
+                            if (agentLists != null)
+                                agentLists.clear();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonObject = jsonArray.getJSONObject(i);
-                                if (agentLists != null)
-                                    agentLists.clear();
                                 ReportsModel reportsModel = new ReportsModel();
-                                reportsModel.setTransactionNo(jsonObject.getString("TransactionNo"));
-                                reportsModel.setDateOfTransaction(jsonObject.getString("DateOfTransaction"));
-                                reportsModel.setTimeOfTransaction(jsonObject.getString("TimeOfTransaction"));
-                                reportsModel.setService(jsonObject.getString("Service"));
-                                reportsModel.setCommission(jsonObject.getDouble("Commission"));
-                                reportsModel.setTransactionAmount(jsonObject.getDouble("TransactionAmount"));
-                                reportsModel.setNetTransactionAmount(jsonObject.getDouble("NetTransactionAmount"));
-                                reportsModel.setUpdatedBalanceAmount(jsonObject.getDouble("UpdatedBalanceAmount"));
-                                reportsModel.setTransactionStatus(jsonObject.getString("TransactionStatus"));
-                                reportsModel.setRemarks(jsonObject.getString("Remarks"));
-                                reportsModel.setActionOnBalanceAmount(jsonObject.getString("ActionOnBalanceAmount"));
-                                reportsModel.setCharge(jsonObject.getDouble("charge"));
-                                reportsModel.setPreviousBalanceAmount(jsonObject.getDouble("PreviousBalanceAmount"));
-                                reportsModel.setFinalBalanceAmount(jsonObject.getDouble("FinalBalanceAmount"));
-                                reportsModel.setIdno(jsonObject.getString("IDNO"));
+                                reportsModel.setTransactionNo(jsonObject.getString("transaction_no"));
+                                reportsModel.setDateOfTransaction(jsonObject.getString("date_of_transaction"));
+                                reportsModel.setTimeOfTransaction(jsonObject.getString("time_of_transaction"));
+                                reportsModel.setService(jsonObject.getString("service"));
+                                reportsModel.setCommission(jsonObject.getDouble("commission"));
+                                reportsModel.setTransactionAmount(jsonObject.getDouble("tran_amount"));
+                                reportsModel.setNetTransactionAmount(jsonObject.getDouble("net_tran_amount"));
+                                reportsModel.setUpdatedBalanceAmount(jsonObject.getDouble("updated_bal_amount"));
+                                reportsModel.setTransactionStatus(jsonObject.getString("tran_status"));
+                                reportsModel.setRemarks(jsonObject.getString("remarks"));
+                                reportsModel.setActionOnBalanceAmount(jsonObject.getString("action_on_bal_amount"));
+                                reportsModel.setCharge(jsonObject.getDouble("service_charge"));
+                                reportsModel.setPreviousBalanceAmount(jsonObject.getDouble("previous_bal_amount"));
+                                reportsModel.setFinalBalanceAmount(jsonObject.getDouble("final_bal_amount"));
+                                reportsModel.setIdno(jsonObject.getString("id_no"));
                                 agentLists.add(reportsModel);
+                                //{
+                                //            "id_no": 88473,
+                                //            "transaction_no": "21051019411800177719",
+                                //            "refrence_id": "10020651620655878037",
+                                //            "distributor_id": "3001",
+                                //            "md_id": "4001",
+                                //            "user_type": "distributor",
+                                //            "date_of_transaction": "2021-05-10",
+                                //            "time_of_transaction": "19:41:18.0480000",
+                                //            "service": "transfertoagent",
+                                //            "tran_amount": 5000.0,
+                                //            "commission": 0.0,
+                                //            "service_charge": 0.0,
+                                //            "bank_charge": 0.0,
+                                //            "other_charge": 0.0,
+                                //            "net_tran_amount": 5000.0,
+                                //            "action_on_bal_amount": "Debit",
+                                //            "previous_bal_amount": 15000.02,
+                                //            "updated_bal_amount": 10000.02,
+                                //            "tran_status": "Success",
+                                //            "final_bal_amount": 10000.02,
+                                //            "tran_ip_address": "65.1.91.34",
+                                //            "updated_date": "2021-05-10",
+                                //            "updated_time": "19:41:18.0480000",
+                                //            "updated_user": "distributor",
+                                //            "remarks": "Transferred to 2065, DIGITAL SEVA KENDRA, 9958843077"
+                                //        }
                             }
                             if (agentLists != null && agentLists.size() > 0) {
                                 adaptor = new ReportAdaptorClass(ReportActivity.this, agentLists);
@@ -254,26 +280,54 @@ public class ReportActivity extends BaseActivity {
                             JSONObject jsonObject;
                             agentLists = new ArrayList<>();
                             Log.d("Array lenght ", jsonArray.length() + "");
-
+                            if (agentLists != null)
+                                agentLists.clear();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonObject = jsonArray.getJSONObject(i);
                                 ReportsModel reportsModel = new ReportsModel();
-                                reportsModel.setTransactionNo(jsonObject.getString("TransactionNo"));
-                                reportsModel.setDateOfTransaction(jsonObject.getString("DateOfTransaction"));
-                                reportsModel.setTimeOfTransaction(jsonObject.getString("TimeOfTransaction"));
-                                reportsModel.setService(jsonObject.getString("Service"));
-                                reportsModel.setCommission(jsonObject.getDouble("Commission"));
-                                reportsModel.setTransactionAmount(jsonObject.getDouble("TransactionAmount"));
-                                reportsModel.setNetTransactionAmount(jsonObject.getDouble("NetTransactionAmount"));
-                                reportsModel.setUpdatedBalanceAmount(jsonObject.getDouble("UpdatedBalanceAmount"));
-                                reportsModel.setTransactionStatus(jsonObject.getString("TransactionStatus"));
-                                reportsModel.setRemarks(jsonObject.getString("Remarks"));
-                                reportsModel.setActionOnBalanceAmount(jsonObject.getString("ActionOnBalanceAmount"));
-                                reportsModel.setCharge(jsonObject.getDouble("charge"));
-                                reportsModel.setPreviousBalanceAmount(jsonObject.getDouble("PreviousBalanceAmount"));
-                                reportsModel.setFinalBalanceAmount(jsonObject.getDouble("FinalBalanceAmount"));
-                                reportsModel.setIdno(jsonObject.getString("IDNO"));
+                                reportsModel.setTransactionNo(jsonObject.getString("transaction_no"));
+                                reportsModel.setDateOfTransaction(jsonObject.getString("date_of_transaction"));
+                                reportsModel.setTimeOfTransaction(jsonObject.getString("time_of_transaction"));
+                                reportsModel.setService(jsonObject.getString("service"));
+                                reportsModel.setCommission(jsonObject.getDouble("commission"));
+                                reportsModel.setTransactionAmount(jsonObject.getDouble("tran_amount"));
+                                reportsModel.setNetTransactionAmount(jsonObject.getDouble("net_tran_amount"));
+                                reportsModel.setUpdatedBalanceAmount(jsonObject.getDouble("updated_bal_amount"));
+                                reportsModel.setTransactionStatus(jsonObject.getString("tran_status"));
+                                reportsModel.setRemarks(jsonObject.getString("remarks"));
+                                reportsModel.setActionOnBalanceAmount(jsonObject.getString("action_on_bal_amount"));
+                                reportsModel.setCharge(jsonObject.getDouble("service_charge"));
+                                reportsModel.setPreviousBalanceAmount(jsonObject.getDouble("previous_bal_amount"));
+                                reportsModel.setFinalBalanceAmount(jsonObject.getDouble("final_bal_amount"));
+                                reportsModel.setIdno(jsonObject.getString("id_no"));
                                 agentLists.add(reportsModel);
+                                //{
+                                //            "id_no": 88473,
+                                //            "transaction_no": "21051019411800177719",
+                                //            "refrence_id": "10020651620655878037",
+                                //            "distributor_id": "3001",
+                                //            "md_id": "4001",
+                                //            "user_type": "distributor",
+                                //            "date_of_transaction": "2021-05-10",
+                                //            "time_of_transaction": "19:41:18.0480000",
+                                //            "service": "transfertoagent",
+                                //            "tran_amount": 5000.0,
+                                //            "commission": 0.0,
+                                //            "service_charge": 0.0,
+                                //            "bank_charge": 0.0,
+                                //            "other_charge": 0.0,
+                                //            "net_tran_amount": 5000.0,
+                                //            "action_on_bal_amount": "Debit",
+                                //            "previous_bal_amount": 15000.02,
+                                //            "updated_bal_amount": 10000.02,
+                                //            "tran_status": "Success",
+                                //            "final_bal_amount": 10000.02,
+                                //            "tran_ip_address": "65.1.91.34",
+                                //            "updated_date": "2021-05-10",
+                                //            "updated_time": "19:41:18.0480000",
+                                //            "updated_user": "distributor",
+                                //            "remarks": "Transferred to 2065, DIGITAL SEVA KENDRA, 9958843077"
+                                //        }
                             }
                             adaptor = new ReportAdaptorClass(ReportActivity.this, agentLists);
                             transReportList.setAdapter(adaptor);
