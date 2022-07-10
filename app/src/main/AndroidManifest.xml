@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="msmartds.in">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -32,40 +31,52 @@
 
         <activity
             android:name="msmartds.in.DrawerActivity"
-            android:configChanges="screenSize|orientation" />
+            android:configChanges="screenSize|orientation"
+            android:exported="true" />
         <activity
             android:name="msmartds.in.AddAgentActivity"
-            android:configChanges="screenSize|orientation" />
+            android:configChanges="screenSize|orientation"
+            android:exported="true" />
         <activity
             android:name="msmartds.in.SignUpActivity"
-            android:configChanges="screenSize|orientation" />
+            android:configChanges="screenSize|orientation"
+            android:exported="true"/>
         <activity
             android:name="msmartds.in.ChangePasswordActivity"
-            android:configChanges="screenSize|orientation" />
+            android:configChanges="screenSize|orientation"
+            android:exported="true" />
         <activity
             android:name="msmartds.in.QRActivity"
-            android:configChanges="screenSize|orientation" />
+            android:configChanges="screenSize|orientation"
+            android:exported="true"/>
         <activity
             android:name="msmartds.in.AgentsStatusWiseListActivity"
-            android:configChanges="screenSize|orientation" />
+            android:configChanges="screenSize|orientation"
+            android:exported="true"/>
         <activity
             android:name="msmartds.in.PushMoneyActivity"
-            android:configChanges="screenSize|orientation" />
+            android:configChanges="screenSize|orientation"
+            android:exported="true" />
         <activity
             android:name="msmartds.in.DetailAgentActivity"
-            android:configChanges="screenSize|orientation" />
+            android:configChanges="screenSize|orientation"
+            android:exported="true"/>
         <activity
             android:name="msmartds.in.reports.ReportActivity"
-            android:configChanges="screenSize|orientation" />
+            android:configChanges="screenSize|orientation"
+            android:exported="true" />
         <activity
             android:name="msmartds.in.DashBoardActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="fullSensor"
+            android:exported="true" />
         <activity
             android:name="msmartds.in.balRequest.BalanceRequest"
-            android:configChanges="screenSize|orientation" />
+            android:configChanges="screenSize|orientation"
+            android:exported="true"/>
         <activity
             android:name="msmartds.in.LoginActivity"
-            android:configChanges="screenSize|orientation">
+            android:configChanges="screenSize|orientation"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -74,10 +85,12 @@
         </activity>
         <activity
             android:name="msmartds.in.bankDetails.BankDetailsActivity"
-            android:configChanges="screenSize|orientation" />
+            android:configChanges="screenSize|orientation"
+            android:exported="true" />
         <activity
             android:name="msmartds.in.businessView.BusinessViewActivity"
-            android:configChanges="screenSize|orientation" />
+            android:configChanges="screenSize|orientation"
+            android:exported="true"/>
 
         <meta-data
             android:name="com.google.android.gms.version"
