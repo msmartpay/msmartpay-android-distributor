@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#9a2ead</color>
+    <color name="colorPrimaryDark">#7d3789</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryLight">#BE9A2EAD</color>
+    <color name="btncolor">@color/colorPrimary</color>
+    <color name="orange_logo_icon">#F27A3F</color>
+    <color name="red">#cc0000</color>
+    <color name="colorLightPrimary">#2D333333</color>
+
+    <color name="colorPrimaryDarkOp">#0F7d3789</color>
+    <color name="colorOrange">#ff972e</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorWhite_light">#f9f9f9</color>
+    <color name="black">#F000</color>
+    <color name="colorLogin">@color/colorPrimary</color>
+    <color name="colorLoginDark">@color/colorPrimaryDark</color>
+    <color name="colorFevorite">#4285F4</color>
+    <color name="holo_blue_dark">#3399ff</color>
+    <color name="holo_blue_light">#4285F4</color>
+    <color name="hintColor">#999999</color>
+    <color name="spinnerColor">#e5e5e5</color>
+    <color name="hintcolor">#efe8e8</color>
+    <color name="pdarkcolor">#66008c</color>
+    <color name="editHintColor">#bbb</color>
+
+    <color name="colorgreen">#37b748</color>
+    <color name="active_tab">#999999</color>
+
+    <color name="sp_itemListSelectedColor">#37b748</color>
+    <color name="sp_underlineColor">#999999</color>
+    <color name="sp_itemListHintBackgroundColor">#FFFFFF</color>
+    <color name="sp_itemListHintColor">@color/editHintColor</color>
+    <color name="sp_itemListColor">@color/colorPrimary</color>
+    <color name="sp_itemColor">@color/colorPrimary</color>
+    <color name="sp_floatingLabelColor">#1976D2</color>
+    <color name="sp_hintColor">@color/editHintColor</color>
+
+</resources>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/colorWhite">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/tv_doc_type_label"
+        style="@style/tv_kyc_item"
+        android:text="Document Type"
+        android:textColor="@color/colorPrimary" />
+    <TextView
+        android:id="@+id/tv_doc_type"
+        style="@style/tv_kyc_item"
+        android:layout_toRightOf="@+id/tv_doc_type_label"
+        android:text="aadhar"/>
+    <TextView
+        android:id="@+id/tv_doc_name_label"
+        style="@style/tv_kyc_item"
+        android:textColor="@color/colorPrimary"
+        android:layout_below="@+id/tv_doc_type_label"
+        android:text="Document Name"/>
+    <TextView
+        android:id="@+id/tv_doc_name"
+        style="@style/tv_kyc_item"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_below="@+id/tv_doc_type"
+        android:layout_toRightOf="@+id/tv_doc_name_label"
+        android:text="aadhar.jpg"/>
+    <TextView
+        android:id="@+id/tv_doc_status_label"
+        style="@style/tv_kyc_item"
+        android:singleLine="true"
+        android:textColor="@color/colorPrimary"
+        android:layout_below="@+id/tv_doc_name_label"
+        android:text="Status"/>
+    <TextView
+        android:id="@+id/tv_doc_status"
+        style="@style/tv_kyc_item"
+        android:singleLine="true"
+        android:layout_below="@+id/tv_doc_name"
+        android:layout_toRightOf="@+id/tv_doc_status_label"
+        android:text="Pending"/>
+    <ImageView
+        android:id="@+id/iv_download"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/download"/>
+</RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

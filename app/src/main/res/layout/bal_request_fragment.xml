@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="60dp">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:orientation="vertical">
+
+                <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                    android:id="@+id/sp_bank"
+                    style="@style/sp_material"
+                    app:smsp_enableErrorLabel="false"
+                    app:smsp_hint="Select Bank"
+                    app:smsp_itemColor="@color/sp_itemColor"
+                    app:smsp_itemListColor="@color/sp_itemListColor"
+                    app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
+                    app:smsp_itemListHintColor="@color/sp_itemListHintColor"
+                    app:smsp_itemSize="16sp"
+                    app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
+                    app:smsp_underlineColor="@color/sp_underlineColor" />
+
+                <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                    android:id="@+id/sp_mode_type"
+                    style="@style/sp_material"
+                    android:layout_below="@+id/id_balancerequest_bank"
+                    app:smsp_enableErrorLabel="false"
+                    app:smsp_hint="Select Mode"
+                    app:smsp_itemColor="@color/sp_itemColor"
+                    app:smsp_itemListColor="@color/sp_itemListColor"
+                    app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
+                    app:smsp_itemListHintColor="@color/sp_itemListHintColor"
+                    app:smsp_itemSize="16sp"
+                    app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
+                    app:smsp_underlineColor="@color/sp_underlineColor" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_id_balance_request_amount"
+                    style="@style/til_main">
+
+                    <EditText
+                        android:id="@+id/et_amount"
+                        style="@style/et_main"
+                        android:ems="10"
+                        android:hint="Enter Deposit Amount"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_refId"
+                    style="@style/til_main">
+
+                    <EditText
+                        android:id="@+id/et_refId"
+                        style="@style/et_main"
+                        android:ems="10"
+                        android:hint="Bank Reference Id"
+                        android:inputType="text">
+
+                    </EditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_depositdate"
+                    style="@style/til_main"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false">
+
+                    <EditText
+                        android:id="@+id/et_date"
+                        style="@style/et_main"
+                        android:editable="false"
+                        android:ems="10"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:hint="Deposit Date"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_id_balance_request_remarks"
+                    style="@style/til_main">
+
+                    <EditText
+                        android:id="@+id/et_remarks"
+                        style="@style/et_main"
+                        android:hint="Enter Remarks" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
+
+
+    <Button
+        android:id="@+id/btn_submit"
+        style="@style/btn_main"
+        android:layout_alignParentBottom="true"
+        android:text="Submit Request" />
+</RelativeLayout>

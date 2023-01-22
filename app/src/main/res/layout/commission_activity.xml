@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/add_agent_form">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        android:background="@color/colorLogin"
+        android:elevation="5dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary"
+        android:weightSum="2">
+        <TextView
+            android:id="@+id/tv_11"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:padding="5dp"
+            android:textColor="@color/hintcolor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="S.N."/>
+        <TextView
+            android:id="@+id/tv_12"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:textColor="@color/hintcolor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="Service"/>
+        <TextView
+            android:id="@+id/tv_13"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:padding="5dp"
+            android:textColor="@color/hintcolor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="Commission"/>
+    </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_comm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+</LinearLayout>

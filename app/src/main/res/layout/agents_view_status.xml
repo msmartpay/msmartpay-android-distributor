@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="1dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/tv_agent_id"
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorLogin"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:textColorHint="#999999"
+                android:hint="Agents id"
+                android:textSize="14dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_firm_name"
+                android:layout_width="0dp"
+                android:layout_weight="1.1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorLogin"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:textColorHint="#999999"
+                android:hint="Firm Name"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_push"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="0.4"
+                android:background="@color/colorLogin"
+                android:layout_gravity="center"
+                android:text=" Push"
+                android:textAllCaps="false"
+                android:textSize="10dp"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/tv_mobile"
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorLogin"
+                android:layout_marginRight="5dp"
+                android:paddingLeft="5dp"
+                android:textColorHint="#999999"
+                android:hint="Mob"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_weight="1.2"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorLogin"
+                android:layout_marginRight="5dp"
+                android:paddingLeft="5dp"
+                android:hint="Email"
+                android:textColorHint="#999999"
+                android:typeface="sans"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:weightSum="2">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="15dp"
+                android:background="@drawable/amount_logo"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center"
+                android:layout_weight=".1"/>
+
+
+            <TextView
+                android:id="@+id/tv_balance"
+                android:layout_width="0dp"
+                android:layout_weight=".9"
+                android:layout_height="wrap_content"
+                android:textColor="#FF0000"
+                android:layout_marginRight="5dp"
+                android:paddingLeft="5dp"
+                android:textColorHint="#999999"
+                android:hint="Balance"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/btn_status"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="0.6"
+                android:gravity="center"
+                android:onClick="verification"
+                android:text="Status"
+                android:typeface="sans"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorLogin" />
+
+
+            <Button
+                android:id="@+id/btn_details"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="0.4"
+                android:background="@color/colorLogin"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:text="Details"
+                android:textSize="10dp"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+

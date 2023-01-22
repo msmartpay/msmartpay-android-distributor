@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        android:background="@color/colorLogin"
+        android:elevation="5dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_marginBottom="50dp"
+            app:cardCornerRadius="5dp">
+
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".7"
+                            android:text="Agent Id"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".1"
+                            android:text=":"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_detail_agent_id"
+                            style="@style/tv_details"
+                            android:layout_weight="1.2" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".7"
+                            android:text="Email ID"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".1"
+                            android:text=":"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_emailid"
+                            style="@style/tv_details"
+                            android:layout_weight="1.2" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            style="@style/tv_details"
+                            android:layout_weight=".7"
+                            android:text="Mobile No"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".1"
+                            android:text=":"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_mobile"
+                            style="@style/tv_details"
+                            android:layout_weight="1.2" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".7"
+                            android:text="Gender"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".1"
+                            android:text=":"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_gender"
+                            style="@style/tv_details"
+                            android:layout_weight="1.2" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".7"
+                            android:text="Agent Name"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".1"
+                            android:text=":"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/tv_detail_agent_name"
+                            style="@style/tv_details"
+                            android:layout_weight="1.2"
+                            android:hint="Agent Name"
+                            android:textColorHint="@color/hintColor" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".7"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="Agency Name "
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".1"
+                            android:text=":"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/tv_detail_agency_name"
+                            style="@style/tv_details"
+                            android:layout_weight="1.2"
+                            android:hint="Agency Name"
+                            android:textColorHint="@color/hintColor" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".7"
+                            android:text="Company Type "
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".1"
+                            android:text=":"
+                            android:textStyle="bold" />
+
+                        <Spinner
+                            android:id="@+id/spinner_company_type"
+                            style="@style/tv_details"
+                            android:layout_weight="1.2"
+                            android:popupBackground="@color/spinnerColor" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".7"
+                            android:text="Date Of Birth"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".1"
+                            android:text=":"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/edit_dob"
+                            style="@style/tv_details"
+                            android:layout_weight="1.2"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:hint="Date Of Birth"
+                            android:textColorHint="@color/hintColor" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".7"
+                            android:text="Address"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".1"
+                            android:text=":"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/tv_address"
+                            style="@style/tv_details"
+                            android:layout_weight="1.2"
+                            android:hint="Enter Address"
+                            android:paddingLeft="7dp"
+                            android:textColorHint="@color/hintColor" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".7"
+                            android:text="State "
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".1"
+                            android:text=":"
+                            android:textStyle="bold" />
+
+                        <Spinner
+                            android:id="@+id/spinner_state"
+                            style="@style/tv_details"
+                            android:layout_weight="1.2"
+                            android:popupBackground="@color/spinnerColor" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".7"
+                            android:text="District "
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".1"
+                            android:text=":"
+                            android:textStyle="bold" />
+
+                        <Spinner
+                            android:id="@+id/spinner_district"
+                            style="@style/tv_details"
+                            android:layout_weight="1.2"
+                            android:popupBackground="@color/spinnerColor" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".7"
+                            android:text="City "
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".1"
+                            android:text=":"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/edit_city_name"
+                            style="@style/tv_details"
+                            android:layout_weight="1.2"
+                            android:hint="Enter City Name"
+                            android:textColorHint="@color/hintColor" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".7"
+                            android:text="Pin Code "
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".1"
+                            android:text=":"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/edit_pin_code"
+                            style="@style/tv_details"
+                            android:layout_weight="1.2"
+                            android:hint="Enter Pin Code"
+                            android:inputType="number"
+                            android:maxLength="6"
+                            android:textColorHint="@color/hintColor" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".7"
+                            android:text="PAN Number"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            style="@style/tv_details"
+                            android:layout_weight=".1"
+                            android:text=":"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/edit_pan_card"
+                            style="@style/tv_details"
+                            android:layout_weight="1.2"
+                            android:hint="Enter PAN Number"
+                            android:textColorHint="@color/hintColor" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btn_update"
+            style="@style/btn_main"
+            android:layout_alignParentBottom="true"
+            android:text="Update" />
+    </RelativeLayout>
+
+
+</LinearLayout>

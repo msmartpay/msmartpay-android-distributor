@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="7.0dip"
+        android:paddingLeft="7.0dip"
+        android:paddingRight="7.0dip"
+
+        android:layout_marginBottom="3dp"
+        android:background="@color/colorWhite">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2.0">
+
+            <ImageView
+                android:id="@+id/iv_re"
+                android:layout_width="0dp"
+                android:layout_height="16dp"
+                android:layout_weight="0.1"
+                android:layout_marginEnd="2dp"
+                android:layout_gravity="left"
+                android:src="@drawable/reports"/>
+
+            <TextView
+                android:id="@+id/txn_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3"
+                android:text="TID"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15.0dip" />
+
+            <TextView
+                android:id="@+id/agent_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6"
+                android:text="AgentId"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="15.0dip" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1.4">
+
+            <TextView
+                android:id="@+id/ac"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:paddingRight="10dp"
+                android:text="Service"
+                android:textColor="@color/colorPrimary"
+                android:textSize="13.0dip" />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:text="Status"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="15.0dip" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/acc_op"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:text="Operator"
+                android:textColor="@color/colorPrimary"
+                android:textSize="13.0dip" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="7dp"
+            android:weightSum="1.4">
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Date"
+                android:textColor="@color/colorPrimary"
+                android:textSize="13.0dip" />
+
+            <TextView
+                android:id="@+id/amt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="0.0"
+                android:textColor="@color/colorPrimary"
+                android:textSize="13.0dip" />
+
+            <TextView
+                android:id="@+id/tv_current_amt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:text="Bal: 0.0"
+                android:textColor="@color/colorPrimary"
+                android:textSize="13.0dip" />
+
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

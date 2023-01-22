@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">MSmart\nPay DS</string>
+    <string name="rupee_symbol">₹</string>
+    <string name="rs">\u20B9</string>
+    <string name="view_agent">View Agent</string>
+    <string name="app_name_sapce">MSmart DS</string>
+    <string name="status">Status:</string>
+    <string name="curr_bal">Curr.Bal:</string>
+    <string name="txnid">TXNID:</string>
+    <string name="bankdetails">BankDetails</string>
+    <string name="business_view">Business View</string>
+    <string name="balance_request">Balance Request</string>
+    <string name="reports">Reports</string>
+    <string name="agentReport">Agent Reports</string>
+    <string name="push_balance">Push Balance</string>
+    <string name="deposit_request">Deposit Request</string>
+    <string name="transaction_status">Transaction Status</string>
+    <string name="add_agent">Add Agent</string>
+    <string name="view_agent1">View Agent</string>
+    <string name="address">Address</string>
+    <string name="address_head">Address</string>
+    <string name="ifsc_no">Ifsc code :</string>
+    <string name="a_c_no">A/c No :</string>
+    <string name="accont_holder_name">Account Holder Name</string>
+
+    <string-array name="country">
+        <item>India</item>
+    </string-array>
+    <string-array name="gender_type">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="push_withdraw">
+        <item>Push Balance</item>
+        <item>Withdrawal Balance</item>
+    </string-array>
+    <string-array name="company_firm_type">
+        <item>Non-Resistered Entry</item>
+        <item>Proprietorship</item>
+        <item>Private Limited</item>
+        <item>Limited</item>
+        <item>Society</item>
+        <item>NGO</item>
+        <item>Trust</item>
+    </string-array>
+    <string-array name="mode_type">
+        <item>UPI</item>
+        <item>CDM</item>
+        <item>NEFT</item>
+        <item>IMPS</item>
+        <item>RTGS</item>
+        <item>CASH</item>
+    </string-array>
+</resources>

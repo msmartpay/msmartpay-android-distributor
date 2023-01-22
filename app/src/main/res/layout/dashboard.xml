@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ccc"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dip"
+        android:background="@color/colorLogin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <ImageView
+                android:id="@+id/openbar"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_weight=".3"
+                app:srcCompat="@drawable/icon_navigation" />
+
+            <TextView
+                android:id="@+id/heading"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_weight="1.1"
+                android:gravity="center"
+                android:text="Distributor Pannel"
+                android:textColor="@color/colorWhite"
+                android:textSize="18dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/distributor_balance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_weight=".6"
+                android:gravity="right"
+                android:text="\u20B9"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <androidx.cardview.widget.CardView
+                style="@style/cv_home">
+
+                <LinearLayout
+                    android:id="@+id/home_view_agent"
+                    style="@style/ll_home">
+
+                    <TextView
+                        style="@style/tv_home"
+                        android:text="@string/view_agent" />
+
+                    <ImageView
+                        style="@style/iv_home"
+                        android:src="@drawable/home_view_agent" />
+
+                    <ImageView
+                        style="@style/iv_home"
+                        android:src="@drawable/right_arrow" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                style="@style/cv_home">
+
+                <LinearLayout
+                    android:id="@+id/home_add_agent"
+                    style="@style/ll_home">
+
+                    <TextView
+                        style="@style/tv_home"
+                        android:text="@string/add_agent" />
+
+                    <ImageView
+                        style="@style/iv_home"
+                        android:src="@drawable/home_add_agent" />
+
+                    <ImageView
+                        style="@style/iv_home"
+                        android:src="@drawable/right_arrow" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                style="@style/cv_home">
+
+                <LinearLayout
+                    android:id="@+id/home_push_balance"
+                    style="@style/ll_home">
+
+                    <TextView
+                        style="@style/tv_home"
+                        android:text="@string/push_balance" />
+
+                    <ImageView
+                        style="@style/iv_home"
+                        android:src="@drawable/home_push_balance" />
+
+                    <ImageView
+                        style="@style/iv_home"
+                        android:src="@drawable/right_arrow" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                style="@style/cv_home">
+
+                <LinearLayout
+                    android:id="@+id/home_report"
+                    style="@style/ll_home">
+
+                    <TextView
+                        style="@style/tv_home"
+                        android:text="@string/reports" />
+
+                    <ImageView
+                        style="@style/iv_home"
+                        android:src="@drawable/home_report" />
+
+                    <ImageView
+                        style="@style/iv_home"
+                        android:src="@drawable/right_arrow" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                style="@style/cv_home">
+
+                <LinearLayout
+                    android:id="@+id/agent_report"
+                    style="@style/ll_home">
+
+                    <TextView
+                        style="@style/tv_home"
+                        android:text="@string/agentReport" />
+
+                    <ImageView
+                        style="@style/iv_home"
+                        android:src="@drawable/home_report" />
+
+                    <ImageView
+                        style="@style/iv_home"
+                        android:src="@drawable/right_arrow" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                style="@style/cv_home">
+
+                <LinearLayout
+                    android:id="@+id/home_balance_request"
+                    style="@style/ll_home">
+
+                    <TextView
+                        style="@style/tv_home"
+                        android:text="@string/balance_request" />
+
+                    <ImageView
+                        style="@style/iv_home"
+                        android:src="@drawable/home_balance_request" />
+
+                    <ImageView
+                        style="@style/iv_home"
+                        android:src="@drawable/right_arrow" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                style="@style/cv_home">
+
+                <LinearLayout
+                    android:id="@+id/home_business"
+                    style="@style/ll_home">
+
+                    <TextView
+                        style="@style/tv_home"
+                        android:text="@string/business_view" />
+
+                    <ImageView
+                        style="@style/iv_home"
+                        android:src="@drawable/busines_view_dashboard" />
+
+                    <ImageView
+                        style="@style/iv_home"
+                        android:src="@drawable/right_arrow" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorLogin"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/copy_rights"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+            android:text="Copyright © RITDF"
+            android:textColor="#FFFFFF"
+            android:textSize="12dp" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/powered_by"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/copy_rights"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:text="Powered By"
+            android:textColor="#FFFFFF"
+            android:textSize="12dp" />
+    </TableRow>
+</LinearLayout>
