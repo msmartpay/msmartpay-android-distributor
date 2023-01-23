@@ -35,17 +35,23 @@ public class RetrofitClient {
             retrofit11 = new Retrofit.Builder()
                     .baseUrl(AppMethods.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(new OkHttpClient().newBuilder()
-                            .connectTimeout(120, TimeUnit.SECONDS)
-                            .writeTimeout(120, TimeUnit.SECONDS)
-                            .readTimeout(120, TimeUnit.SECONDS)
-                            .addInterceptor(interceptor)
-                            .addInterceptor(new AuthenticationInterceptor(context))
-                            .build())
+                    .client(getOkHttpClientBuilder(context).build())
                     .build();
        // }
         return retrofit11;
     }
+
+    public static  OkHttpClient.Builder getOkHttpClientBuilder(Context context){
+        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
+        okHttpClientBuilder .connectTimeout(120, TimeUnit.SECONDS)
+                .writeTimeout(120, TimeUnit.SECONDS)
+                .readTimeout(120, TimeUnit.SECONDS)
+                //.sslSocketFactory(new HttpsCertificate(context).newSslSocketFactory())
+                .addInterceptor(interceptor)
+                .addInterceptor(new AuthenticationInterceptor(context));
+        return okHttpClientBuilder;
+    }
+
 
     public static AppMethods getClient(Context context){
         return getRetrofit(context).create(AppMethods.class);
