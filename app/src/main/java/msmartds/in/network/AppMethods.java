@@ -47,9 +47,9 @@ import retrofit2.http.Part;
 
 public interface AppMethods {
 
-    String paartnerType="MNDPL";
-    String Domain = "https://android.msmartpay.in/";
-    String BASE_URL = Domain + "DSMRA1.0/resources/";
+    String paartnerType="MSP";
+    String Domain = "https://msmartpay.in/";
+    String BASE_URL = Domain + "dsapi1.0/resources/";
     String DS_CS = "DSCommonService/";
     String USER = "user/";
     String REPORT = "report/";
@@ -69,10 +69,10 @@ public interface AppMethods {
     @POST(USER + "GetBalance")
     Call<BalanceResponse> getBalance(@Body MainRequest request);
 
-    @POST(REPORT + "WalletBalRequest")
+    @POST(USER + "WalletBalRequest")
     Call<MainResponse2> balanceRequestWallet(@Body BalRequest request);
 
-    @POST(REPORT + "WalletBalReqDetails")
+    @POST(USER + "WalletBalReqDetails")
     Call<BalHistoryResponse> getBalanceHistoryWallet(@Body MainRequest request);
 
     @POST(REPORT + "BankDetails")
@@ -84,10 +84,10 @@ public interface AppMethods {
     @POST(REPORT + "GetAllServiceBuisinessDone")
     Call<BusinessViewResponse> getAllServiceBusinessDone(@Body BusinessViewRequest request);
 
-    @POST(REPORT + "CollectBankDetails")
+    @POST(REPORT + "CollectionBanks")
     Call<CollectBankResponse> getCollectBankDetails(@Body MainRequest request);
 
-    @POST(REPORT + "MyCommission")
+    @POST(USER + "MyCommission")
     Call<CommissionResponse> getCommissions(@Body CommissionRequest request);
 
     //

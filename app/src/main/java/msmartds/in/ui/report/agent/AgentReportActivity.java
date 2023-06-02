@@ -217,7 +217,7 @@ public class AgentReportActivity extends BaseActivity {
             reportRequest.setAgentId("All");
 
             call = RetrofitClient.getClient(getApplicationContext())
-                    .getAgentReportsByDate(reportRequest);
+                    .getAgentReports(reportRequest);
             call.enqueue(new Callback<AgentReportResponse>() {
                 @Override
                 public void onResponse(Call<AgentReportResponse> call, retrofit2.Response<AgentReportResponse> response) {

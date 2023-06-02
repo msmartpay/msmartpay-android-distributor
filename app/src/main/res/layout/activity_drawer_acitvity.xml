@@ -45,8 +45,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
-                        android:layout_toEndOf="@+id/drawer_pic"
-                        android:text="Soft Solution Zone"
+                        android:text="User"
                         android:textColor="@color/colorWhite"
                         android:textSize="14dp"
                         app:layout_constraintLeft_toRightOf="@+id/drawer_pic" />
@@ -55,10 +54,8 @@
                         android:id="@+id/drawer_distributor_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/drawer_distributor_name"
-                        android:layout_centerHorizontal="true"
                         android:layout_marginTop="4dp"
-                        android:text="care@softsolutionzone.com"
+                        android:text="DSID"
                         android:textColor="@color/colorWhite"
                         android:textSize="10dp" />
                 </LinearLayout>
@@ -91,7 +88,6 @@
                             <ImageView
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
-                                android:tint="@color/colorPrimary"
                                 app:srcCompat="@drawable/home_view_agent" />
 
                             <TextView
@@ -146,7 +142,6 @@
                             android:onClick="click">
 
                             <ImageView
-                                android:tint="@color/colorPrimary"
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 app:srcCompat="@drawable/home_add_agent" />
@@ -175,7 +170,6 @@
                             android:onClick="click">
 
                             <ImageView
-                                android:tint="@color/colorPrimary"
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 app:srcCompat="@drawable/home_push_balance" />
@@ -203,7 +197,6 @@
                             android:layout_marginTop="10dp">
 
                             <ImageView
-                                android:tint="@color/colorPrimary"
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 app:srcCompat="@drawable/ic_account_balance_48dp" />
@@ -230,7 +223,6 @@
                             android:layout_marginTop="10dp" android:visibility="gone">
 
                             <ImageView
-                                android:tint="@color/colorPrimary"
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 app:srcCompat="@drawable/ic_monetization_24dp" />
@@ -258,7 +250,6 @@
                             android:onClick="click">
 
                             <ImageView
-                                android:tint="@color/colorPrimary"
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 app:srcCompat="@drawable/home_report" />
@@ -287,7 +278,6 @@
                             android:onClick="click" android:visibility="gone">
 
                             <ImageView
-                                android:tint="@color/colorPrimary"
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 app:srcCompat="@drawable/home_report" />
@@ -344,7 +334,6 @@
                             android:onClick="click">
 
                             <ImageView
-                                android:tint="@color/colorPrimary"
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 app:srcCompat="@drawable/home_change_password" />
@@ -377,7 +366,6 @@
                 android:background="@color/hintcolor">
 
                 <ImageView
-                    android:tint="@color/colorPrimary"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     app:srcCompat="@drawable/home_logout" />

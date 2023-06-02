@@ -1,10 +1,13 @@
 package msmartds.in.network.model.report.agent;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class AgentReportResponse {
     private String status;
     private String message;
+    @SerializedName("data")
     private List<AgentReportModel> statement;
 
     public String getStatus() {

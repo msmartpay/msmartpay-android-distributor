@@ -105,9 +105,10 @@ public class LoginActivity extends BaseActivity {
                         public void onResponse(Call<LoginResponse> call, retrofit2.Response<LoginResponse> response) {
                             pd.dismiss();
                             try {
-                                if (response.isSuccessful() && response.body() != null && response.body().getData()!=null) {
-                                    UserData res = response.body().getData();
+                                if (response.isSuccessful() && response.body() != null) {
+
                                     if ("0".equalsIgnoreCase(response.body().getStatus())) {
+                                        UserData res = response.body().getData();
                                         Util.saveData(getApplicationContext(), Keys.DS_ID, res.getDistributorId());
                                         Util.saveData(getApplicationContext(), Keys.DS_NAME, res.getDistributorName());
                                         Util.saveData(getApplicationContext(), Keys.TXN_KEY, res.getTxnKey());
