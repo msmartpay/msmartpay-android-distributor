@@ -25,284 +25,403 @@
             app:cardBackgroundColor="@color/colorWhite"
             android:layout_margin="3dp"
             android:paddingBottom="60dp">
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/linear"
+            <ScrollView
+                android:id="@+id/scrollView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingBottom="16dp">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/personal_details"
+                <RelativeLayout
+                    android:id="@+id/linear"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:text="Personal Details"
-                    android:textColor="#000000"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/personal_details"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/til_main">
-
-                        <EditText
-                            android:id="@+id/edit_first_name"
-                            style="@style/et_main"
-                            android:hint="Enter Your First Name"
-                            android:inputType="text"
-                            android:maxLines="1"/>
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/til_main">
-
-                        <EditText
-                            android:id="@+id/edit_last_name"
-                            style="@style/et_main"
-                            android:hint="Enter Your Last Name"
-                            android:inputType="text"
-                            android:maxLines="1"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:id="@+id/personal_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:text="Personal Details"
+                        android:textColor="#000000"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                     <LinearLayout
-                        android:id="@+id/viewdob"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/personal_details"
+                        android:orientation="vertical">
+
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/til_main">
 
                             <EditText
-                                android:id="@+id/edit_dob"
+                                android:id="@+id/edit_first_name"
                                 style="@style/et_main"
-                                android:hint="Date Of Birth (YYYY-MM-DD)"
+                                android:hint="Enter Your First Name"
                                 android:inputType="text"
-                                android:focusableInTouchMode="false"
-                                android:focusable="false"
                                 android:maxLines="1"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <ImageButton
-                            android:id="@+id/imagedob"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            app:srcCompat="@drawable/calendar"
-                            android:visibility="gone" />
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/til_main">
 
-                    </LinearLayout>
-
-                    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
-                        android:id="@+id/sp_gender"
-                        style="@style/sp_material"
-                        app:smsp_enableErrorLabel="false"
-                        app:smsp_hint="Select Gender"
-                        app:smsp_itemColor="@color/sp_itemColor"
-                        app:smsp_itemListColor="@color/sp_itemListColor"
-                        app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
-                        app:smsp_itemListHintColor="@color/sp_itemListHintColor"
-                        app:smsp_itemSize="16sp"
-                        app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
-                        app:smsp_underlineColor="@color/sp_underlineColor"/>
-
-                    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
-                        android:id="@+id/sp_company_type"
-                        style="@style/sp_material"
-                        app:smsp_enableErrorLabel="false"
-                        app:smsp_hint="Select Company Type"
-                        app:smsp_itemColor="@color/sp_itemColor"
-                        app:smsp_itemListColor="@color/sp_itemListColor"
-                        app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
-                        app:smsp_itemListHintColor="@color/sp_itemListHintColor"
-                        app:smsp_itemSize="16sp"
-                        app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
-                        app:smsp_underlineColor="@color/sp_underlineColor"/>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/til_main">
-
-                        <EditText
-                            android:id="@+id/edit_company_name"
-                            style="@style/et_main"
-                            android:hint="Enter Your Company/Firm/Shop Name"
-                            android:inputType="text"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            <EditText
+                                android:id="@+id/edit_middle_name"
+                                style="@style/et_main"
+                                android:hint="Enter Your Middle Name"
+                                android:inputType="text"
+                                android:maxLines="1"/>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/til_main">
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/til_main">
 
-                        <EditText
-                            android:id="@+id/edit_emailID"
-                            style="@style/et_main"
-                            android:hint="Enter Your Email ID"
-                            android:inputType="textEmailAddress"
-                            android:maxLines="1"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+                            <EditText
+                                android:id="@+id/edit_last_name"
+                                style="@style/et_main"
+                                android:hint="Enter Your Last Name"
+                                android:inputType="text"
+                                android:maxLines="1"/>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/til_main">
-
-                        <EditText
-                            android:id="@+id/edit_mobileNo"
-                            style="@style/et_main"
-                            android:hint="Enter Your Mobile Number"
-                            android:inputType="number"
-                            android:maxLength="10"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/linear1"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="Address Details"
-                            android:textColor="#000000"
-                            android:textSize="18dp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/til_main">
-
-                        <EditText
-                            android:id="@+id/edit_address1"
-                            style="@style/et_main"
-                            android:hint="Enter Address 1"
-                            android:inputType="text"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/til_main">
-
-                        <EditText
-                            android:id="@+id/edit_address2"
-                            style="@style/et_main"
-                            android:layout_height="44dp"
-                            android:hint="Enter Address 2"
-                            android:maxLength="10"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
-                        android:id="@+id/sp_country"
-                        style="@style/sp_material"
-                        app:smsp_enableErrorLabel="false"
-                        app:smsp_hint="Select Country"
-                        app:smsp_itemColor="@color/sp_itemColor"
-                        app:smsp_itemListColor="@color/sp_itemListColor"
-                        app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
-                        app:smsp_itemListHintColor="@color/sp_itemListHintColor"
-                        app:smsp_itemSize="16sp"
-                        app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
-                        app:smsp_underlineColor="@color/sp_underlineColor"/>
-
-                    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
-                        android:id="@+id/sp_state"
-                        style="@style/sp_material"
-                        app:smsp_enableErrorLabel="false"
-                        app:smsp_hint="Select State"
-                        app:smsp_itemColor="@color/sp_itemColor"
-                        app:smsp_itemListColor="@color/sp_itemListColor"
-                        app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
-                        app:smsp_itemListHintColor="@color/sp_itemListHintColor"
-                        app:smsp_itemSize="16sp"
-                        app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
-                        app:smsp_underlineColor="@color/sp_underlineColor"/>
-
-                    <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
-                        android:id="@+id/sp_district"
-                        style="@style/sp_material"
-                        app:smsp_enableErrorLabel="false"
-                        app:smsp_hint="Select District"
-                        app:smsp_itemColor="@color/sp_itemColor"
-                        app:smsp_itemListColor="@color/sp_itemListColor"
-                        app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
-                        app:smsp_itemListHintColor="@color/sp_itemListHintColor"
-                        app:smsp_itemSize="16sp"
-                        app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
-                        app:smsp_underlineColor="@color/sp_underlineColor"/>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/til_main">
-
-                        <EditText
-                            android:id="@+id/edit_city"
-                            style="@style/et_main"
-                            android:hint="Enter Your City Name"
-                            android:inputType="text"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/til_main">
-
-                        <EditText
-                            android:id="@+id/edit_pincode"
-                            style="@style/et_main"
-                            android:hint="Enter Your Pin Code"
-                            android:inputType="number"
-                            android:maxLength="6"
-                            android:maxLines="1" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                        <TextView
+                        <LinearLayout
+                            android:id="@+id/viewdob"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:gravity="center"
-                            android:text="PAN Details"
-                            android:textColor="#000000"
-                            android:textSize="18dp"
-                            android:textStyle="bold"
+                            android:orientation="horizontal">
+                            <com.google.android.material.textfield.TextInputLayout
+                                style="@style/til_main">
+
+                                <EditText
+                                    android:id="@+id/edit_dob"
+                                    style="@style/et_main"
+                                    android:hint="Date Of Birth (YYYY-MM-DD)"
+                                    android:inputType="text"
+                                    android:focusableInTouchMode="false"
+                                    android:focusable="false"
+                                    android:maxLines="1"/>
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <ImageButton
+                                android:id="@+id/imagedob"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                app:srcCompat="@drawable/calendar"
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+
+                        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                            android:id="@+id/sp_gender"
+                            style="@style/sp_material"
+                            app:smsp_enableErrorLabel="false"
+                            app:smsp_hint="Select Gender"
+                            app:smsp_itemColor="@color/sp_itemColor"
+                            app:smsp_itemListColor="@color/sp_itemListColor"
+                            app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
+                            app:smsp_itemListHintColor="@color/sp_itemListHintColor"
+                            app:smsp_itemSize="16sp"
+                            app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
+                            app:smsp_underlineColor="@color/sp_underlineColor"/>
+
+                        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                            android:id="@+id/sp_company_type"
+                            style="@style/sp_material"
+                            app:smsp_enableErrorLabel="false"
+                            app:smsp_hint="Select Company Type"
+                            app:smsp_itemColor="@color/sp_itemColor"
+                            app:smsp_itemListColor="@color/sp_itemListColor"
+                            app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
+                            app:smsp_itemListHintColor="@color/sp_itemListHintColor"
+                            app:smsp_itemSize="16sp"
+                            app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
+                            app:smsp_underlineColor="@color/sp_underlineColor"/>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/til_main">
+
+                            <EditText
+                                android:id="@+id/edit_company_name"
+                                style="@style/et_main"
+                                android:hint="Enter Your Outlet/Shop Name"
+                                android:inputType="text"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/til_main">
+
+                            <EditText
+                                android:id="@+id/edit_emailID"
+                                style="@style/et_main"
+                                android:hint="Enter Your Email ID"
+                                android:inputType="textEmailAddress"
+                                android:maxLines="1"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/til_main">
+
+                            <EditText
+                                android:id="@+id/edit_mobileNo"
+                                style="@style/et_main"
+                                android:hint="Enter Your Mobile Number"
+                                android:inputType="number"
+                                android:maxLength="10"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/linear1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
                             android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"/>
+                            android:layout_marginBottom="10dp">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/til_main">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="Address Details (As per Aadhar)"
+                                android:textColor="#000000"
+                                android:textSize="18dp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
 
-                        <EditText
-                            android:id="@+id/edit_PAN_details"
-                            style="@style/et_main"
-                            android:hint="Enter Your PAN Number (Optional)"
-                            android:maxLines="1"/>
-                    </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/til_main">
 
-                </LinearLayout>
-            </RelativeLayout>
-        </ScrollView>
+                            <EditText
+                                android:id="@+id/edit_address1"
+                                style="@style/et_main"
+                                android:hint="Enter Address 1"
+                                android:inputType="text"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/til_main">
+
+                            <EditText
+                                android:id="@+id/edit_address2"
+                                style="@style/et_main"
+                                android:layout_height="44dp"
+                                android:hint="Enter Address 2"
+                                android:maxLength="10"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                            android:id="@+id/sp_country"
+                            style="@style/sp_material"
+                            app:smsp_enableErrorLabel="false"
+                            app:smsp_hint="Select Country"
+                            app:smsp_itemColor="@color/sp_itemColor"
+                            app:smsp_itemListColor="@color/sp_itemListColor"
+                            app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
+                            app:smsp_itemListHintColor="@color/sp_itemListHintColor"
+                            app:smsp_itemSize="16sp"
+                            app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
+                            app:smsp_underlineColor="@color/sp_underlineColor"/>
+
+                        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                            android:id="@+id/sp_state"
+                            style="@style/sp_material"
+                            app:smsp_enableErrorLabel="false"
+                            app:smsp_hint="Select State"
+                            app:smsp_itemColor="@color/sp_itemColor"
+                            app:smsp_itemListColor="@color/sp_itemListColor"
+                            app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
+                            app:smsp_itemListHintColor="@color/sp_itemListHintColor"
+                            app:smsp_itemSize="16sp"
+                            app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
+                            app:smsp_underlineColor="@color/sp_underlineColor"/>
+
+                        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                            android:id="@+id/sp_district"
+                            style="@style/sp_material"
+                            app:smsp_enableErrorLabel="false"
+                            app:smsp_hint="Select District"
+                            app:smsp_itemColor="@color/sp_itemColor"
+                            app:smsp_itemListColor="@color/sp_itemListColor"
+                            app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
+                            app:smsp_itemListHintColor="@color/sp_itemListHintColor"
+                            app:smsp_itemSize="16sp"
+                            app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
+                            app:smsp_underlineColor="@color/sp_underlineColor"/>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/til_main">
+
+                            <EditText
+                                android:id="@+id/edit_city"
+                                style="@style/et_main"
+                                android:hint="Enter Your City Name"
+                                android:inputType="text"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/til_main">
+
+                            <EditText
+                                android:id="@+id/edit_pincode"
+                                style="@style/et_main"
+                                android:hint="Enter Your Pin Code"
+                                android:inputType="number"
+                                android:maxLength="6"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <RelativeLayout
+                            android:id="@+id/linearOutletAddress"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="Outlet Address Details"
+                                android:textColor="#000000"
+                                android:textSize="18dp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/til_main">
+
+                            <EditText
+                                android:id="@+id/office_address1"
+                                style="@style/et_main"
+                                android:hint="Enter Office Address 1"
+                                android:inputType="text"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/til_main">
+
+                            <EditText
+                                android:id="@+id/office_address2"
+                                style="@style/et_main"
+                                android:layout_height="44dp"
+                                android:hint="Enter Office Address 2"
+                                android:maxLength="10"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                            android:id="@+id/sp_office_country"
+                            style="@style/sp_material"
+                            app:smsp_enableErrorLabel="false"
+                            app:smsp_hint="Select Country"
+                            app:smsp_itemColor="@color/sp_itemColor"
+                            app:smsp_itemListColor="@color/sp_itemListColor"
+                            app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
+                            app:smsp_itemListHintColor="@color/sp_itemListHintColor"
+                            app:smsp_itemSize="16sp"
+                            app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
+                            app:smsp_underlineColor="@color/sp_underlineColor"/>
+
+                        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                            android:id="@+id/sp_office_state"
+                            style="@style/sp_material"
+                            app:smsp_enableErrorLabel="false"
+                            app:smsp_hint="Select State"
+                            app:smsp_itemColor="@color/sp_itemColor"
+                            app:smsp_itemListColor="@color/sp_itemListColor"
+                            app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
+                            app:smsp_itemListHintColor="@color/sp_itemListHintColor"
+                            app:smsp_itemSize="16sp"
+                            app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
+                            app:smsp_underlineColor="@color/sp_underlineColor"/>
+
+                        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+                            android:id="@+id/sp_office_district"
+                            style="@style/sp_material"
+                            app:smsp_enableErrorLabel="false"
+                            app:smsp_hint="Select District"
+                            app:smsp_itemColor="@color/sp_itemColor"
+                            app:smsp_itemListColor="@color/sp_itemListColor"
+                            app:smsp_itemListHintBackgroundColor="@color/sp_itemListHintBackgroundColor"
+                            app:smsp_itemListHintColor="@color/sp_itemListHintColor"
+                            app:smsp_itemSize="16sp"
+                            app:smsp_selectedItemListColor="@color/sp_itemListSelectedColor"
+                            app:smsp_underlineColor="@color/sp_underlineColor"/>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/til_main">
+
+                            <EditText
+                                android:id="@+id/office_city"
+                                style="@style/et_main"
+                                android:hint="Enter Outlet City Name"
+                                android:inputType="text"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/til_main">
+
+                            <EditText
+                                android:id="@+id/office_pincode"
+                                style="@style/et_main"
+                                android:hint="Enter Outlet Pin Code"
+                                android:inputType="number"
+                                android:maxLength="6"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <RelativeLayout
+                            android:id="@+id/linearPanDetails"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="PAN Details"
+                                android:textColor="#000000"
+                                android:textSize="18dp"
+                                android:textStyle="bold"/>
+                        </RelativeLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/til_main">
+
+                            <EditText
+                                android:id="@+id/edit_PAN_details"
+                                style="@style/et_main"
+                                android:hint="Enter Your PAN Number"
+                                android:maxLines="1"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+                </RelativeLayout>
+            </ScrollView>
         </androidx.cardview.widget.CardView>
 
         <Button

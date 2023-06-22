@@ -215,7 +215,7 @@ public class ReportActivity extends BaseActivity {
             request.setToDate(toDate);
 
             call = RetrofitClient.getClient(getApplicationContext())
-                    .getReports(request);
+                    .getReportByDate(request);
             call.enqueue(new Callback<ReportResponse>() {
                 @Override
                 public void onResponse(Call<ReportResponse> call, retrofit2.Response<ReportResponse> response) {

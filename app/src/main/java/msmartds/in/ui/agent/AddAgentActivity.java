@@ -49,27 +49,30 @@ public class AddAgentActivity extends BaseActivity {
 
     private DatePickerDialog chddDatePickerDialog;
     private Button btn_add_agent;
-    private EditText edit_first_name, edit_last_name, edit_dob, edit_company_name, edit_emailID, edit_mobileNo, edit_address1, edit_address2, edit_city, edit_pincode, edit_PAN_details;
-    private String FirstName, LastName, CompanyShopName, EmailID, MobileNo, Address1, Address2, CityName, PinCode, PAN;
+    private EditText edit_first_name,edit_middle_name, edit_last_name, edit_dob, edit_company_name, edit_emailID, edit_mobileNo, edit_address1, edit_address2, edit_city, edit_pincode,
+            office_address1, office_address2, office_city, office_pincode,edit_PAN_details;
+    private String FirstName,middleName, LastName, CompanyShopName, EmailID, MobileNo, Address1, Address2, CityName, PinCode,officeAddress1, officeAddress2, officeCityName, officePinCode, PAN;
 
-    private SmartMaterialSpinner sp_gender, sp_company_type, sp_country, sp_state, sp_district;
-    private List<String> genderList, companeyFirmList, countryList;
-    private String genderData, companyTypeData, countryData, stateData, districtData;
+    private SmartMaterialSpinner sp_gender, sp_company_type, sp_country, sp_state, sp_district,sp_office_country,sp_office_state, sp_office_district;
+    private List<String> genderList, companeyFirmList, countryList,officeCountryList;
+    private String genderData, companyTypeData, countryData, stateData, districtData,officeCountryData, officeStateData, officeDistrictData;
     private String distributorID, key, mobileNo, distributorInitial, DistributorFullID;
-    private ArrayList<StateModel> stateList;
-    private ArrayList<DistrictModel> districtList;
+    private ArrayList<StateModel> stateList,officeStateList;
+    private ArrayList<DistrictModel> districtList,officeDistrictList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( msmartds.in.R.layout.add_agent_activity);
+        setContentView(R.layout.add_agent_activity);
 
-        Toolbar toolbar = (Toolbar) findViewById( msmartds.in.R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //toolbar.setNavigationIcon(R.drawable.activity_de);
         toolbar.setTitle("ADD AGENT");
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        distributorID = Util.getData(getApplicationContext(), Keys.DS_ID);
+        key = Util.getData(getApplicationContext(), Keys.TXN_KEY);
         mobileNo = Util.getData(getApplicationContext(), Keys.DS_MOBILE);
 
         distributorInitial = Util.getData(getApplicationContext(), Keys.DS_INITIAL);
@@ -86,6 +89,8 @@ public class AddAgentActivity extends BaseActivity {
         countryList = Arrays.asList(getResources().getStringArray(R.array.country));
         sp_country.setItem(countryList);
 
+        officeCountryList=Arrays.asList(getResources().getStringArray(R.array.country));
+        sp_office_country.setItem(officeCountryList);
 
         stateRequest();
 
@@ -140,15 +145,48 @@ public class AddAgentActivity extends BaseActivity {
 
             }
         });
+        sp_office_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > -1) {
+                    officeCountryData = officeCountryList.get(position);
+                } else {
+                    officeCountryList = null;
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         sp_state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > -1) {
                     stateData = stateList.get(position).getState();
-                    districtRequest(stateData);
+                    districtRequest(stateData,"personal");
                 } else {
                     stateData = null;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        sp_office_state.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > -1) {
+                    officeStateData = officeStateList.get(position).getState();
+                    districtRequest(officeStateData,"office");
+                } else {
+                    officeStateData = null;
                 }
             }
 
@@ -174,11 +212,28 @@ public class AddAgentActivity extends BaseActivity {
             }
         });
 
+        sp_office_district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > -1) {
+                    officeDistrictData = officeDistrictList.get(position).getDistrict();
+                } else {
+                    officeDistrictData = null;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         //Add agent coding start from here by IRFAN
 
         btn_add_agent.setOnClickListener(v -> {
 
             FirstName = edit_first_name.getText().toString().trim();
+            middleName = edit_middle_name.getText().toString().trim();
             LastName = edit_last_name.getText().toString().trim();
             CompanyShopName = edit_company_name.getText().toString().trim();
             EmailID = edit_emailID.getText().toString().trim();
@@ -187,6 +242,13 @@ public class AddAgentActivity extends BaseActivity {
             Address2 = edit_address2.getText().toString().trim();
             CityName = edit_city.getText().toString().trim();
             PinCode = edit_pincode.getText().toString().trim();
+
+            officeAddress1 = office_address1.getText().toString().trim();
+            officeAddress2 = office_address2.getText().toString().trim();
+            officeCityName = office_city.getText().toString().trim();
+            officePinCode = office_pincode.getText().toString().trim();
+
+
             PAN = edit_PAN_details.getText().toString().trim();
 
             if (FirstName.length() <= 0) {
@@ -225,13 +287,31 @@ public class AddAgentActivity extends BaseActivity {
             } else if (CityName.length() <= 0) {
                 edit_city.requestFocus();
                 L.toast(getApplicationContext(), "Please Enter City Name");
-            } else if (PinCode.length() <= 5) {
+            } else if (PinCode.length() < 6) {
                 edit_pincode.requestFocus();
                 L.toast(getApplicationContext(), "Please Enter Valid Pin Code");
-            }/*else if(PAN.length()<=0) {
+            }else if (officeAddress1.length() <= 0) {
+                edit_address1.requestFocus();
+                L.toast(getApplicationContext(), "Please Enter Address Line 1");
+            } else if (officeAddress2.length() <= 0) {
+                edit_address2.requestFocus();
+                L.toast(getApplicationContext(), "Please Enter Address Line 2");
+            } else if (officeCountryData == null) {
+                L.toast(getApplicationContext(), "Please Select Your Country");
+            } else if (officeStateData == null) {
+                L.toast(getApplicationContext(), "Please Select Your State");
+            } else if (officeDistrictData == null) {
+                L.toast(getApplicationContext(), "Please Select Your District");
+            } else if (officeCityName.length() <= 0) {
+                edit_city.requestFocus();
+                L.toast(getApplicationContext(), "Please Enter City Name");
+            } else if (officePinCode.length() < 6) {
+                edit_pincode.requestFocus();
+                L.toast(getApplicationContext(), "Please Enter Valid Pin Code");
+            }else if(PAN.length()<10) {
                 edit_PAN_details.requestFocus();
-                L.toast(getApplicationContext(), "Please Enter PAN Number (Optional)");
-            }*/ else if (!Util.isValidEmail(EmailID)) {
+                L.toast(getApplicationContext(), "Please Enter PAN Number");
+            }else if (!Util.isValidEmail(EmailID)) {
                 L.toast(getApplicationContext(), "Please Enter Valid Email Id");
             } else {
 
@@ -242,25 +322,35 @@ public class AddAgentActivity extends BaseActivity {
 
     private void initViews() {
         Util.setScrollView(findViewById(R.id.scrollView));
-        btn_add_agent = findViewById( msmartds.in.R.id.btn_add_agent);
+        btn_add_agent = findViewById(R.id.btn_add_agent);
 
-        edit_first_name = findViewById( msmartds.in.R.id.edit_first_name);
-        edit_last_name = findViewById( msmartds.in.R.id.edit_last_name);
-        edit_company_name = findViewById( msmartds.in.R.id.edit_company_name);
-        edit_emailID = findViewById( msmartds.in.R.id.edit_emailID);
-        edit_mobileNo = findViewById( msmartds.in.R.id.edit_mobileNo);
-        edit_address1 = findViewById( msmartds.in.R.id.edit_address1);
-        edit_address2 = findViewById( msmartds.in.R.id.edit_address2);
-        edit_city = findViewById( msmartds.in.R.id.edit_city);
-        edit_pincode = findViewById( msmartds.in.R.id.edit_pincode);
-        edit_PAN_details = findViewById( msmartds.in.R.id.edit_PAN_details);
+        edit_first_name = findViewById(R.id.edit_first_name);
+        edit_middle_name = findViewById(R.id.edit_middle_name);
+        edit_last_name = findViewById(R.id.edit_last_name);
+        edit_company_name = findViewById(R.id.edit_company_name);
+        edit_emailID = findViewById(R.id.edit_emailID);
+        edit_mobileNo = findViewById(R.id.edit_mobileNo);
+        edit_address1 = findViewById(R.id.edit_address1);
+        edit_address2 = findViewById(R.id.edit_address2);
+        edit_city = findViewById(R.id.edit_city);
+        edit_pincode = findViewById(R.id.edit_pincode);
+        sp_country = findViewById(R.id.sp_country);
+        sp_state = findViewById(R.id.sp_state);
+        sp_district = findViewById(R.id.sp_district);
 
-        edit_dob = findViewById( msmartds.in.R.id.edit_dob);
-        sp_gender = findViewById( msmartds.in.R.id.sp_gender);
-        sp_company_type = findViewById( msmartds.in.R.id.sp_company_type);
-        sp_country = findViewById( msmartds.in.R.id.sp_country);
-        sp_state = findViewById( msmartds.in.R.id.sp_state);
-        sp_district = findViewById( msmartds.in.R.id.sp_district);
+        office_address1 = findViewById(R.id.office_address1);
+        office_address2 = findViewById(R.id.office_address2);
+        office_city = findViewById(R.id.edit_city);
+        office_pincode = findViewById(R.id.office_pincode);
+        sp_office_country = findViewById(R.id.sp_office_country);
+        sp_office_state = findViewById(R.id.sp_office_state);
+        sp_office_district = findViewById(R.id.sp_office_district);
+
+        edit_PAN_details = findViewById(R.id.edit_PAN_details);
+        edit_dob = findViewById(R.id.edit_dob);
+        sp_gender = findViewById(R.id.sp_gender);
+        sp_company_type = findViewById(R.id.sp_company_type);
+
     }
 
     private void setchDDDateTimeField() {
@@ -280,6 +370,7 @@ public class AddAgentActivity extends BaseActivity {
             ProgressDialogFragment.showDialog(pd, getSupportFragmentManager());
             AgentRegisterRequest request = new AgentRegisterRequest();
             request.setFirstname(FirstName);
+            request.setMiddleName(middleName);
             request.setLastname(LastName);
             request.setDateofbirth(edit_dob.getText().toString());
             request.setGender(genderData);
@@ -293,6 +384,16 @@ public class AddAgentActivity extends BaseActivity {
             request.setCountry(countryData);
             request.setPincode(PinCode);
             request.setAddress(Address1);
+            request.setAddress2(Address2);
+
+            request.setOfficeState(officeStateData);
+            request.setOfficeDistrict(officeDistrictData);
+            request.setOfficeCity(officeCityName);
+            request.setOfficeCountry(officeCountryData);
+            request.setOfficePincode(officePinCode);
+            request.setOfficeAddress(officeAddress1);
+            request.setOfficeAddress2(officeAddress2);
+
             request.setEmailId(EmailID);
             request.setParam("AgentRegistration");
             request.setAthoMobile(MobileNo);
@@ -334,10 +435,10 @@ public class AddAgentActivity extends BaseActivity {
         // TODO Auto-generated method stub
         final Dialog d = Util.getDialog(AddAgentActivity.this, R.layout.push_payment_confirmation_dialog);
 
-        final Button btnSubmit = (Button) d.findViewById( msmartds.in.R.id.btn_push_submit);
-        final Button btnClosed = (Button) d.findViewById( msmartds.in.R.id.close_push_button);
-        final TextView header = (TextView) d.findViewById( msmartds.in.R.id.title);
-        final TextView tvConfirmation = (TextView) d.findViewById( msmartds.in.R.id.tv_confirmation_dialog);
+        final Button btnSubmit = (Button) d.findViewById(R.id.btn_push_submit);
+        final Button btnClosed = (Button) d.findViewById(R.id.close_push_button);
+        final TextView header = (TextView) d.findViewById(R.id.title);
+        final TextView tvConfirmation = (TextView) d.findViewById(R.id.tv_confirmation_dialog);
 
         header.setText("Confirmation");
         tvConfirmation.setText(msg);
@@ -380,12 +481,22 @@ public class AddAgentActivity extends BaseActivity {
                                 stateList = new ArrayList<>();
                             else
                                 stateList.clear();
+
+                            if (officeStateList == null)
+                                officeStateList=new ArrayList<>();
+                            else
+                                officeStateList.clear();
+
                             try {
                                 if (response.isSuccessful() && response.body() != null) {
                                     StateResponse res = response.body();
                                     if ("0".equalsIgnoreCase(res.getStatus())) {
                                         if (res.getStateList() != null) {
                                             stateList = (ArrayList<StateModel>) res.getStateList();
+                                            officeStateList=stateList;
+
+                                            sp_state.setItem(stateList);
+                                            sp_office_state.setItem(officeStateList);
                                         }
                                     } else {
                                         L.toast(getApplicationContext(), res.getMessage());
@@ -397,7 +508,7 @@ public class AddAgentActivity extends BaseActivity {
                                 L.toast(getApplicationContext(), "Parser Error : " + e.getLocalizedMessage());
                                 L.m2("Parser Error", e.getLocalizedMessage());
                             }
-                            sp_state.setItem(stateList);
+
                         }
 
                         @Override
@@ -410,7 +521,7 @@ public class AddAgentActivity extends BaseActivity {
     }
 
     //JSON for District
-    private void districtRequest(String state) {
+    private void districtRequest(String state,String caller) {
 
         if (NetworkConnection.isConnectionAvailable(getApplicationContext())) {
             final ProgressDialogFragment pd = ProgressDialogFragment.newInstance("", "Fetching Districts...");
@@ -424,16 +535,29 @@ public class AddAgentActivity extends BaseActivity {
                         @Override
                         public void onResponse(Call<DistrictResponse> call, retrofit2.Response<DistrictResponse> response) {
                             pd.dismiss();
-                            if (districtList == null)
-                                districtList = new ArrayList<>();
-                            else
-                                districtList.clear();
+                            if("personal".equalsIgnoreCase(caller)) {
+                                if (districtList == null)
+                                    districtList = new ArrayList<>();
+                                else
+                                    districtList.clear();
+                            }else{
+                                if (officeDistrictList == null)
+                                    officeDistrictList = new ArrayList<>();
+                                else
+                                    officeDistrictList.clear();
+                            }
                             try {
                                 if (response.isSuccessful() && response.body() != null) {
                                     DistrictResponse res = response.body();
                                     if ("0".equalsIgnoreCase(res.getStatus())) {
                                         if (res.getDistrictList() != null) {
-                                            districtList = (ArrayList<DistrictModel>) res.getDistrictList();
+                                            if("personal".equalsIgnoreCase(caller)) {
+                                                districtList = (ArrayList<DistrictModel>) res.getDistrictList();
+                                                sp_district.setItem(districtList);
+                                            }else {
+                                                officeDistrictList = (ArrayList<DistrictModel>) res.getDistrictList();
+                                                sp_office_district.setItem(officeDistrictList);
+                                            }
                                         }
                                     } else {
                                         L.toast(getApplicationContext(), res.getMessage());
@@ -445,7 +569,7 @@ public class AddAgentActivity extends BaseActivity {
                                 L.toast(getApplicationContext(), "Parser Error : " + e.getLocalizedMessage());
                                 L.m2("Parser Error", e.getLocalizedMessage());
                             }
-                            sp_district.setItem(districtList);
+
                         }
 
                         @Override

@@ -153,7 +153,7 @@ public class AgentReportAdaptorClass extends ArrayAdapter<AgentReportModel> impl
             for (AgentReportModel model : list) {
                 String remark=model.getRemark()==null?"":model.getRemark();
                 if (remark.toLowerCase().contains(filterString) || model.getService().toLowerCase().contains(filterString)
-                || model.agentId.contains(filterString)) {
+                || model.agentId.contains(filterString) || model.getMobileNo().contains(filterString)) {
                     nlist.add(model);
                 }
             }

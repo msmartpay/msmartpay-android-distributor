@@ -104,6 +104,11 @@ public class BusinessReportActivity extends BaseActivity {
             final ProgressDialogFragment pd = ProgressDialogFragment.newInstance("", "Fetching Business...");
             ProgressDialogFragment.showDialog(pd, getSupportFragmentManager());
 
+            if (agentLists == null)
+                agentLists = new ArrayList<>();
+            else
+                agentLists.clear();
+
             BusinessReportRequest request = new BusinessReportRequest();
             request.setFrom(fromDate);
             request.setTo(toDate);
@@ -113,10 +118,7 @@ public class BusinessReportActivity extends BaseActivity {
                         @Override
                         public void onResponse(Call<BusinessReportResponse> call, retrofit2.Response<BusinessReportResponse> response) {
                             pd.dismiss();
-                            if (agentLists == null)
-                                agentLists = new ArrayList<>();
-                            else
-                                agentLists.clear();
+
                             try {
                                 if (response.isSuccessful() && response.body() != null) {
                                     BusinessReportResponse res = response.body();

@@ -82,12 +82,14 @@ public class BusinessViewActivity extends BaseActivity {
                                 if (response.isSuccessful() && response.body() != null) {
                                     BusinessViewResponse res = response.body();
                                     if ("0".equalsIgnoreCase(res.getStatus())) {
-                                        if (res.getDistributorBuisinessDetails() != null)
+                                        if (res.getDistributorBuisinessDetails() != null) {
+                                            currentMonth = new ArrayList<>();
+                                            previousMonth = new ArrayList<>();
                                             for (BusinessViewItem model : res.getDistributorBuisinessDetails()) {
                                                 if ("CurrentMonth".equalsIgnoreCase(model.getMonthType())) {
                                                     if ("CurrentMonth".equalsIgnoreCase(model.getMonthType())) {
                                                         currTextView.setVisibility(View.GONE);
-                                                        currentMonth = new ArrayList<>();
+
                                                         currentMonth.add(model);
                                                     } else if ("".equalsIgnoreCase(model.getMonthType())) {
                                                         currTextView.setVisibility(View.VISIBLE);
@@ -95,7 +97,7 @@ public class BusinessViewActivity extends BaseActivity {
                                                 }
                                                 if ("PreviousMonth".equalsIgnoreCase(model.getMonthType())) {
                                                     if ("PreviousMonth".equalsIgnoreCase(model.getMonthType())) {
-                                                        previousMonth = new ArrayList<>();
+
                                                         prevTextView.setVisibility(View.GONE);
                                                         previousMonth.add(model);
                                                     } else if ("".equalsIgnoreCase(model.getMonthType())) {
@@ -103,6 +105,7 @@ public class BusinessViewActivity extends BaseActivity {
                                                     }
                                                 }
                                             }
+                                        }
                                     } else {
                                         L.toast(getApplicationContext(), res.getMessage());
                                     }
