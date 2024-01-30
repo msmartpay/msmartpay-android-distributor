@@ -21,6 +21,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import java.text.DecimalFormat;
+
 import  msmartds.in.R;
 import  msmartds.in.network.NetworkConnection;
 import  msmartds.in.network.RetrofitClient;
@@ -316,9 +318,11 @@ public class DashBoardActivity extends DrawerActivity {
                                 if (response.isSuccessful() && response.body() != null) {
                                     BalanceResponse res = response.body();
                                     if ("0".equalsIgnoreCase(res.getStatus()) && res.getData()!=null) {
-                                        Util.saveData(getApplicationContext(), Keys.BALANCE, "Rs. " + res.getData().getBalance());
-                                        tViewDistributorBal.setText("Rs. " + res.getData().getBalance());
 
+                                        DecimalFormat df = new DecimalFormat("#.00");
+                                        String bal= df.format(Double.parseDouble(res.getData().getBalance()));
+                                        tViewDistributorBal.setText("Rs. " + bal);
+                                        Util.saveData(getApplicationContext(), Keys.BALANCE, "Rs. " + bal);
                                     } else {
                                         L.toast(getApplicationContext(), res.getMessage());
                                     }
