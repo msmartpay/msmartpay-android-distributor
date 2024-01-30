@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import  msmartds.in.R;
 import  msmartds.in.network.model.agent.AgentResponse;
 import  msmartds.in.network.model.agent.AgentSingle;
-import  msmartds.in.ui.PushMoneyActivity;
 import  msmartds.in.util.Util;
 
 import java.util.ArrayList;
@@ -64,10 +63,11 @@ public class AgentAdaptorClass extends RecyclerView.Adapter<AgentAdaptorClass.My
     
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView AgentID, FirmName, btnStatus, Balance,tv_mobile,tv_name;
-        private Button btnPush, btnDetail;
+        private TextView AgentID, FirmName, btnStatus, Balance,tv_mobile,tv_name,tv_ac_status;
+        private Button btnPush, btnDetail,btn_update_service,btn_update_ac_details;
         public MyViewHolder(View view){
             super(view);
+            tv_ac_status = view.findViewById(R.id.tv_ac_status);
             AgentID = (TextView) view.findViewById( msmartds.in.R.id.tv_agent_id);
             FirmName = (TextView) view.findViewById( msmartds.in.R.id.tv_firm_name);
             Balance = (TextView) view.findViewById( msmartds.in.R.id.tv_balance);
@@ -75,9 +75,11 @@ public class AgentAdaptorClass extends RecyclerView.Adapter<AgentAdaptorClass.My
             btnDetail = (Button) view.findViewById( msmartds.in.R.id.btn_details);
             btnStatus = (TextView) view.findViewById( msmartds.in.R.id.btn_status);
 
+            btn_update_service =view.findViewById(R.id.btn_update_service);
+            btn_update_ac_details = view.findViewById(R.id.btn_update_ac_details);
+
             tv_mobile = (TextView) view.findViewById( msmartds.in.R.id.tv_mobile);
             tv_name = (TextView) view.findViewById( msmartds.in.R.id.tv_name);
-
 
         }
 
@@ -88,6 +90,11 @@ public class AgentAdaptorClass extends RecyclerView.Adapter<AgentAdaptorClass.My
             tv_mobile.setText("Mob: "+agentSingle.getMobileNo());
             tv_name.setText(agentSingle.getAgentEmailId());
 
+            if("Y".equalsIgnoreCase(agentSingle.getAutoCredit())){
+                tv_ac_status.setText("Active");
+            }else{
+                tv_ac_status.setText("Deactive");
+            }
 
             if(agentSingle.getStatus().equalsIgnoreCase("Activate")){
                 btnStatus.setText(agentSingle.getStatus());
@@ -96,6 +103,22 @@ public class AgentAdaptorClass extends RecyclerView.Adapter<AgentAdaptorClass.My
                 btnStatus.setText(agentSingle.getStatus());
                 btnStatus.setTextColor(Color.parseColor("#FF0000"));
             }
+
+            btn_update_service.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), UpdateAgentServiceActivity.class);
+                intent.putExtra("AgentID",agentSingle.getAgentId());
+                intent.putExtra("FirmName",agentSingle.getAgencyName());
+                intent.putExtra("numericId",agentSingle.getNumericId());
+                v.getContext().startActivity(intent);
+            });
+
+            btn_update_ac_details.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), UpdateAgentAutoCreditActivity.class);
+                intent.putExtra("AgentID",agentSingle.getAgentId());
+                intent.putExtra("FirmName",agentSingle.getAgencyName());
+                intent.putExtra("numericId",agentSingle.getNumericId());
+                v.getContext().startActivity(intent);
+            });
 
 
             btnPush.setOnClickListener(v -> {

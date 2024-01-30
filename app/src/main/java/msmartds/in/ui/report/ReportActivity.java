@@ -1,9 +1,11 @@
 package msmartds.in.ui.report;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -17,6 +19,8 @@ import  msmartds.in.network.RetrofitClient;
 import  msmartds.in.network.model.report.ReportModel;
 import  msmartds.in.network.model.report.ReportRequest;
 import  msmartds.in.network.model.report.ReportResponse;
+import msmartds.in.network.model.report.UpdateDSTxnRemarkRequest;
+import msmartds.in.ui.agent.UpdateAgentAutoCreditActivity;
 import  msmartds.in.util.BaseActivity;
 import  msmartds.in.util.L;
 import  msmartds.in.util.ProgressDialogFragment;
@@ -200,6 +204,73 @@ public class ReportActivity extends BaseActivity {
                 }
             });
         }
+    }
+
+    public void updateDSTransactionRemark(String id,String remark) {
+        if (NetworkConnection.isConnectionAvailable(getApplicationContext())) {
+            final ProgressDialogFragment pd = ProgressDialogFragment.newInstance("", "Updating remarks...");
+            ProgressDialogFragment.showDialog(pd, getSupportFragmentManager());
+
+            UpdateDSTxnRemarkRequest request = new UpdateDSTxnRemarkRequest();
+            request.setIdNo(id);
+            request.setRemark(remark);
+
+            call = RetrofitClient.getClient(getApplicationContext())
+                    .updateDSTransactionRemark(request);
+            call.enqueue(new Callback<ReportResponse>() {
+                @Override
+                public void onResponse(Call<ReportResponse> call, retrofit2.Response<ReportResponse> response) {
+                    pd.dismiss();
+
+                    try {
+                        if (response.isSuccessful() && response.body() != null) {
+                            ReportResponse res = response.body();
+                            if(res.getStatus().equalsIgnoreCase("0")){
+                                showConfirmationDialog(res.getMessage(),true);
+                            }else{
+                                showConfirmationDialog(res.getMessage(),false);
+                            }
+
+                        } else {
+                            L.toast(getApplicationContext(), "No Server Response");
+                        }
+
+                    } catch (Exception e) {
+                        L.toast(getApplicationContext(), "Parser Error : " + e.getLocalizedMessage());
+                        L.m2("Parser Error", e.getLocalizedMessage());
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<ReportResponse> call, Throwable t) {
+                    pd.dismiss();
+                    L.m2("Parser Error", t.getLocalizedMessage());
+                }
+            });
+        }
+    }
+    public void showConfirmationDialog(String msg, final boolean isSuccess) {
+        final Dialog d = Util.getDialog(ReportActivity.this, R.layout.confirmation_dialog);
+
+        final Button btnSubmit = (Button) d.findViewById( R.id.btn_push_submit);
+        final Button btnClosed = (Button) d.findViewById( R.id.close_push_button);
+        final TextView tvConfirmation = (TextView) d.findViewById( R.id.tv_confirmation_dialog);
+
+        tvConfirmation.setText(msg);
+        btnSubmit.setOnClickListener(v -> {
+            if (isSuccess) {
+                d.dismiss();
+            } else {
+                d.dismiss();
+            }
+        });
+
+        btnClosed.setOnClickListener(v -> {
+            d.cancel();
+        });
+
+        d.show();
     }
 
     private void summaryReportRequestByDate() {

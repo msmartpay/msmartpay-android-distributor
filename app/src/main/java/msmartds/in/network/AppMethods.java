@@ -7,6 +7,7 @@ import  msmartds.in.network.model.agent.AgentRegisterRequest;
 import  msmartds.in.network.model.agent.AgentRequest;
 import  msmartds.in.network.model.agent.AgentResponse;
 import  msmartds.in.network.model.agent.UpdateAgentRequest;
+import msmartds.in.network.model.agent.UpdateAgentServiceRequest;
 import  msmartds.in.network.model.auth.BalanceResponse;
 import  msmartds.in.network.model.auth.ChangePasswordRequest;
 import  msmartds.in.network.model.auth.ForgotRequest;
@@ -23,8 +24,10 @@ import  msmartds.in.network.model.business.BusinessViewResponse;
 import  msmartds.in.network.model.commission.CommissionRequest;
 import  msmartds.in.network.model.commission.CommissionResponse;
 import  msmartds.in.network.model.pushMoney.PushMoneyRequest;
+import msmartds.in.network.model.pushMoney.UpdateAgentAutoCreditRequest;
 import  msmartds.in.network.model.report.ReportRequest;
 import  msmartds.in.network.model.report.ReportResponse;
+import msmartds.in.network.model.report.UpdateDSTxnRemarkRequest;
 import  msmartds.in.network.model.report.agent.AgentReportRequest;
 import  msmartds.in.network.model.report.agent.AgentReportResponse;
 import  msmartds.in.network.model.stateDistrict.DistrictRequest;
@@ -43,6 +46,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 
 public interface AppMethods {
@@ -107,6 +111,11 @@ public interface AppMethods {
     @POST(AGENT + "PushBalance")
     Call<MainResponse2> pushBalance(@Body PushMoneyRequest request);
 
+    @POST(AGENT + "updateAgentAutoCredit")
+    Call<MainResponse2> updateAgentAutoCreditDetails(@Body UpdateAgentAutoCreditRequest request);
+
+    @POST(AGENT + "updateAgentService")
+    Call<MainResponse2> updateAgentService(@Body UpdateAgentServiceRequest request);
 
     @POST("util/SelectState")
     Call<StateResponse> getStates(@Body MainRequest request);
@@ -120,6 +129,8 @@ public interface AppMethods {
     @POST(REPORT + "AccountStatementByDate")
     Call<ReportResponse> getReportByDate(@Body ReportRequest request);
 
+    @PUT(REPORT + "updateDSTransactionRemark")
+    Call<ReportResponse> updateDSTransactionRemark(@Body UpdateDSTxnRemarkRequest request);
 
     @POST(REPORT + "AgentReport")
     Call<AgentReportResponse> getAgentReports(@Body AgentReportRequest request);

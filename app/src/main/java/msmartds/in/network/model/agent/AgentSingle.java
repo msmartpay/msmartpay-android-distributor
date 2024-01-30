@@ -4,8 +4,28 @@ public class AgentSingle {
     private String agencyName;
     private String agentEmailId;
     private String AgentId;
+
+    private Long numericId;
     private String amount;
     private String mobileNo;
+    private String autoCredit;
+
+    public String getAutoCredit() {
+        return autoCredit;
+    }
+
+    public void setAutoCredit(String autoCredit) {
+        this.autoCredit = autoCredit;
+    }
+
+    public Long getNumericId() {
+        return numericId;
+    }
+
+    public void setNumericId(Long numericId) {
+        this.numericId = numericId;
+    }
+
     private String status;
 
     public String getAgencyName() {

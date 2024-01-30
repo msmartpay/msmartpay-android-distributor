@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ public class ReportAdaptorClass extends ArrayAdapter<ReportModel> implements Fil
     private TextView SrNo, Date, Particulars, TxnAmount, Charges, NetAmount, Action, CurrentBal, TxnStatus, Remark, tview_txn_service;
     private ItemFilter mFilter = new ItemFilter();
     private ItemFilter2 mFilter2 = new ItemFilter2();
+    private Button btn_paid, btn_unpaid;
 
     ReportAdaptorClass(Context context, ArrayList<ReportModel> arrayList) {
         super(context, R.layout.report_list_view, arrayList);
@@ -51,6 +53,9 @@ public class ReportAdaptorClass extends ArrayAdapter<ReportModel> implements Fil
     public View getView(final int position, View view, ViewGroup parent) {
         LayoutInflater layoutInflater = (LayoutInflater) contextData.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = layoutInflater.inflate(R.layout.report_list_view, parent, false);
+
+        btn_paid = view.findViewById(R.id.btn_paid);
+        btn_unpaid = view.findViewById(R.id.btn_unpaid);
 
         SrNo = (TextView) view.findViewById(R.id.tview_srno);
         Date = (TextView) view.findViewById(R.id.tview_date);
@@ -89,6 +94,25 @@ public class ReportAdaptorClass extends ArrayAdapter<ReportModel> implements Fil
             NetAmount.setText("- \u20B9 " + arrayListData.get(position).getNetTransactionAmount());
             NetAmount.setTextColor(colorRed);
         }
+
+        btn_paid.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (contextData instanceof ReportActivity) {
+                    ((ReportActivity) contextData).updateDSTransactionRemark(arrayListData.get(position).getId(),"Paid");
+                    notifyDataSetChanged();
+                }
+            }
+        });
+        btn_unpaid.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (contextData instanceof ReportActivity) {
+                    ((ReportActivity) contextData).updateDSTransactionRemark(arrayListData.get(position).getId(),"Due");
+                    notifyDataSetChanged();
+                }
+            }
+        });
 
 
         return view;

@@ -1,5 +1,7 @@
 package msmartds.in.network.model.report;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Irfan on 6/18/2017.
  */
@@ -17,6 +19,17 @@ public class ReportModel {
     public String FinalBalanceAmount;
     public String TransactionStatus;
     public String Remarks;
+
+    @SerializedName("IDNO")
+    public String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTransactionNo() {
         return TransactionNo;

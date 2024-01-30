@@ -27,6 +27,7 @@
     <color name="editHintColor">#bbb</color>
 
     <color name="colorgreen">#37b748</color>
+    <color name="colorred">#E11607</color>
     <color name="active_tab">#999999</color>
 
     <color name="sp_itemListSelectedColor">#37b748</color>

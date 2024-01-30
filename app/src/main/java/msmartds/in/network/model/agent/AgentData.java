@@ -18,8 +18,26 @@ public class AgentData {
         private String state;//Single
         private String district;//Single
         private String firmType;
+        private String AgentId;//Single
+    private AgentAutoCreditDetails agentAutoCreditDetails;
 
-        public String getFirmType() {
+    public AgentAutoCreditDetails getAgentAutoCreditDetails() {
+        return agentAutoCreditDetails;
+    }
+
+    public void setAgentAutoCreditDetails(AgentAutoCreditDetails agentAutoCreditDetails) {
+        this.agentAutoCreditDetails = agentAutoCreditDetails;
+    }
+
+    public String getAgentId() {
+        return AgentId;
+    }
+
+    public void setAgentId(String agentId) {
+        AgentId = agentId;
+    }
+
+    public String getFirmType() {
             return firmType;
         }
 

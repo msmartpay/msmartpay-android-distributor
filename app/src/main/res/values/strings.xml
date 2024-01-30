@@ -34,6 +34,13 @@
         <item>Push Balance</item>
         <item>Withdrawal Balance</item>
     </string-array>
+    <string-array name="agent_service_list">
+        <item>AutoCredit</item>
+    </string-array>
+    <string-array name="agent_service_status">
+        <item>Y</item>
+        <item>N</item>
+    </string-array>
     <string-array name="company_firm_type">
         <item>Non-Resistered Entry</item>
         <item>Proprietorship</item>

@@ -40,7 +40,7 @@
             android:name=".ui.agent.AgentsStatusWiseListActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".ui.PushMoneyActivity"
+            android:name=".ui.agent.PushMoneyActivity"
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ui.agent.DetailAgentActivity"
@@ -78,6 +78,13 @@
 
         <activity
             android:name=".ui.report.agent.AgentReportActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".ui.agent.UpdateAgentAutoCreditActivity"
+            android:configChanges="orientation|screenSize" />
+
+        <activity
+            android:name=".ui.agent.UpdateAgentServiceActivity"
             android:configChanges="orientation|screenSize" />
     </application>
 

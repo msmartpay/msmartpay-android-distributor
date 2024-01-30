@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        android:background="@color/colorLogin"
+        android:elevation="5dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_margin="3dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp">
+        <ScrollView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        style="@style/tv_details"
+                        android:layout_weight=".7"
+                        android:text="Agent Id"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/tv_details"
+                        android:layout_weight=".1"
+                        android:text=":"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/tv_agent_id"
+                        style="@style/tv_details"
+                        android:layout_weight="1.2" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        style="@style/tv_details"
+                        android:layout_weight=".7"
+                        android:text="Agent Name"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/tv_details"
+                        android:layout_weight=".1"
+                        android:text=":"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_agent_name"
+                        style="@style/tv_details"
+                        android:layout_weight="1.2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        style="@style/tv_details"
+                        android:layout_weight=".7"
+                        android:text="Agency Name"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/tv_details"
+                        android:layout_weight=".1"
+                        android:text=":"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_agency_name"
+                        style="@style/tv_details"
+                        android:layout_weight="1.2" />
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        style="@style/tv_details"
+                        android:layout_weight=".7"
+                        android:text="Minimum Amount"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/tv_details"
+                        android:layout_width="0dp"
+                        android:layout_weight=".1"
+                        android:text=":"
+                        android:textStyle="bold" />
+
+
+                    <EditText
+                        android:id="@+id/edit_minimum_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.2"
+                        android:backgroundTint="@color/colorLogin"
+                        android:hint="Minimum Amount"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textColor="@color/colorLogin"
+                        android:textColorHint="#999999" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        style="@style/tv_details"
+                        android:layout_width="0dp"
+                        android:layout_weight=".7"
+                        android:text="Enter Topup Amount"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/tv_details"
+                        android:layout_width="0dp"
+                        android:layout_weight=".1"
+                        android:text=":"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edit_tp_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.2"
+                        android:backgroundTint="@color/colorLogin"
+                        android:hint="Enter Topup Amount"
+                        android:textColor="@color/colorLogin"
+                        android:textColorHint="#999999" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/txtsubmit"
+        style="@style/btn_main"
+        android:layout_alignParentBottom="true"
+        android:text="Update"/>
+
+
+</RelativeLayout>

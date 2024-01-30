@@ -1,4 +1,4 @@
-package msmartds.in.ui;
+package msmartds.in.ui.agent;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -10,40 +10,40 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
-import  msmartds.in.R;
-import  msmartds.in.network.NetworkConnection;
-import  msmartds.in.network.RetrofitClient;
-import  msmartds.in.network.model.MainResponse2;
-import  msmartds.in.network.model.agent.AgentRequest;
-import  msmartds.in.network.model.agent.AgentResponse;
-import  msmartds.in.network.model.pushMoney.PushMoneyRequest;
-import  msmartds.in.ui.home.DashBoardActivity;
-import  msmartds.in.util.BaseActivity;
-import  msmartds.in.util.Keys;
-import  msmartds.in.util.L;
-import  msmartds.in.util.ProgressDialogFragment;
-import  msmartds.in.util.Util;
-
+import msmartds.in.R;
+import msmartds.in.network.NetworkConnection;
+import msmartds.in.network.RetrofitClient;
+import msmartds.in.network.model.MainResponse2;
+import msmartds.in.network.model.agent.AgentRequest;
+import msmartds.in.network.model.agent.AgentResponse;
+import msmartds.in.network.model.pushMoney.PushMoneyRequest;
+import msmartds.in.network.model.pushMoney.UpdateAgentAutoCreditRequest;
+import msmartds.in.ui.home.DashBoardActivity;
+import msmartds.in.util.BaseActivity;
+import msmartds.in.util.Keys;
+import msmartds.in.util.L;
+import msmartds.in.util.ProgressDialogFragment;
+import msmartds.in.util.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class PushMoneyActivity extends BaseActivity {
-    private String distributorID, key;
+public class UpdateAgentAutoCreditActivity extends BaseActivity {
+    private String distributorID, key, numericId ;
     private Button btnPushMoney;
-    private TextView tviewAgentId, tviewAgentName, tviewAgencyName, tviewAgentBalance;
+    private TextView tviewAgentId, tviewAgentName, tviewAgencyName;
     private Spinner sp_push;
-    private EditText editAmount, editRemark;
+    private EditText editMinimumAmount, editTopupAmount;
     private String dataAgentID, dataFirmName, dataBalance;
-    private String Amount = "", Remark = "";
+    private String minimumAmount = "", topupAmount = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( msmartds.in.R.layout.push_money_activity);
+        setContentView( R.layout.update_agent_autocredit_activity);
 
-        Toolbar toolbar = (Toolbar) findViewById( msmartds.in.R.id.toolbar);
-        toolbar.setTitle("Push Balance");
+        Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar);
+        toolbar.setTitle("Update AutoCredit Details");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -57,44 +57,44 @@ public class PushMoneyActivity extends BaseActivity {
         System.out.println("intent_data-->" + dataAgentID + ":" + dataFirmName + ":" + dataBalance);
 
 
-        btnPushMoney = (Button) findViewById( msmartds.in.R.id.txtsubmit);
-        tviewAgentId = (TextView) findViewById( msmartds.in.R.id.tv_agent_id);
-        tviewAgentName = (TextView) findViewById( msmartds.in.R.id.tv_agent_name);
-        tviewAgencyName = (TextView) findViewById( msmartds.in.R.id.tv_agency_name);
-        tviewAgentBalance = (TextView) findViewById( msmartds.in.R.id.tv_avail_balance);
-        editAmount = (EditText) findViewById( msmartds.in.R.id.edit_amount);
-        editRemark = (EditText) findViewById( msmartds.in.R.id.edit_remark);
-        sp_push = findViewById(R.id.sp_push);
+        btnPushMoney = (Button) findViewById( R.id.txtsubmit);
+        tviewAgentId = (TextView) findViewById( R.id.tv_agent_id);
+        tviewAgentName = (TextView) findViewById( R.id.tv_agent_name);
+        tviewAgencyName = (TextView) findViewById( R.id.tv_agency_name);
+        editMinimumAmount = (EditText) findViewById( R.id.edit_minimum_amount);
+        editTopupAmount = (EditText) findViewById( R.id.edit_tp_amount);
+
         tviewAgentId.setText(dataAgentID);
         tviewAgencyName.setText(dataFirmName);
-        tviewAgentBalance.setText(dataBalance);
 
         viewAgentDetails();
 
         btnPushMoney.setOnClickListener(v -> {
-            Amount = editAmount.getText().toString().trim();
-            Remark = editRemark.getText().toString().trim();
-            if (Amount.isEmpty()) {
-                editAmount.requestFocus();
-                L.toast(PushMoneyActivity.this, "Please Enter Amount");
-            } else {
-                pushBalance();
+            minimumAmount = editMinimumAmount.getText().toString().trim();
+            topupAmount = editTopupAmount.getText().toString().trim();
+            if (minimumAmount.isEmpty()) {
+                editMinimumAmount.requestFocus();
+                L.toast(UpdateAgentAutoCreditActivity.this, "Please Enter Minimum Amount");
+            } else if (topupAmount.isEmpty()) {
+                editTopupAmount.requestFocus();
+                L.toast(UpdateAgentAutoCreditActivity.this, "Please Enter Topup Amount");
+            } {
+                updateAutoCreditDetails();
             }
         });
     }
 
-    private void pushBalance() {
+    private void updateAutoCreditDetails() {
         if (NetworkConnection.isConnectionAvailable(getApplicationContext())) {
             final ProgressDialogFragment pd = ProgressDialogFragment.newInstance("", "Push Balance...");
             ProgressDialogFragment.showDialog(pd, getSupportFragmentManager());
-            PushMoneyRequest request = new PushMoneyRequest();
-            request.setAgentId(dataAgentID);
-            request.setAction(sp_push.getSelectedItem().toString().equalsIgnoreCase("Push Balance") ? "Credit" : "Debit");
-            request.setTransaferAmount(Amount);
-            request.setPaymentRemark(Remark == null ? "" : Remark);
+            UpdateAgentAutoCreditRequest request = new UpdateAgentAutoCreditRequest();
+            request.setAgentId(numericId);
+            request.setMinimumAmount(minimumAmount);
+            request.setTopupAmount(topupAmount);
 
             RetrofitClient.getClient(getApplicationContext())
-                    .pushBalance(request)
+                    .updateAgentAutoCreditDetails(request)
                     .enqueue(new Callback<MainResponse2>() {
                         @Override
                         public void onResponse(Call<MainResponse2> call, retrofit2.Response<MainResponse2> response) {
@@ -145,6 +145,10 @@ public class PushMoneyActivity extends BaseActivity {
                                     AgentResponse res = response.body();
                                     if ("0".equalsIgnoreCase(res.getStatus()) && res.getData()!=null) {
                                         tviewAgentName.setText(res.getData().getAgencyName());
+                                        numericId = res.getData().getAgentId();
+                                        editMinimumAmount.setText(res.getData().getAgentAutoCreditDetails().getMinimumAmount()+"");
+                                        editTopupAmount.setText(res.getData().getAgentAutoCreditDetails().getTopupAmount()+"");
+
                                     } else {
                                         //showConfirmationDialog(res.getMessage());
                                     }
@@ -168,19 +172,17 @@ public class PushMoneyActivity extends BaseActivity {
 //=====================================================
 
     public void showConfirmationDialog(String msg, final boolean isSuccess) {
-        final Dialog d = Util.getDialog(PushMoneyActivity.this, R.layout.push_payment_confirmation_dialog);
+        final Dialog d = Util.getDialog(UpdateAgentAutoCreditActivity.this, R.layout.push_payment_confirmation_dialog);
 
-        final Button btnSubmit = (Button) d.findViewById( msmartds.in.R.id.btn_push_submit);
-        final Button btnClosed = (Button) d.findViewById( msmartds.in.R.id.close_push_button);
-        final TextView tvConfirmation = (TextView) d.findViewById( msmartds.in.R.id.tv_confirmation_dialog);
+        final Button btnSubmit = (Button) d.findViewById( R.id.btn_push_submit);
+        final Button btnClosed = (Button) d.findViewById( R.id.close_push_button);
+        final TextView tvConfirmation = (TextView) d.findViewById( R.id.tv_confirmation_dialog);
 
         tvConfirmation.setText(msg);
         btnSubmit.setOnClickListener(v -> {
             if (isSuccess) {
-                Intent intent = new Intent(PushMoneyActivity.this, DashBoardActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                PushMoneyActivity.this.finish();
+
+                UpdateAgentAutoCreditActivity.this.finish();
                 d.dismiss();
             } else {
                 d.dismiss();
@@ -189,7 +191,6 @@ public class PushMoneyActivity extends BaseActivity {
         });
 
         btnClosed.setOnClickListener(v -> {
-            // TODO Auto-generated method stub
             d.cancel();
         });
 
