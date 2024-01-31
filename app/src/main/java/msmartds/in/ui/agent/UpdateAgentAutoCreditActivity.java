@@ -181,7 +181,9 @@ public class UpdateAgentAutoCreditActivity extends BaseActivity {
         tvConfirmation.setText(msg);
         btnSubmit.setOnClickListener(v -> {
             if (isSuccess) {
-
+                Intent intent = new Intent(UpdateAgentAutoCreditActivity.this, DashBoardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 UpdateAgentAutoCreditActivity.this.finish();
                 d.dismiss();
             } else {

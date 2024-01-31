@@ -49,6 +49,7 @@ public class UpdateAgentServiceActivity extends BaseActivity {
         dataAgentID = getIntent().getStringExtra("AgentID");
         dataFirmName = getIntent().getStringExtra("FirmName");
         dataBalance = getIntent().getStringExtra("Balance");
+        String autoCredit =getIntent().getStringExtra("autoCredit");
 
         System.out.println("intent_data-->" + dataAgentID + ":" + dataFirmName + ":" + dataBalance);
 
@@ -61,6 +62,10 @@ public class UpdateAgentServiceActivity extends BaseActivity {
         sp_service_name = findViewById(R.id.sp_service_name);
         sp_service_status = findViewById(R.id.sp_service_status);
 
+        if("Y".equalsIgnoreCase(autoCredit))
+            sp_service_status.setSelection(0);
+        else
+            sp_service_status.setSelection(1);
 
         tviewAgentId.setText(dataAgentID);
         tviewAgencyName.setText(dataFirmName);
@@ -168,7 +173,9 @@ public class UpdateAgentServiceActivity extends BaseActivity {
         tvConfirmation.setText(msg);
         btnSubmit.setOnClickListener(v -> {
             if (isSuccess) {
-
+                Intent intent = new Intent(UpdateAgentServiceActivity.this, DashBoardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 UpdateAgentServiceActivity.this.finish();
                 d.dismiss();
             } else {

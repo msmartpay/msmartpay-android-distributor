@@ -109,6 +109,7 @@ public class AgentAdaptorClass extends RecyclerView.Adapter<AgentAdaptorClass.My
                 intent.putExtra("AgentID",agentSingle.getAgentId());
                 intent.putExtra("FirmName",agentSingle.getAgencyName());
                 intent.putExtra("numericId",agentSingle.getNumericId());
+                intent.putExtra("autoCredit",agentSingle.getAutoCredit());
                 v.getContext().startActivity(intent);
             });
 
