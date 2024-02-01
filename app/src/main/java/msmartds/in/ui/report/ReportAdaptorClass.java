@@ -9,10 +9,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import  msmartds.in.R;
 import  msmartds.in.network.model.report.ReportModel;
+import msmartds.in.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +28,9 @@ public class ReportAdaptorClass extends ArrayAdapter<ReportModel> implements Fil
     private Context contextData;
     private ArrayList<ReportModel> arrayListData;
     private ArrayList<ReportModel> arrayListDataOrignal;
-    private TextView SrNo, Date, Particulars, TxnAmount, Charges, NetAmount, Action, CurrentBal, TxnStatus, Remark, tview_txn_service;
+    private TextView SrNo, Date, Particulars, TxnAmount, Charges, NetAmount, Action, CurrentBal, TxnStatus, Remark, tview_txn_service,tview_payment_status;
     private ItemFilter mFilter = new ItemFilter();
+    private LinearLayout ll_action,ll_payment_status;
     private ItemFilter2 mFilter2 = new ItemFilter2();
     private Button btn_paid, btn_unpaid;
 
@@ -57,6 +60,8 @@ public class ReportAdaptorClass extends ArrayAdapter<ReportModel> implements Fil
         btn_paid = view.findViewById(R.id.btn_paid);
         btn_unpaid = view.findViewById(R.id.btn_unpaid);
 
+        ll_action = view.findViewById(R.id.ll_action);
+        ll_payment_status = view.findViewById(R.id.ll_payment_status);
         SrNo = (TextView) view.findViewById(R.id.tview_srno);
         Date = (TextView) view.findViewById(R.id.tview_date);
         Particulars = (TextView) view.findViewById(R.id.tview_particuler);
@@ -67,6 +72,7 @@ public class ReportAdaptorClass extends ArrayAdapter<ReportModel> implements Fil
         CurrentBal = (TextView) view.findViewById(R.id.tview_current_bal);
         TxnStatus = (TextView) view.findViewById(R.id.tview_txn_status);
         Remark = (TextView) view.findViewById(R.id.tview_remark);
+        tview_payment_status = (TextView) view.findViewById(R.id.tview_payment_status);
         tview_txn_service = (TextView) view.findViewById(R.id.tview_txn_service);
         tview_txn_service.setText(arrayListData.get(position).getService());
         SrNo.setText(arrayListData.get(position).getTransactionNo());
@@ -80,6 +86,23 @@ public class ReportAdaptorClass extends ArrayAdapter<ReportModel> implements Fil
         CurrentBal.setText("\u20B9 " + arrayListData.get(position).getFinalBalanceAmount());
         TxnStatus.setText(arrayListData.get(position).getTransactionStatus());
         Remark.setText(arrayListData.get(position).getRemarks());
+
+        if("AutoCredit".equalsIgnoreCase(arrayListData.get(position).getService())
+            || "Agent Balance-Push".equalsIgnoreCase(arrayListData.get(position).getService())
+                || "DS TB-Push".equalsIgnoreCase(arrayListData.get(position).getService())
+        ) {
+            String paymentStatus = arrayListData.get(position).getPaymentStatus();
+            if (paymentStatus != null && !"null".equalsIgnoreCase(paymentStatus))
+                tview_payment_status.setText(paymentStatus);
+            else
+                tview_payment_status.setText("NA");
+
+            Util.showView(ll_payment_status);
+            Util.showView(ll_action);
+        }else{
+            Util.hideView(ll_payment_status);
+            Util.hideView(ll_action);
+        }
 
 
         String actionType = (arrayListData.get(position).getActionOnBalanceAmount()).trim();

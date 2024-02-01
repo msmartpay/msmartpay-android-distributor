@@ -20,6 +20,16 @@ public class ReportModel {
     public String TransactionStatus;
     public String Remarks;
 
+    private String paymentStatus;
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
     @SerializedName("IDNO")
     public String id;
 

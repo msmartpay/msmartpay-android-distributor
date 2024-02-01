@@ -260,6 +260,7 @@ public class ReportActivity extends BaseActivity {
         tvConfirmation.setText(msg);
         btnSubmit.setOnClickListener(v -> {
             if (isSuccess) {
+                summaryReportRequest();
                 d.dismiss();
             } else {
                 d.dismiss();
